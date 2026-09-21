@@ -73,4 +73,4 @@ python -m dataset_combinations pairwise \
 
 The generator writes CSV fleet manifests and metadata. It does not copy the source time series into the release. `unique` sampling uses source profiles without replacement and may produce a smaller feasible fleet when source capacity is limiting. `non_unique` uses a fixed fleet of 5,000 logical devices and permits profile bootstrap only when required. Scenario test seeds 0--9 use nominal weights, 10--19 shift the dominant source by +15 percentage points, and 20--29 shift it by -15 percentage points; these are the implemented regimes, not a new composition rule.
 
-The public release is tied to the GitHub tag `v1.0.0-public` in `https://github.com/xu3213/broadcast-coordination`. A DOI is recorded in `DATA_AVAILABILITY.md` only after a real Zenodo archive has been created.
+The public release is tied to the GitHub tag `v1.0.0-public` in `https://github.com/songge00/broadcast-coordination-public-release`. A DOI is recorded in `DATA_AVAILABILITY.md` only after a real Zenodo archive has been created.
