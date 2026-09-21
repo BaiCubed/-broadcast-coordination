@@ -1,0 +1,662 @@
+{
+  "schema": "broadcast-coordination-scenario-config-v1",
+  "canonical_ids": [
+    "S1-A",
+    "S1-B",
+    "S2-A",
+    "S2-B",
+    "S3-A",
+    "S3-B",
+    "S4-A",
+    "S4-B",
+    "S5-A",
+    "S5-B",
+    "S5-C",
+    "S6-A",
+    "S6-B",
+    "S6-C"
+  ],
+  "notation": "The paper shorthand S1A-S6C corresponds to canonical IDs S1-A-S6-C.",
+  "sampling_modes": [
+    "unique",
+    "non_unique"
+  ],
+  "fleet_size_non_unique": 5000,
+  "test_seed_count": 30,
+  "partition_seed": 20260714,
+  "zone_buses": {
+    "zone_1": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "zone_2": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "zone_3": [
+      10,
+      11,
+      12,
+      13
+    ],
+    "zone_4": [
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "zone_5": [
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "zone_6": [
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ]
+  },
+  "dataset_sources": {
+    "bdg1_building_data_genome": {
+      "kind": "bdg1_csv",
+      "path": "bdg1_building_data_genome/raw/temp_open_utc_complete.csv"
+    },
+    "bdg2_building_data_genome": {
+      "kind": "canonical_npz",
+      "path": "bdg2_building_data_genome/processed/canonical_device_days.npz"
+    },
+    "complete_energy_community": {
+      "kind": "canonical_npz",
+      "path": "complete_energy_community/processed/canonical_device_days_measured_only.npz"
+    },
+    "danish_smart_heat_meters": {
+      "kind": "canonical_npz",
+      "path": "danish_smart_heat_meters/processed/canonical_device_days.npz"
+    },
+    "european_lv_rural_2731": {
+      "kind": "canonical_npz",
+      "path": "european_lv_rural_2731/processed/canonical_device_days.npz"
+    },
+    "european_lv_urban_35297": {
+      "kind": "canonical_npz",
+      "path": "european_lv_urban_35297/processed/canonical_device_days.npz"
+    },
+    "goiener_smart_meters": {
+      "kind": "canonical_npz",
+      "path": "goiener_smart_meters/processed/canonical_device_days_bidirectional_v2.npz"
+    },
+    "heapo_heat_pumps": {
+      "kind": "canonical_npz",
+      "path": "heapo_heat_pumps/processed/canonical_device_days.npz"
+    },
+    "low_carbon_london": {
+      "kind": "canonical_npz",
+      "path": "low_carbon_london/processed/canonical_device_days_bidirectional_v2.npz"
+    },
+    "norway_ami_energy_distribution": {
+      "kind": "canonical_npz",
+      "path": "norway_ami_energy_distribution/processed/canonical_device_days_measured_only.npz"
+    },
+    "camsl_japan_smart_meters": {
+      "kind": "canonical_npz",
+      "path": "camsl_japan_smart_meters/processed/canonical_device_days_measured_only.npz"
+    },
+    "european_lv_urban_8087": {
+      "kind": "canonical_npz",
+      "path": "european_lv_urban_8087/processed/canonical_device_days.npz"
+    },
+    "irish_domestic_smart_meters": {
+      "kind": "canonical_npz",
+      "path": "irish_domestic_smart_meters/processed/canonical_device_days_measured_only_kw_label.npz"
+    },
+    "opsd_household_data": {
+      "kind": "canonical_npz",
+      "path": "opsd_household_data/processed/canonical_device_days_measured_only.npz"
+    },
+    "smart_grid_smart_city": {
+      "kind": "canonical_npz",
+      "path": "smart_grid_smart_city/processed/canonical_device_days_bidirectional_v2.npz"
+    }
+  },
+  "scenarios": {
+    "S1-A": {
+      "label": "Similar residential",
+      "weights": {
+        "low_carbon_london": 0.3333333333333333,
+        "camsl_japan_smart_meters": 0.3333333333333333,
+        "irish_domestic_smart_meters": 0.3333333333333333
+      },
+      "seeds": {
+        "unique": {
+          "train": 5600000,
+          "validation": 5602000,
+          "test_start": 6657375,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3600000,
+          "validation": 3602000,
+          "test_start": 4657375,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S1-B": {
+      "label": "Building-heat pump-residential",
+      "weights": {
+        "bdg2_building_data_genome": 0.3333333333333333,
+        "heapo_heat_pumps": 0.3333333333333333,
+        "smart_grid_smart_city": 0.3333333333333333
+      },
+      "seeds": {
+        "unique": {
+          "train": 5610000,
+          "validation": 5612000,
+          "test_start": 6692405,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3610000,
+          "validation": 3612000,
+          "test_start": 4692405,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S2-A": {
+      "label": "LV network and AMI",
+      "weights": {
+        "european_lv_urban_35297": 0.4,
+        "european_lv_urban_8087": 0.25,
+        "european_lv_rural_2731": 0.15,
+        "norway_ami_energy_distribution": 0.1,
+        "goiener_smart_meters": 0.1
+      },
+      "seeds": {
+        "unique": {
+          "train": 5620000,
+          "validation": 5622000,
+          "test_start": 6699504,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3620000,
+          "validation": 3622000,
+          "test_start": 4699504,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S2-B": {
+      "label": "Building-residential-thermal-DER",
+      "weights": {
+        "bdg2_building_data_genome": 0.35,
+        "low_carbon_london": 0.25,
+        "danish_smart_heat_meters": 0.15,
+        "heapo_heat_pumps": 0.15,
+        "complete_energy_community": 0.1
+      },
+      "seeds": {
+        "unique": {
+          "train": 5630000,
+          "validation": 5632000,
+          "test_start": 6678152,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3630000,
+          "validation": 3632000,
+          "test_start": 4678152,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S3-A": {
+      "label": "Ten-source electricity mix",
+      "weights": {
+        "low_carbon_london": 0.18,
+        "smart_grid_smart_city": 0.14,
+        "camsl_japan_smart_meters": 0.12,
+        "irish_domestic_smart_meters": 0.1,
+        "goiener_smart_meters": 0.08,
+        "norway_ami_energy_distribution": 0.08,
+        "european_lv_rural_2731": 0.07,
+        "european_lv_urban_35297": 0.1,
+        "european_lv_urban_8087": 0.08,
+        "heapo_heat_pumps": 0.05
+      },
+      "seeds": {
+        "unique": {
+          "train": 5640000,
+          "validation": 5642000,
+          "test_start": 6639045,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3640000,
+          "validation": 3642000,
+          "test_start": 4639045,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S3-B": {
+      "label": "Ten-source multi-sector mix",
+      "weights": {
+        "bdg1_building_data_genome": 0.1,
+        "bdg2_building_data_genome": 0.15,
+        "complete_energy_community": 0.1,
+        "danish_smart_heat_meters": 0.1,
+        "heapo_heat_pumps": 0.1,
+        "low_carbon_london": 0.1,
+        "smart_grid_smart_city": 0.1,
+        "european_lv_rural_2731": 0.08,
+        "norway_ami_energy_distribution": 0.12,
+        "opsd_household_data": 0.05
+      },
+      "seeds": {
+        "unique": {
+          "train": 5650000,
+          "validation": 5652000,
+          "test_start": 6692942,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3650000,
+          "validation": 3652000,
+          "test_start": 4692942,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S4-A": {
+      "label": "All datasets equally weighted",
+      "weights": {
+        "bdg1_building_data_genome": 0.06666666666666667,
+        "bdg2_building_data_genome": 0.06666666666666667,
+        "complete_energy_community": 0.06666666666666667,
+        "danish_smart_heat_meters": 0.06666666666666667,
+        "european_lv_rural_2731": 0.06666666666666667,
+        "european_lv_urban_35297": 0.06666666666666667,
+        "goiener_smart_meters": 0.06666666666666667,
+        "heapo_heat_pumps": 0.06666666666666667,
+        "low_carbon_london": 0.06666666666666667,
+        "norway_ami_energy_distribution": 0.06666666666666667,
+        "camsl_japan_smart_meters": 0.06666666666666667,
+        "european_lv_urban_8087": 0.06666666666666667,
+        "irish_domestic_smart_meters": 0.06666666666666667,
+        "opsd_household_data": 0.06666666666666667,
+        "smart_grid_smart_city": 0.06666666666666667
+      },
+      "seeds": {
+        "unique": {
+          "train": 5660000,
+          "validation": 5662000,
+          "test_start": 6655942,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3660000,
+          "validation": 3662000,
+          "test_start": 4655942,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S4-B": {
+      "label": "All dataset types equally weighted",
+      "weights": {
+        "bdg1_building_data_genome": 0.1,
+        "bdg2_building_data_genome": 0.1,
+        "low_carbon_london": 0.04,
+        "camsl_japan_smart_meters": 0.04,
+        "irish_domestic_smart_meters": 0.04,
+        "goiener_smart_meters": 0.04,
+        "smart_grid_smart_city": 0.04,
+        "danish_smart_heat_meters": 0.1,
+        "heapo_heat_pumps": 0.1,
+        "european_lv_rural_2731": 0.05,
+        "european_lv_urban_35297": 0.05,
+        "european_lv_urban_8087": 0.05,
+        "norway_ami_energy_distribution": 0.05,
+        "complete_energy_community": 0.15,
+        "opsd_household_data": 0.05
+      },
+      "seeds": {
+        "unique": {
+          "train": 5670000,
+          "validation": 5672000,
+          "test_start": 6676323,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3670000,
+          "validation": 3672000,
+          "test_start": 4676323,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S5-A": {
+      "label": "Residential-dominant long tail",
+      "weights": {
+        "low_carbon_london": 0.13,
+        "camsl_japan_smart_meters": 0.13,
+        "irish_domestic_smart_meters": 0.13,
+        "goiener_smart_meters": 0.13,
+        "smart_grid_smart_city": 0.13,
+        "european_lv_rural_2731": 0.05,
+        "european_lv_urban_35297": 0.05,
+        "european_lv_urban_8087": 0.05,
+        "norway_ami_energy_distribution": 0.05,
+        "bdg1_building_data_genome": 0.025,
+        "bdg2_building_data_genome": 0.025,
+        "danish_smart_heat_meters": 0.025,
+        "heapo_heat_pumps": 0.025,
+        "complete_energy_community": 0.03,
+        "opsd_household_data": 0.02
+      },
+      "seeds": {
+        "unique": {
+          "train": 5680000,
+          "validation": 5682000,
+          "test_start": 6621945,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3680000,
+          "validation": 3682000,
+          "test_start": 4621945,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S5-B": {
+      "label": "Building-thermal-dominant long tail",
+      "weights": {
+        "bdg1_building_data_genome": 0.2,
+        "bdg2_building_data_genome": 0.2,
+        "danish_smart_heat_meters": 0.15,
+        "heapo_heat_pumps": 0.15,
+        "low_carbon_london": 0.03,
+        "camsl_japan_smart_meters": 0.03,
+        "irish_domestic_smart_meters": 0.03,
+        "goiener_smart_meters": 0.03,
+        "smart_grid_smart_city": 0.03,
+        "european_lv_rural_2731": 0.025,
+        "european_lv_urban_35297": 0.025,
+        "european_lv_urban_8087": 0.025,
+        "norway_ami_energy_distribution": 0.025,
+        "complete_energy_community": 0.03,
+        "opsd_household_data": 0.02
+      },
+      "seeds": {
+        "unique": {
+          "train": 5690000,
+          "validation": 5692000,
+          "test_start": 6689632,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3690000,
+          "validation": 3692000,
+          "test_start": 4689632,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S5-C": {
+      "label": "Network-DER-dominant long tail",
+      "weights": {
+        "european_lv_rural_2731": 0.1125,
+        "european_lv_urban_35297": 0.1125,
+        "european_lv_urban_8087": 0.1125,
+        "norway_ami_energy_distribution": 0.1125,
+        "complete_energy_community": 0.2,
+        "opsd_household_data": 0.05,
+        "low_carbon_london": 0.04,
+        "camsl_japan_smart_meters": 0.04,
+        "irish_domestic_smart_meters": 0.04,
+        "goiener_smart_meters": 0.04,
+        "smart_grid_smart_city": 0.04,
+        "bdg1_building_data_genome": 0.025,
+        "bdg2_building_data_genome": 0.025,
+        "danish_smart_heat_meters": 0.025,
+        "heapo_heat_pumps": 0.025
+      },
+      "seeds": {
+        "unique": {
+          "train": 5700000,
+          "validation": 5702000,
+          "test_start": 6697256,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3700000,
+          "validation": 3702000,
+          "test_start": 4697256,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S6-A": {
+      "label": "Spatially clustered LV networks",
+      "weights": {
+        "european_lv_urban_35297": 0.35,
+        "european_lv_urban_8087": 0.25,
+        "european_lv_rural_2731": 0.2,
+        "norway_ami_energy_distribution": 0.2
+      },
+      "zones": {
+        "european_lv_urban_35297": [
+          "zone_1",
+          "zone_2"
+        ],
+        "european_lv_urban_8087": [
+          "zone_3",
+          "zone_4"
+        ],
+        "norway_ami_energy_distribution": [
+          "zone_5"
+        ],
+        "european_lv_rural_2731": [
+          "zone_6"
+        ]
+      },
+      "seeds": {
+        "unique": {
+          "train": 5710000,
+          "validation": 5712000,
+          "test_start": 6675093,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3710000,
+          "validation": 3712000,
+          "test_start": 4675093,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S6-B": {
+      "label": "Spatial cross-sector congestion",
+      "weights": {
+        "bdg2_building_data_genome": 0.35,
+        "heapo_heat_pumps": 0.2,
+        "danish_smart_heat_meters": 0.15,
+        "low_carbon_london": 0.2,
+        "smart_grid_smart_city": 0.1
+      },
+      "zones": {
+        "bdg2_building_data_genome": [
+          "zone_1",
+          "zone_2"
+        ],
+        "low_carbon_london": [
+          "zone_3"
+        ],
+        "smart_grid_smart_city": [
+          "zone_4"
+        ],
+        "heapo_heat_pumps": [
+          "zone_5"
+        ],
+        "danish_smart_heat_meters": [
+          "zone_6"
+        ]
+      },
+      "seeds": {
+        "unique": {
+          "train": 5720000,
+          "validation": 5722000,
+          "test_start": 6645607,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3720000,
+          "validation": 3722000,
+          "test_start": 4645607,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    },
+    "S6-C": {
+      "label": "Spatial DER and bidirectional mix",
+      "weights": {
+        "complete_energy_community": 0.3,
+        "smart_grid_smart_city": 0.3,
+        "opsd_household_data": 0.05,
+        "irish_domestic_smart_meters": 0.2,
+        "norway_ami_energy_distribution": 0.15
+      },
+      "zones": {
+        "norway_ami_energy_distribution": [
+          "zone_1"
+        ],
+        "irish_domestic_smart_meters": [
+          "zone_2",
+          "zone_3"
+        ],
+        "opsd_household_data": [
+          "zone_4"
+        ],
+        "smart_grid_smart_city": [
+          "zone_5"
+        ],
+        "complete_energy_community": [
+          "zone_6"
+        ]
+      },
+      "seeds": {
+        "unique": {
+          "train": 5730000,
+          "validation": 5732000,
+          "test_start": 6641334,
+          "test_formula": "test_start + seed_index"
+        },
+        "non_unique": {
+          "train": 3730000,
+          "validation": 3732000,
+          "test_start": 4641334,
+          "test_formula": "test_start + seed_index"
+        }
+      },
+      "test_weight_regimes": {
+        "seed_index_0_to_9": "nominal",
+        "seed_index_10_to_19": "dominant_plus_15pp",
+        "seed_index_20_to_29": "dominant_minus_15pp"
+      }
+    }
+  },
+  "allocation": {
+    "algorithm": "allocate_counts",
+    "minimum_one_device_per_source": true,
+    "remainder_rule": "largest fractional residual after reserving one device per source",
+    "unique_mode": "largest feasible fleet under source capacities, sampled without replacement",
+    "non_unique_mode": "fixed fleet_size_non_unique, bootstrap with replacement if source capacity is insufficient"
+  },
+  "placement": {
+    "default": "retain source profile zone_id and bus_id",
+    "spatial_scenarios": "assign each selected source cyclically to its configured zones and buses",
+    "bus_rule": "ZONE_BUSES[zone][(local_index // number_of_zones) % len(ZONE_BUSES[zone])]"
+  }
+}

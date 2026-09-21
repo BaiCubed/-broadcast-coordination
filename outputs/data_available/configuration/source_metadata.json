@@ -1,0 +1,81 @@
+{
+  "schema": "broadcast-coordination-source-metadata-v1",
+  "distribution": "Source data are not included in this release.",
+  "sources": {
+    "bdg1_building_data_genome": {
+      "kind": "bdg1_csv",
+      "path": "bdg1_building_data_genome/raw/temp_open_utc_complete.csv",
+      "official_source": "https://github.com/buds-lab/the-building-data-genome-project"
+    },
+    "bdg2_building_data_genome": {
+      "kind": "canonical_npz",
+      "path": "bdg2_building_data_genome/processed/canonical_device_days.npz",
+      "official_source": "https://github.com/buds-lab/building-data-genome-project-2"
+    },
+    "complete_energy_community": {
+      "kind": "canonical_npz",
+      "path": "complete_energy_community/processed/canonical_device_days_measured_only.npz",
+      "official_source": "https://doi.org/10.5281/zenodo.7602546"
+    },
+    "danish_smart_heat_meters": {
+      "kind": "canonical_npz",
+      "path": "danish_smart_heat_meters/processed/canonical_device_days.npz",
+      "official_source": "https://doi.org/10.5281/zenodo.6563114"
+    },
+    "european_lv_rural_2731": {
+      "kind": "canonical_npz",
+      "path": "european_lv_rural_2731/processed/canonical_device_days.npz",
+      "official_source": "https://doi.org/10.17632/gspyzvvrhm.2"
+    },
+    "european_lv_urban_35297": {
+      "kind": "canonical_npz",
+      "path": "european_lv_urban_35297/processed/canonical_device_days.npz",
+      "official_source": "https://doi.org/10.17632/gspyzvvrhm.2"
+    },
+    "goiener_smart_meters": {
+      "kind": "canonical_npz",
+      "path": "goiener_smart_meters/processed/canonical_device_days_bidirectional_v2.npz",
+      "official_source": "https://doi.org/10.5281/zenodo.7362094"
+    },
+    "heapo_heat_pumps": {
+      "kind": "canonical_npz",
+      "path": "heapo_heat_pumps/processed/canonical_device_days.npz",
+      "official_source": "https://doi.org/10.5281/zenodo.15056919"
+    },
+    "low_carbon_london": {
+      "kind": "canonical_npz",
+      "path": "low_carbon_london/processed/canonical_device_days_bidirectional_v2.npz",
+      "official_source": "https://data.london.gov.uk/download/vqm0d/3527bf39-d93e-4071-8451-df2ade1ea4f2/LCL-FullData.zip"
+    },
+    "norway_ami_energy_distribution": {
+      "kind": "canonical_npz",
+      "path": "norway_ami_energy_distribution/processed/canonical_device_days_measured_only.npz",
+      "official_source": "https://doi.org/10.17632/jv3rz8k35r.1"
+    },
+    "camsl_japan_smart_meters": {
+      "kind": "canonical_npz",
+      "path": "camsl_japan_smart_meters/processed/canonical_device_days_measured_only.npz",
+      "official_source": "https://doi.org/10.17632/cmpsyncmmk.1"
+    },
+    "european_lv_urban_8087": {
+      "kind": "canonical_npz",
+      "path": "european_lv_urban_8087/processed/canonical_device_days.npz",
+      "official_source": "https://doi.org/10.17632/685vgp64sm.1"
+    },
+    "irish_domestic_smart_meters": {
+      "kind": "canonical_npz",
+      "path": "irish_domestic_smart_meters/processed/canonical_device_days_measured_only_kw_label.npz",
+      "official_source": "https://doi.org/10.6084/m9.figshare.31851922.v2"
+    },
+    "opsd_household_data": {
+      "kind": "canonical_npz",
+      "path": "opsd_household_data/processed/canonical_device_days_measured_only.npz",
+      "official_source": "https://data.open-power-system-data.org/household_data/opsd-household-data-2020-04-15.zip"
+    },
+    "smart_grid_smart_city": {
+      "kind": "canonical_npz",
+      "path": "smart_grid_smart_city/processed/canonical_device_days_bidirectional_v2.npz",
+      "official_source": "https://data.gov.au/data/dataset/smart-grid-smart-city-customer-trial-data"
+    }
+  }
+}
