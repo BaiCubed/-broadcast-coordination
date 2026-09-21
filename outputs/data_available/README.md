@@ -28,15 +28,15 @@ From the repository root, after installing `numpy` and `pandas` and obtaining th
 First build the canonical caches expected by the composition code:
 
 ```bash
-PYTHONPATH=outputs/data_available/generation \
-python outputs/data_available/generation/preprocess.py \
+PYTHONPATH=generation \
+python generation/preprocess.py \
   --data-root data
 ```
 
 The preprocessing configuration is in `configuration/preprocessing_config.json`; it records source paths, unit conversions, 288-point resampling, measured versus load-shape input mapping, and explicit battery-parameter fallbacks. The original source data remain outside this release.
 
 ```bash
-PYTHONPATH=outputs/data_available/generation \
+PYTHONPATH=generation \
 python -m dataset_combinations all \
   --data-root data \
   --output-root derived_data \
@@ -47,7 +47,7 @@ python -m dataset_combinations all \
 To regenerate one scenario and one test replicate:
 
 ```bash
-PYTHONPATH=outputs/data_available/generation \
+PYTHONPATH=generation \
 python -m dataset_combinations scenarios \
   --data-root data \
   --output-root derived_data \
@@ -61,7 +61,7 @@ python -m dataset_combinations scenarios \
 To regenerate one pairwise composition:
 
 ```bash
-PYTHONPATH=outputs/data_available/generation \
+PYTHONPATH=generation \
 python -m dataset_combinations pairwise \
   --data-root data \
   --output-root derived_data \
