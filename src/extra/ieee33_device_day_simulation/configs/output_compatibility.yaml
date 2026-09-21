@@ -1,0 +1,11 @@
+paper_figure_dirname: paper_figures
+figures_dirname: Figs
+write_legacy_json: true
+legacy_files:
+  - complete_results.json
+  - multi_run_statistics.json
+  - validation_results.json
+  - curtailment_baselines.json
+  - curtailment_sensitivity.json
+  - n_scaling.json
+  - rho_sensitivity.json

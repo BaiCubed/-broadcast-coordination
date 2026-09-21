@@ -1,0 +1,205 @@
+common:
+  blocked_fraction_limit: 0.05
+  bootstrap_samples: 1000
+  conditions: 48
+  controllable_probability: 0.9
+  nrmse_limit: 0.1
+  sign_consistency_limit: 0.95
+  step_minutes: 5.0
+  test_replications: 100
+  train_replications: 10
+e13:
+  broadcast_basis_columns: 9
+  conditions: 48
+  datasets:
+  - mix_P001_s00
+  - mix_P002_s00
+  - mix_P003_s00
+  - mix_P004_s00
+  - mix_P005_s00
+  - mix_P006_s00
+  - mix_P007_s00
+  - mix_P008_s00
+  - mix_P009_s00
+  - mix_P010_s00
+  - mix_P011_s00
+  - mix_P012_s00
+  - mix_P013_s00
+  - mix_P014_s00
+  - mix_P015_s00
+  - mix_P016_s00
+  - mix_P017_s00
+  - mix_P018_s00
+  - mix_P019_s00
+  - mix_P020_s00
+  - mix_P021_s00
+  - mix_P022_s00
+  - mix_P023_s00
+  - mix_P024_s00
+  - mix_P025_s00
+  - mix_P026_s00
+  - mix_P027_s00
+  - mix_P028_s00
+  - mix_P029_s00
+  - mix_P030_s00
+  - mix_P031_s00
+  - mix_P032_s00
+  - mix_P033_s00
+  - mix_P034_s00
+  - mix_P035_s00
+  - mix_P036_s00
+  - mix_P037_s00
+  - mix_P038_s00
+  - mix_P039_s00
+  - mix_P040_s00
+  - mix_P041_s00
+  - mix_P042_s00
+  - mix_P043_s00
+  - mix_P044_s00
+  - mix_P045_s00
+  - mix_P046_s00
+  - mix_P047_s00
+  - mix_P048_s00
+  - mix_P049_s00
+  - mix_P050_s00
+  - mix_P051_s00
+  - mix_P052_s00
+  - mix_P053_s00
+  - mix_P054_s00
+  - mix_P055_s00
+  - mix_P056_s00
+  - mix_P057_s00
+  - mix_P058_s00
+  - mix_P059_s00
+  - mix_P060_s00
+  - mix_P061_s00
+  - mix_P062_s00
+  - mix_P063_s00
+  - mix_P064_s00
+  - mix_P065_s00
+  - mix_P066_s00
+  - mix_P067_s00
+  - mix_P068_s00
+  - mix_P069_s00
+  - mix_P070_s00
+  - mix_P071_s00
+  - mix_P072_s00
+  - mix_P073_s00
+  - mix_P074_s00
+  - mix_P075_s00
+  - mix_P076_s00
+  - mix_P077_s00
+  - mix_P078_s00
+  - mix_P079_s00
+  - mix_P080_s00
+  - mix_P081_s00
+  - mix_P082_s00
+  - mix_P083_s00
+  - mix_P084_s00
+  - mix_P085_s00
+  - mix_P086_s00
+  - mix_P087_s00
+  - mix_P088_s00
+  - mix_P089_s00
+  - mix_P090_s00
+  - mix_P091_s00
+  - mix_P092_s00
+  - mix_P093_s00
+  - mix_P094_s00
+  - mix_P095_s00
+  - mix_P096_s00
+  - mix_P097_s00
+  - mix_P098_s00
+  - mix_P099_s00
+  - mix_P100_s00
+  - mix_P101_s00
+  - mix_P102_s00
+  - mix_P103_s00
+  - mix_P104_s00
+  - mix_P105_s00
+  - mix_S1-A_s00
+  - mix_S1-B_s00
+  - mix_S2-A_s00
+  - mix_S2-B_s00
+  - mix_S3-A_s00
+  - mix_S3-B_s00
+  - mix_S4-A_s00
+  - mix_S4-B_s00
+  - mix_S5-A_s00
+  - mix_S5-B_s00
+  - mix_S5-C_s00
+  - mix_S6-A_s00
+  - mix_S6-B_s00
+  - mix_S6-C_s00
+  include_maximum_unique_fleet: true
+  initial_soc_high: 0.93
+  initial_soc_low: 0.12
+  logics:
+  - open_loop
+  - soc_threshold
+  - probabilistic
+  - price_response
+  - random_delay
+  - hybrid
+  n_candidates: &id001
+  - 50
+  - 100
+  - 150
+  - 250
+  - 400
+  - 650
+  - 1000
+  - 1600
+  - 2000
+  - 2500
+  - 3000
+  test_replications: 120
+  train_replications: 10
+e14:
+  broadcast_basis_columns: 9
+  conditions: 48
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  include_maximum_unique_fleet: true
+  injections:
+  - count: 0
+    ratio: 1.0
+  - count: 1
+    ratio: 10.0
+  - count: 1
+    ratio: 100.0
+  - count: 1
+    ratio: 1000.0
+  - count: 5
+    ratio: 100.0
+  - count: 20
+    ratio: 100.0
+  n_candidates: *id001
+  test_replications: 120
+  train_replications: 10
+execution:
+  dataset_workers: 110
+  experiments:
+  - E13
+  minimum_available_memory_gb: 4.0
+  wait_for_pid: null
+pilot: false
+primary_config: results/mix_P001_s00_ieee33_real_load/config/default_weak_correlation.yaml
+primary_dataset: mix_P001_s00
+random_seed: 20260720
+results_root: results/e13_mix_s00
+version: 1

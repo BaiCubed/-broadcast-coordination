@@ -1,0 +1,282 @@
+version: 1
+results_root: results/e6_pilot
+primary_dataset: smart_grid_smart_city
+primary_config: results/smart_grid_smart_city_ieee33_real_load/config/default_weak_correlation.yaml
+random_seed: 20260720
+pilot: false
+common:
+  train_replications: 5
+  test_replications: 12
+  conditions: 48
+  bootstrap_samples: 1000
+  nrmse_limit: 0.1
+  blocked_fraction_limit: 0.05
+  sign_consistency_limit: 0.95
+  controllable_probability: 0.9
+  step_minutes: 5.0
+e1:
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  n_candidates:
+  - 50
+  - 100
+  - 150
+  - 250
+  - 400
+  - 650
+  - 1000
+  - 1600
+  - 2000
+  - 2500
+  - 3000
+  include_maximum_unique_fleet: true
+  train_replications: 10
+  test_replications: 120
+  conditions: 48
+  broadcast_basis_columns: 9
+e2:
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  common_resources: 6
+  include_maximum_unique_fleet: true
+  homogeneity:
+  - 0.0
+  - 0.25
+  - 0.5
+  - 0.75
+  - 0.9
+  - 1.0
+  broadcast_modes:
+  - step
+  - periodic
+  - ramp
+  - rapid_changing
+  delay_distributions:
+  - fixed
+  - uniform
+  - lognormal
+  steps: 48
+  train_replications: 10
+  test_replications: 24
+  direction_concentration_limit: 0.9
+  sync_excess_limit: 0.001
+  surrogate_z99: 2.326347874
+e3:
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  period_steps:
+  - 3
+  - 6
+  - 12
+  - 24
+  excluded_period_minutes:
+  - 5
+  duty_cycles:
+  - 0.25
+  - 0.5
+  - 0.75
+  delay_distributions:
+  - fixed
+  - uniform
+  - lognormal
+  homogeneity:
+  - 0.0
+  - 0.9
+  resources:
+  - 200
+  - 600
+  - 1200
+  primary:
+    period_steps: 12
+    duty: 0.5
+    delay_distribution: lognormal
+    resources: 1200
+  replications: 8
+  transient_periods: 4
+  minimum_cycles: 24
+  surrogates: 100
+  surrogate_method: both
+  surrogate_quantile: 0.99
+  plv_pairs: 20000
+e4:
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  resources: 1200
+  conditions: 48
+  settle_steps: 8
+  measure_steps: 3
+  delay_distribution: fixed
+  drift_delay_shift: 3
+  window_samples: 50
+  detection_consecutive_windows: 2
+  recalibration_interval_windows: 1
+  recalibration_samples: 400
+  ridge: 1.0e-06
+  recovery_tolerance: 0.01
+  recovery_level: 0.9
+  unknown_fractions:
+  - 0.2
+  - 0.5
+  - 0.8
+  drift_modes:
+  - abrupt
+  - gradual
+  gradual_ramp_replications: 20
+  train_replications: 60
+  validation_replications: 40
+  test_replications: 90
+  holdout_replications: 40
+  injection_replication: 30
+  seeds: 8
+e6:
+  datasets:
+  - complete_energy_community
+  - smart_grid_smart_city
+  resources: 3000
+  participation:
+  - 0.3
+  - 0.7
+  - 1.0
+  structures:
+  - iid
+  - markov
+  - community
+  - data_behavior
+  - data_shift
+  markov_persistence: 0.9
+  community_shared_fraction: 0.5
+  broadcast_basis_columns: 9
+e7:
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  n_candidates:
+  - 50
+  - 100
+  - 200
+  - 500
+  - 1000
+  - 2000
+  - 3000
+  include_maximum_unique_fleet: true
+  replications: 110
+  conditions: 24
+  directions:
+  - charge
+  - discharge
+e10:
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  resources: 3000
+  replications: 8
+  steps: 288
+  layouts:
+  - balanced
+  - feeder_concentrated
+  - end_bus_concentrated
+  controls:
+  - global
+  - zonal
+  modes:
+  - weak_correlation
+  - network_stress
+  feeder_concentration: 0.8
+e12:
+  expected_figures:
+  - fig2_scaling_predictability.png
+  - fig3_scaling_heterogeneity.png
+  - fig4_robustness_generalization.png
+  - fig4_self_consumption.png
+  - fig5_correlation_effects.png
+  modes:
+  - network_stress
+  - weak_correlation
+execution:
+  experiments:
+  - E6
+  dataset_workers: 2
+  wait_for_pid: null
+  minimum_available_memory_gb: 4.0

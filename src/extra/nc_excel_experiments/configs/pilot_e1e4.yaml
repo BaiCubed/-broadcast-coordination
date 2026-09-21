@@ -1,0 +1,89 @@
+version: 1
+results_root: results/pilot_e1e4
+primary_dataset: bdg1_building_data_genome
+primary_config: results/bdg1_building_data_genome_ieee33_real_load/config/default_weak_correlation.yaml
+random_seed: 20260731
+pilot: true
+common:
+  train_replications: 6
+  test_replications: 10
+  conditions: 12
+  bootstrap_samples: 100
+  nrmse_limit: 0.10
+  blocked_fraction_limit: 0.05
+  sign_consistency_limit: 0.95
+  controllable_probability: 0.90
+  step_minutes: 5.0
+e1:
+  datasets: [bdg1_building_data_genome]
+  n_candidates: [50, 100, 200]
+  include_maximum_unique_fleet: true
+  train_replications: 6
+  test_replications: 10
+  conditions: 12
+  correlation_conditions:
+    - {label: iid, zone_correlation: 0.0, nominal_rho: 0.0}
+    - {label: rho_0p010, zone_correlation: 0.05, nominal_rho: 0.01248}
+    - {label: rho_0p051, zone_correlation: 0.2425, nominal_rho: 0.060528}
+e2:
+  datasets: [bdg1_building_data_genome]
+  common_resources: 6
+  include_maximum_unique_fleet: true
+  homogeneity: [0.0, 1.0]
+  broadcast_modes: [step, periodic]
+  delay_distributions: [fixed]
+  steps: 24
+  train_replications: 4
+  test_replications: 6
+  direction_concentration_limit: 0.90
+  sync_excess_limit: 0.001
+  surrogate_z99: 2.326347874
+e3:
+  datasets: [bdg1_building_data_genome]
+  period_steps: [6, 12]
+  excluded_period_minutes: [5]
+  duty_cycles: [0.5]
+  delay_distributions: [fixed, lognormal]
+  homogeneity: [0.0, 0.9]
+  resources: [200]
+  primary:
+    period_steps: 12
+    duty: 0.5
+    delay_distribution: lognormal
+    resources: 200
+  replications: 2
+  transient_periods: 2
+  minimum_cycles: 10
+  surrogates: 10
+  surrogate_method: both
+  surrogate_quantile: 0.99
+  plv_pairs: 2000
+e4:
+  datasets: [bdg1_building_data_genome]
+  resources: 200
+  conditions: 12
+  settle_steps: 6
+  measure_steps: 2
+  delay_distribution: fixed
+  drift_delay_shift: 2
+  window_samples: 20
+  detection_consecutive_windows: 2
+  recalibration_interval_windows: 1
+  recalibration_samples: 120
+  ridge: 0.000001
+  recovery_tolerance: 0.01
+  recovery_level: 0.90
+  unknown_fractions: [0.5]
+  drift_modes: [abrupt, gradual]
+  gradual_ramp_replications: 8
+  train_replications: 14
+  validation_replications: 12
+  test_replications: 24
+  holdout_replications: 12
+  injection_replication: 8
+  seeds: 1
+execution:
+  experiments: [E1, E3, E4]
+  dataset_workers: 1
+  wait_for_pid: null
+  minimum_available_memory_gb: 4.0

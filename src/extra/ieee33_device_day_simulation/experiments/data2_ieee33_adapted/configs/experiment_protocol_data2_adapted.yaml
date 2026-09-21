@@ -1,0 +1,76 @@
+mode: network_stress
+validation_batches: 2
+validation_samples: 500
+training_steps: 288
+scenario_steps: 96
+snapshot_profile_mode: random_aligned
+snapshot_profile_seed_offset: 73000
+training_scenarios: [normal, peak_shaving, valley_filling]
+validation_scenarios: [normal, peak_shaving]
+transfer_source_region_only: true
+transfer_scale_by_resource_count: false
+n_scaling_values: [50, 100, 150, 200, 500, 1000, 2000, 3000]
+n_scaling_runs: 8
+scaling_steps: 24
+directional_n_scaling:
+  charge: valley_filling
+  discharge: peak_shaving
+figure_dpi: 180
+n_threshold_train_conditions: 48
+n_threshold_eval_conditions: 48
+n_threshold_train_replications: 8
+n_threshold_eval_replications: 8
+n_threshold_profile_start: 0
+n_threshold_shared_conditions: true
+n_threshold_signal_scenarios: [normal, peak_shaving, valley_filling, emergency_grid_stability]
+n_threshold_bootstrap: 400
+correlation_conditions:
+  - label: iid
+    zone_correlation: 0.0
+    nominal_rho: 0.0
+    classification: iid
+  - label: weak
+    zone_correlation: 0.001
+    nominal_rho: 0.0000833
+    classification: weak_scale_law_candidate
+  - label: moderate
+    zone_correlation: 0.03
+    nominal_rho: 0.001
+    classification: moderate_scale_law_condition
+
+experiments_rho_scan:
+  - label: iid
+    global_shock_std: 0.0
+    regional_shock_std: 0.0
+    zone_correlation: 0.0
+    nominal_rho: 0.0
+  - label: rho~0.003
+    global_shock_std: 0.10
+    regional_shock_std: 0.05
+    zone_correlation: 0.0125
+    nominal_rho: 0.00312
+  - label: rho~0.006
+    global_shock_std: 0.15
+    regional_shock_std: 0.08
+    zone_correlation: 0.0289
+    nominal_rho: 0.00721344
+  - label: rho~0.010
+    global_shock_std: 0.20
+    regional_shock_std: 0.10
+    zone_correlation: 0.05
+    nominal_rho: 0.01248
+  - label: rho~0.023
+    global_shock_std: 0.30
+    regional_shock_std: 0.15
+    zone_correlation: 0.1125
+    nominal_rho: 0.02808
+  - label: rho~0.051
+    global_shock_std: 0.45
+    regional_shock_std: 0.20
+    zone_correlation: 0.2425
+    nominal_rho: 0.060528
+
+figure5_rho_resources: 5000
+figure5_rho_theoretical_regions: 5
+figure5_rho_replications: 10
+figure5_rho_steps: 100

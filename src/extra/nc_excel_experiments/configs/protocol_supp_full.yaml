@@ -1,0 +1,87 @@
+version: 1
+results_root: results/supp_full
+primary_dataset: smart_grid_smart_city
+primary_config: results/smart_grid_smart_city_ieee33_real_load/config/default_weak_correlation.yaml
+random_seed: 20260720
+pilot: false
+common:
+  train_replications: 10
+  test_replications: 100
+  conditions: 48
+  bootstrap_samples: 1000
+  nrmse_limit: 0.1
+  blocked_fraction_limit: 0.05
+  sign_consistency_limit: 0.95
+  controllable_probability: 0.9
+  step_minutes: 5.0
+execution:
+  experiments:
+  - E13
+  - E14
+  dataset_workers: 15
+  wait_for_pid: null
+  minimum_available_memory_gb: 4.0
+e13:
+  datasets: &id001
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  n_candidates: &id002
+  - 50
+  - 100
+  - 150
+  - 250
+  - 400
+  - 650
+  - 1000
+  - 1600
+  - 2000
+  - 2500
+  - 3000
+  include_maximum_unique_fleet: true
+  logics:
+  - open_loop
+  - soc_threshold
+  - probabilistic
+  - price_response
+  - random_delay
+  - hybrid
+  conditions: 48
+  train_replications: 10
+  test_replications: 120
+  broadcast_basis_columns: 9
+  initial_soc_low: 0.12
+  initial_soc_high: 0.93
+e14:
+  datasets: *id001
+  n_candidates: *id002
+  include_maximum_unique_fleet: true
+  injections:
+  - count: 0
+    ratio: 1.0
+  - count: 1
+    ratio: 10.0
+  - count: 1
+    ratio: 100.0
+  - count: 1
+    ratio: 1000.0
+  - count: 5
+    ratio: 100.0
+  - count: 20
+    ratio: 100.0
+  conditions: 48
+  train_replications: 10
+  test_replications: 120
+  broadcast_basis_columns: 9

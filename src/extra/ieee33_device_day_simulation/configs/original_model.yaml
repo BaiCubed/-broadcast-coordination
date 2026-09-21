@@ -1,0 +1,16 @@
+strict_compatibility: true
+simulation_level: LEVEL1_AGENT
+time_step_seconds: 300
+duration_seconds: 86400
+battery_fraction: 1.0
+eps_packet_loss_rate: 0.001
+device_offline_rate: 0.015
+battery_capacity_range_kwh: [5.0, 20.0]
+battery_c_rate_mean: 0.45
+battery_c_rate_sigma: 0.35
+battery_soh_range: [0.82, 1.0]
+charge_efficiency: 0.95
+discharge_efficiency: 0.95
+response_mode: bernoulli_full_commitment
+response_prob_bias: 1.0
+soc_noise_std: 0.0

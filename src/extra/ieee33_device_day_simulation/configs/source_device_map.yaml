@@ -1,0 +1,6 @@
+assignment_mode: round_robin
+zone_order: [zone_1, zone_2, zone_3, zone_4, zone_5, zone_6]
+bus_order: [2, 6, 10, 14, 19, 25]
+same_source_device_same_zone: true
+same_source_device_same_bus: true
+source_id_from_filename: true

@@ -1,0 +1,398 @@
+common:
+  blocked_fraction_limit: 0.05
+  bootstrap_samples: 1000
+  conditions: 48
+  controllable_probability: 0.9
+  nrmse_limit: 0.1
+  sign_consistency_limit: 0.95
+  step_minutes: 5.0
+  test_replications: 100
+  train_replications: 10
+e1:
+  broadcast_basis_columns: 9
+  conditions: 48
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  include_maximum_unique_fleet: true
+  n_candidates:
+  - 50
+  - 100
+  - 150
+  - 250
+  - 400
+  - 650
+  - 1000
+  - 1600
+  - 2000
+  - 2500
+  - 3000
+  test_replications: 120
+  train_replications: 10
+e10:
+  controls:
+  - global
+  - zonal
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  feeder_concentration: 0.8
+  layouts:
+  - balanced
+  - feeder_concentrated
+  - end_bus_concentrated
+  modes:
+  - weak_correlation
+  - network_stress
+  replications: 8
+  resources: 3000
+  steps: 288
+e12:
+  expected_figures:
+  - fig2_scaling_predictability.png
+  - fig3_scaling_heterogeneity.png
+  - fig4_robustness_generalization.png
+  - fig4_self_consumption.png
+  - fig5_correlation_effects.png
+  modes:
+  - network_stress
+  - weak_correlation
+e2:
+  broadcast_modes:
+  - step
+  - periodic
+  - ramp
+  - rapid_changing
+  common_resources: 6
+  datasets:
+  - mix_P001_s13
+  - mix_P002_s13
+  - mix_P003_s13
+  - mix_P004_s13
+  - mix_P005_s13
+  - mix_P006_s13
+  - mix_P007_s13
+  - mix_P008_s13
+  - mix_P009_s13
+  - mix_P010_s13
+  - mix_P011_s13
+  - mix_P012_s13
+  - mix_P013_s13
+  - mix_P014_s13
+  - mix_P015_s13
+  - mix_P016_s13
+  - mix_P017_s13
+  - mix_P018_s13
+  - mix_P019_s13
+  - mix_P020_s13
+  - mix_P021_s13
+  - mix_P022_s13
+  - mix_P023_s13
+  - mix_P024_s13
+  - mix_P025_s13
+  - mix_P026_s13
+  - mix_P027_s13
+  - mix_P028_s13
+  - mix_P029_s13
+  - mix_P030_s13
+  - mix_P031_s13
+  - mix_P032_s13
+  - mix_P033_s13
+  - mix_P034_s13
+  - mix_P035_s13
+  - mix_P036_s13
+  - mix_P037_s13
+  - mix_P038_s13
+  - mix_P039_s13
+  - mix_P040_s13
+  - mix_P041_s13
+  - mix_P042_s13
+  - mix_P043_s13
+  - mix_P044_s13
+  - mix_P045_s13
+  - mix_P046_s13
+  - mix_P047_s13
+  - mix_P048_s13
+  - mix_P049_s13
+  - mix_P050_s13
+  - mix_P051_s13
+  - mix_P052_s13
+  - mix_P053_s13
+  - mix_P054_s13
+  - mix_P055_s13
+  - mix_P056_s13
+  - mix_P057_s13
+  - mix_P058_s13
+  - mix_P059_s13
+  - mix_P060_s13
+  - mix_P061_s13
+  - mix_P062_s13
+  - mix_P063_s13
+  - mix_P064_s13
+  - mix_P065_s13
+  - mix_P066_s13
+  - mix_P067_s13
+  - mix_P068_s13
+  - mix_P069_s13
+  - mix_P070_s13
+  - mix_P071_s13
+  - mix_P072_s13
+  - mix_P073_s13
+  - mix_P074_s13
+  - mix_P075_s13
+  - mix_P076_s13
+  - mix_P077_s13
+  - mix_P078_s13
+  - mix_P079_s13
+  - mix_P080_s13
+  - mix_P081_s13
+  - mix_P082_s13
+  - mix_P083_s13
+  - mix_P084_s13
+  - mix_P085_s13
+  - mix_P086_s13
+  - mix_P087_s13
+  - mix_P088_s13
+  - mix_P089_s13
+  - mix_P090_s13
+  - mix_P091_s13
+  - mix_P092_s13
+  - mix_P093_s13
+  - mix_P094_s13
+  - mix_P095_s13
+  - mix_P096_s13
+  - mix_P097_s13
+  - mix_P098_s13
+  - mix_P099_s13
+  - mix_P100_s13
+  - mix_P101_s13
+  - mix_P102_s13
+  - mix_P103_s13
+  - mix_P104_s13
+  - mix_P105_s13
+  - mix_S1-A_s13
+  - mix_S1-B_s13
+  - mix_S2-A_s13
+  - mix_S2-B_s13
+  - mix_S3-A_s13
+  - mix_S3-B_s13
+  - mix_S4-A_s13
+  - mix_S4-B_s13
+  - mix_S5-A_s13
+  - mix_S5-B_s13
+  - mix_S5-C_s13
+  - mix_S6-A_s13
+  - mix_S6-B_s13
+  - mix_S6-C_s13
+  delay_distributions:
+  - fixed
+  - uniform
+  - lognormal
+  direction_concentration_limit: 0.9
+  homogeneity:
+  - 0.0
+  - 0.25
+  - 0.5
+  - 0.75
+  - 0.9
+  - 1.0
+  include_maximum_unique_fleet: true
+  steps: 48
+  surrogate_z99: 2.326347874
+  sync_excess_limit: 0.001
+  test_replications: 24
+  train_replications: 10
+e3:
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  delay_distributions:
+  - fixed
+  - uniform
+  - lognormal
+  duty_cycles:
+  - 0.25
+  - 0.5
+  - 0.75
+  excluded_period_minutes:
+  - 5
+  homogeneity:
+  - 0.0
+  - 0.9
+  minimum_cycles: 24
+  period_steps:
+  - 3
+  - 6
+  - 12
+  - 24
+  plv_pairs: 20000
+  primary:
+    delay_distribution: lognormal
+    duty: 0.5
+    period_steps: 12
+    resources: 1200
+  replications: 8
+  resources:
+  - 200
+  - 600
+  - 1200
+  surrogate_method: both
+  surrogate_quantile: 0.99
+  surrogates: 100
+  transient_periods: 4
+e4:
+  conditions: 48
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  delay_distribution: fixed
+  detection_consecutive_windows: 2
+  drift_delay_shift: 3
+  drift_modes:
+  - abrupt
+  - gradual
+  gradual_ramp_replications: 20
+  holdout_replications: 40
+  injection_replication: 30
+  measure_steps: 3
+  recalibration_interval_windows: 1
+  recalibration_samples: 400
+  recovery_level: 0.9
+  recovery_tolerance: 0.01
+  resources: 1200
+  ridge: 1.0e-06
+  seeds: 8
+  settle_steps: 8
+  test_replications: 90
+  train_replications: 60
+  unknown_fractions:
+  - 0.2
+  - 0.5
+  - 0.8
+  validation_replications: 40
+  window_samples: 50
+e6:
+  community_shared_fraction: 0.5
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  markov_persistence: 0.9
+  participation:
+  - 0.3
+  - 0.5
+  - 0.7
+  - 0.9
+  - 1.0
+  resources: 3000
+  structures:
+  - iid
+  - markov
+  - community
+e7:
+  conditions: 24
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  - danish_smart_heat_meters
+  - smart_grid_smart_city
+  - heapo_heat_pumps
+  - goiener_smart_meters
+  - european_lv_urban_8087
+  - european_lv_rural_2731
+  - european_lv_urban_35297
+  - norway_ami_energy_distribution
+  - camsl_japan_smart_meters
+  - irish_domestic_smart_meters
+  - opsd_household_data
+  - complete_energy_community
+  directions:
+  - charge
+  - discharge
+  include_maximum_unique_fleet: true
+  n_candidates:
+  - 50
+  - 100
+  - 200
+  - 500
+  - 1000
+  - 2000
+  - 3000
+  replications: 110
+execution:
+  dataset_workers: 110
+  experiments:
+  - E2
+  minimum_available_memory_gb: 4.0
+  wait_for_pid: null
+pilot: false
+primary_config: results/mix_P001_s13_ieee33_real_load/config/default_weak_correlation.yaml
+primary_dataset: mix_P001_s13
+random_seed: 20260720
+results_root: results/e2_mix_s13
+version: 1

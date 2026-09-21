@@ -1,0 +1,66 @@
+version: 1
+results_root: results/nc_excel_experiments_pilot_new
+primary_dataset: smart_grid_smart_city
+primary_config: results/smart_grid_smart_city_ieee33_real_load/config/default_weak_correlation.yaml
+random_seed: 20260720
+pilot: true
+common:
+  train_replications: 2
+  test_replications: 4
+  conditions: 4
+  bootstrap_samples: 20
+  nrmse_limit: 0.20
+  blocked_fraction_limit: 0.05
+  sign_consistency_limit: 0.90
+  controllable_probability: 0.75
+e1:
+  datasets: [bdg1_building_data_genome, complete_energy_community, opsd_household_data]
+  n_candidates: [2, 4]
+  include_maximum_unique_fleet: false
+  train_replications: 2
+  test_replications: 4
+  conditions: 4
+  correlation_conditions:
+    - {label: iid, zone_correlation: 0.0, nominal_rho: 0.0}
+    - {label: moderate, zone_correlation: 0.03, nominal_rho: 0.001}
+e2:
+  datasets: [bdg1_building_data_genome, complete_energy_community, opsd_household_data]
+  common_resources: 2
+  include_maximum_unique_fleet: false
+  homogeneity: [0.0, 1.0]
+  broadcast_modes: [step, periodic]
+  delay_distributions: [fixed, uniform]
+  steps: 8
+  train_replications: 2
+  test_replications: 2
+  direction_concentration_limit: 0.90
+  sync_excess_limit: 0.001
+  surrogate_z99: 2.326347874
+e6:
+  datasets: [bdg1_building_data_genome, complete_energy_community, opsd_household_data]
+  resources: 24
+  participation: [0.5, 1.0]
+  structures: [iid, community]
+  markov_persistence: 0.90
+  community_shared_fraction: 0.50
+e7:
+  datasets: [bdg1_building_data_genome, complete_energy_community, opsd_household_data]
+  n_candidates: [12, 24]
+  include_maximum_unique_fleet: false
+  replications: 6
+  conditions: 4
+  directions: [charge, discharge]
+e10:
+  datasets: [bdg1_building_data_genome, complete_energy_community, opsd_household_data]
+  resources: 24
+  replications: 1
+  steps: 4
+  layouts: [balanced, end_bus_concentrated]
+  controls: [global, zonal]
+  modes: [weak_correlation]
+  feeder_concentration: 0.80
+execution:
+  experiments: [E1, E2]
+  dataset_workers: 1
+  wait_for_pid: null
+  minimum_available_memory_gb: 1.0

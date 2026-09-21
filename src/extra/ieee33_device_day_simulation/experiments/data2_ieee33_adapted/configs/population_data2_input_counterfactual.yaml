@@ -1,0 +1,18 @@
+resource_unit: transaction-session
+data_workbook: data/data2/processed_data_longer_than_30.xlsx
+transaction_count_expected: 18531
+N_simulated_resources: 3000
+resources_per_zone: 500
+with_replacement: false
+seed_offset: 101
+fallback_soc_pct: 50.0
+fallback_capacity_kwh: 60.0
+power_scale: 1.0
+
+energy_input_source: observed_out_power
+load_source: observed_out_power
+energy_input_scale: 8.0
+adapter_profile: input_counterfactual
+require_external_input_for_curtailment: true
+source_device_count_expected: 18531
+device_days_expected: 18531

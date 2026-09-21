@@ -1,0 +1,10 @@
+resource_unit: device-day
+source_device_count_expected: 100
+days_per_source_device: 365
+device_days_expected: 36500
+N_simulated_resources: 3000
+resources_per_zone: 500
+sampling: stratified_by_zone
+with_replacement: false
+seed_offset: 101
+allow_pool_bootstrap: true

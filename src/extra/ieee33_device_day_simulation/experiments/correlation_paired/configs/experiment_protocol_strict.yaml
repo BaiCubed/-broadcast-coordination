@@ -1,0 +1,30 @@
+mode: network_stress
+validation_batches: 2
+validation_samples: 500
+training_steps: 288
+scenario_steps: 96
+n_scaling_values: [100, 300, 500, 1000, 2000, 3000]
+n_scaling_runs: 8
+scaling_steps: 24
+figure_dpi: 180
+n_threshold_train_conditions: 48
+n_threshold_eval_conditions: 48
+n_threshold_train_replications: 8
+n_threshold_eval_replications: 8
+n_threshold_profile_start: 0
+n_threshold_shared_conditions: true
+n_threshold_signal_scenarios: [normal, peak_shaving, valley_filling, emergency_grid_stability]
+n_threshold_bootstrap: 400
+correlation_conditions:
+  - label: iid
+    zone_correlation: 0.0
+    nominal_rho: 0.0
+    classification: iid
+  - label: weak
+    zone_correlation: 0.001
+    nominal_rho: 0.0000833
+    classification: weak_scale_law_candidate
+  - label: moderate
+    zone_correlation: 0.03
+    nominal_rho: 0.001
+    classification: moderate_scale_law_condition

@@ -1,0 +1,45 @@
+version: 1
+results_root: results/e9_phase1
+primary_dataset: smart_grid_smart_city
+primary_config: results/smart_grid_smart_city_ieee33_real_load/config/default_weak_correlation.yaml
+random_seed: 20260720
+pilot: false
+common:
+  train_replications: 10
+  test_replications: 100
+  conditions: 48
+  bootstrap_samples: 1000
+  nrmse_limit: 0.1
+  blocked_fraction_limit: 0.05
+  sign_consistency_limit: 0.95
+  controllable_probability: 0.9
+  step_minutes: 5.0
+execution:
+  experiments:
+  - E9
+  dataset_workers: 3
+  wait_for_pid: null
+  minimum_available_memory_gb: 4.0
+e9:
+  datasets:
+  - bdg1_building_data_genome
+  - low_carbon_london
+  - bdg2_building_data_genome
+  days: 30
+  train_days: 3
+  resources: 1000
+  architectures:
+  - full_state
+  - aggregate_feedback
+  - broadcast_only
+  broadcast_modes:
+  - real
+  - sustained_discharge
+  initial_soc_low: 0.3
+  initial_soc_high: 0.7
+  broadcast_basis_columns: 9
+  architecture_options:
+    floor: 0.15
+    boost_cap: 1.0
+    setpoint: 0.5
+    gain: 2.0
