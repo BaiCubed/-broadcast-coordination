@@ -19,7 +19,13 @@ The official source repositories and records are listed in `configuration/source
 - `configuration/source_metadata.json`: source paths and official public locations;
 - `index/scenario_seed_index.csv`: every scenario partition and test seed for both sampling modes;
 - `index/pairwise_index.csv`: all 105 unordered pair IDs, source mapping, equal weights, and seed formula;
+- `generated_data/mixed_scenarios/`: 14 real generated S1-A--S6-C scenario CSV summaries (600 records per scenario);
+- `generated_data/pairwise/`: 105 real generated pairwise CSV summaries (30 records per pair);
 - `DATA_AVAILABILITY.md`: the manuscript-ready Data availability paragraph.
+
+## Included generated CSVs
+
+The `generated_data/` directory contains the CSV outputs already produced by the project's final generation and evaluation pipeline. These are derived result summaries, not third-party raw data: each scenario file contains the 600 generated records for its implemented scenario and each pairwise file contains 30 generated records for one of the 105 equal-weight pairs. The source datasets are not redistributed. The scenario and pairwise configuration files, seeds and indexes in this release identify the exact composition inputs for these CSVs.
 
 ## Rebuild
 
