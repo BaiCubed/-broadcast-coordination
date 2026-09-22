@@ -1,6 +1,6 @@
 # Broadcast coordination public-release materials
 
-This directory contains the code and machine-readable metadata needed to reconstruct the derived datasets used in the paper. It does not redistribute any third-party source data, experiment results, model files, or supplementary tables.
+This directory contains the code, generated CSV summaries and machine-readable metadata needed to reconstruct the derived datasets used in the paper. It does not redistribute any third-party raw source data, model files, or supplementary tables.
 
 The reconstruction chain is:
 
