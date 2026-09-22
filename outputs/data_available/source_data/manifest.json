@@ -1,0 +1,34 @@
+{
+  "schema": "broadcast-coordination-source-data-manifest-v1",
+  "release": "v1.0.0-public",
+  "repository": "https://github.com/songge00/broadcast-coordination-public-release",
+  "archives": {
+    "nextgen_household_batteries": {
+      "asset": "nextgen-household-batteries.tar.gz",
+      "url": "https://github.com/songge00/broadcast-coordination-public-release/releases/download/v1.0.0-public/nextgen-household-batteries.tar.gz",
+      "sha256": "9ea958e4bf3c41d534993340001978c7f9023ceff885f9a4511fc1f38cb25bc2",
+      "bytes": 246346906,
+      "format": "tar.gz",
+      "files": 100,
+      "source_format": "100 original CSV files",
+      "source_repository": "https://doi.org/10.5281/zenodo.14885589",
+      "license": "CC BY 4.0"
+    },
+    "data2_ev_charging": {
+      "asset": "data2-ev-charging-csv.zip",
+      "url": "https://github.com/songge00/broadcast-coordination-public-release/releases/download/v1.0.0-public/data2-ev-charging-csv.zip",
+      "sha256": "a2448d6349c7066a330de33c4d416a1e727dfd81c737d0b0c2691da30281fde3",
+      "bytes": 65653680,
+      "format": "zip of CSV files",
+      "files": 16,
+      "records": 2938319,
+      "source_format": "two original XLSX workbooks, eight sheets each",
+      "source_repository": "https://doi.org/10.17632/c7gg94tmvz.3",
+      "license": "CC BY 4.0",
+      "layout": {
+        "processed_data": 8,
+        "processed_data_longer_than_30": 8
+      }
+    }
+  }
+}
