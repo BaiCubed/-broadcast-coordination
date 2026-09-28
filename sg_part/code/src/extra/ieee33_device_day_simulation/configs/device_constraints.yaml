@@ -1,0 +1,8 @@
+soc_min: 0.10
+soc_max: 0.95
+minimum_controllable_power_kw: 0.01
+max_charge_c_rate: 1.0
+max_discharge_c_rate: 1.0
+temperature_model: original_battery_model
+minimum_duration_seconds: 0
+reservation_required: false

@@ -1,0 +1,20 @@
+train_resources_per_zone: 500
+validation_resources_per_zone: 500
+training_steps: 288
+validation_samples: 500
+validation_batches: 2
+scenario_steps: 96
+n_scaling_values: [100, 300, 500, 1000, 2000, 3000]
+n_scaling_runs: 4
+correlation_levels: [0.0, 0.01, 0.03]
+correlation_runs: 4
+scaling_steps: 1
+figure_dpi: 180
+n_threshold_train_conditions: 48
+n_threshold_eval_conditions: 48
+n_threshold_train_replications: 8
+n_threshold_eval_replications: 8
+n_threshold_profile_start: 0
+n_threshold_shared_conditions: true
+n_threshold_signal_scenarios: [normal, peak_shaving, valley_filling, emergency_grid_stability]
+n_threshold_bootstrap: 400

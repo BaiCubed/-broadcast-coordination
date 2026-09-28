@@ -1,0 +1,61 @@
+zones:
+  zone_1:
+    name: availability_behavior
+    buses: [2, 3, 4, 5]
+    primary_constraint: user_availability
+    similarity_strength: 0.85
+    availability_multiplier: 0.78
+    soc_center: 0.52
+    energy_input_multiplier: 0.95
+    pv_multiplier: 0.95
+    load_multiplier: 1.05
+  zone_2:
+    name: soc_energy
+    buses: [6, 7, 8, 9]
+    primary_constraint: soc_energy
+    similarity_strength: 0.90
+    availability_multiplier: 0.95
+    soc_center: 0.43
+    energy_input_multiplier: 1.05
+    pv_multiplier: 1.05
+    load_multiplier: 0.95
+  zone_3:
+    name: feeder_capacity
+    buses: [10, 11, 12, 13]
+    primary_constraint: feeder_capacity
+    similarity_strength: 0.88
+    availability_multiplier: 0.92
+    soc_center: 0.50
+    energy_input_multiplier: 1.10
+    pv_multiplier: 1.10
+    load_multiplier: 1.10
+  zone_4:
+    name: voltage
+    buses: [14, 15, 16, 17, 18]
+    primary_constraint: voltage
+    similarity_strength: 0.86
+    availability_multiplier: 0.90
+    soc_center: 0.57
+    energy_input_multiplier: 1.25
+    pv_multiplier: 1.25
+    load_multiplier: 1.00
+  zone_5:
+    name: transformer
+    buses: [19, 20, 21, 22, 23, 24]
+    primary_constraint: transformer_loading
+    similarity_strength: 0.87
+    availability_multiplier: 0.94
+    soc_center: 0.48
+    energy_input_multiplier: 0.90
+    pv_multiplier: 0.90
+    load_multiplier: 1.20
+  zone_6:
+    name: spatial_concentration
+    buses: [25, 26, 27, 28, 29, 30, 31, 32, 33]
+    primary_constraint: spatial_concentration
+    similarity_strength: 0.93
+    availability_multiplier: 0.88
+    soc_center: 0.54
+    energy_input_multiplier: 1.15
+    pv_multiplier: 1.15
+    load_multiplier: 1.15

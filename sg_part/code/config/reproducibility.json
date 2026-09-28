@@ -1,0 +1,71 @@
+{
+  "schema": "broadcast-coordination-reproduction-protocol-v1",
+  "python": ">=3.10",
+  "time_resolution": {"time_step_seconds": 300, "steps_per_day": 288, "duration_seconds": 86400},
+  "randomness": {
+    "global_simulation_seed": 20260714,
+    "fit_split_seed": 42,
+    "test_seed_count": 30,
+    "paired_seeds": "data/index/scenario_seed_index.csv",
+    "pair_seed_base": 20260808,
+    "pair_seed_stride": 100000
+  },
+  "data_split": {
+    "composition": {"train": "fixed composition partition", "validation": "fixed composition partition", "test": "30 paired seeds per scenario and sampling mode"},
+    "estimator": {"fit": "70% response-sign-stratified observations", "calibration": "30% held-out response-sign-stratified observations", "nn_validation": "10% of the NN fit subset, seed 42", "leakage_rule": "calibration observations are never used for NN weight fitting"}
+  },
+  "neural_network": {
+    "model": "direction-specific dual quantile regression networks",
+    "hidden_layers": [128, 64, 32],
+    "activation": "ReLU",
+    "dropout": 0.15,
+    "heads": [0.1, 0.5, 0.9],
+    "loss": "weighted Huber quantile loss",
+    "optimizer": "AdamW",
+    "learning_rate_cold_start": 0.003,
+    "learning_rate_warm_start": 0.001,
+    "weight_decay": 0.001,
+    "batch_size": 32,
+    "minimum_epochs": 150,
+    "early_stopping_patience": 40,
+    "gradient_clip_norm": 1.0,
+    "scheduler": "CosineAnnealingWarmRestarts(T_0=20,T_mult=2,eta_min=1e-5)",
+    "target_coverage": 0.9,
+    "conformal_window": 100
+  },
+  "device_constraints": {
+    "soc_min": 0.10,
+    "soc_max": 0.95,
+    "battery_capacity_kwh": [5.0, 20.0],
+    "battery_c_rate_mean": 0.45,
+    "battery_soh": [0.82, 1.0],
+    "charge_efficiency": 0.95,
+    "discharge_efficiency": 0.95,
+    "device_offline_rate": 0.015,
+    "packet_loss_rate": 0.001
+  },
+  "scenarios": {
+    "E22": {
+      "network_pairs": ["IEEE-33", "IEEE-69"], "fleet_size": 5000, "seeds": 30,
+      "M0": {"load_scale": 0.45, "capacity_multiplier": 1.0},
+      "M1": {"load_scale": 0.56, "capacity_multiplier": 0.68},
+      "M2": {"load_scale": 0.48, "capacity_multiplier": 0.72},
+      "M3": {"load_scale": 0.56, "capacity_multiplier": 0.65, "forecast_error": 0.18, "input_mode": "clustered"},
+      "M4": {"placement": "uniform_non_slack_nodes"}, "M5": {"placement": "50_percent_remote_feeder"}, "M6": {"placement": "80_percent_remote_node"}
+    },
+    "E23": {
+      "network": "IEEE-69", "fleet_size": 5000,
+      "request_strength": {"start": 0.0, "stop": 1.5, "step": 0.1},
+      "line_pressure": {"start": 0.0, "stop": 0.4, "step": 0.05, "capacity_multiplier": "1 - lambda_line"},
+      "spatial_concentration": {"start": 0.0, "stop": 0.8, "step": 0.1},
+      "boundary_rule": "two consecutive points; bootstrap upper bound below 0 or below -2 percentage points; physical risk lower bound above 5 percent"
+    },
+    "E24": {
+      "network": "IEEE-123 single-phase structural equivalent", "fleet_size": 5000,
+      "S0": {"placement": "uniform", "capacity_multiplier": 1.0},
+      "S1": {"placement": "50_percent_remote_feeder", "capacity_multiplier": 1.0},
+      "S2": {"placement": "80_percent_remote_node", "capacity_multiplier": 1.0},
+      "S3": {"placement": "50_percent_remote_feeder", "capacity_multiplier": 0.7}
+    }
+  }
+}

@@ -1,0 +1,7 @@
+mode: real_profile_baseline_plus_eps
+availability_from_zone_multiplier: true
+arrival_departure_inferred: true
+refuse_probability: 0.0
+self_consumption: true
+baseline_battery_power_from_nextgen: true
+profile_smoothing_window: 1

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+reproduced_tables/
+reproduced_figures/
+results/
+data/*/raw/
+data/*/processed/
+data/nextgen/
+*.pt
+*.pth

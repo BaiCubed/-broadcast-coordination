@@ -1,0 +1,12 @@
+paths: ../../../configs/paths.yaml
+original_model: ../../../configs/original_model.yaml
+simulation: ../../../configs/simulation.yaml
+population: ../../../configs/population.yaml
+source_device_map: ../../snapshot/configs/source_device_map_random.yaml
+zones: ../../../configs/zones.yaml
+network: ../../../configs/network_ieee33.yaml
+device_constraints: ../../../configs/device_constraints.yaml
+user_behavior: ../../../configs/user_behavior.yaml
+control: control_network_stress_strict.yaml
+experiment: experiment_protocol_strict.yaml
+outputs: ../../../configs/output_compatibility.yaml

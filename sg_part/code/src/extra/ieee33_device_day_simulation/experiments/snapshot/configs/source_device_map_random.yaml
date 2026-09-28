@@ -1,0 +1,4 @@
+assignment_mode: random_device_day
+assignment_seed: 20260715
+zone_order: [zone_1, zone_2, zone_3, zone_4, zone_5, zone_6]
+source_id_from_filename: true

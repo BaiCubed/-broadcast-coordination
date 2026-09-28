@@ -1,0 +1,29 @@
+{
+  "schema": "broadcast-coordination-generation-config-v1",
+  "preprocessing_entrypoint": "generation/preprocess.py",
+  "generator": "generation/dataset_combinations",
+  "python": ">=3.10",
+  "dependencies": [
+    "numpy",
+    "pandas"
+  ],
+  "input_root": "data",
+  "output_layout": "<output-root>/<sampling-mode>/ieee33/{scenario|pairwise}/...",
+  "scenario_partitions": [
+    "train",
+    "validation",
+    "test/seed_00..seed_29"
+  ],
+  "sampling_modes": [
+    "unique",
+    "non_unique"
+  ],
+  "partition_seed": 20260714,
+  "fleet_size_non_unique": 5000,
+  "test_seed_count": 30,
+  "pair_seed_base": 20260808,
+  "pair_seed_stride": 100000,
+  "profile_bootstrap": "non_unique only when source capacity is insufficient",
+  "time_steps": 288,
+  "network_mode": "ieee33"
+}

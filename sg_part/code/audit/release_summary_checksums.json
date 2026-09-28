@@ -1,0 +1,16 @@
+{
+  "files": [
+    "reproduced_tables/scenario_algorithm_summary.csv",
+    "reproduced_tables/pairwise_summary.csv"
+  ],
+  "sha256": {
+    "reproduced_tables/scenario_algorithm_summary.csv": "4f32417fdc39d05c5caa785a2db094156522c02790a766a1f3d79b4b100d8555",
+    "reproduced_tables/pairwise_summary.csv": "9121095d0459aeed79b61f5695c4030875dda8767bed4920fdb6cc3d63a59c75"
+  },
+  "figure_files": [
+    "reproduced_figures/scenario_algorithm_heatmap.png",
+    "reproduced_figures/scenario_algorithm_heatmap.pdf",
+    "reproduced_figures/pairwise_reduction_summary.png",
+    "reproduced_figures/pairwise_reduction_summary.pdf"
+  ]
+}

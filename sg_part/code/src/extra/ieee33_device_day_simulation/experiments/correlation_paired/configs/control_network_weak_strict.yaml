@@ -1,0 +1,12 @@
+signal_mode: real_net_balance
+eps_mode: original_simulator_signal
+network_coordination: proportional_post_dispatch
+network_feedback: true
+enforce_feeder_capacity: true
+enforce_voltage_limits: true
+enforce_transformer_limit: true
+enforce_spatial_concentration: true
+charge_signal_threshold: 8
+voltage_sensitivity: 0.00035
+reverse_flow_sensitivity: 0.00020
+network_capacity_multiplier: 8.0

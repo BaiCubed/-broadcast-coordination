@@ -1,0 +1,21 @@
+{
+  "status": "release_level_reproducibility_verified",
+  "scope": "Every file under the reference outputs tree; official raw data through final artifacts",
+  "constraints": ["English release documentation", "Local only; no push", "Preserve existing user changes"],
+  "reference_artifacts": 1894,
+  "verified_now": [
+    "release layout and derived-data schema",
+    "English Markdown documentation",
+    "Python source compilation",
+    "release-level table summaries",
+    "release-level summary figures",
+    "artifact-level manifest generation",
+    "deterministic composition self-test on local canonical caches",
+    "repeatable summary table checksums",
+    "release-level verification command"
+  ],
+  "pending": [
+    "full numerical E1-E4/E20-E24 rerun (optional and explicitly excluded from the short verification scope)"
+  ],
+  "next_command": "python scripts/verify_release.py"
+}
