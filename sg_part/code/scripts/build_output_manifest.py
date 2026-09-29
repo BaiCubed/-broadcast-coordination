@@ -5,8 +5,36 @@ import argparse, csv, hashlib, json
 from pathlib import Path
 
 def classify(rel: str) -> tuple[str,str,str]:
+    leaf = {
+        '00-e1-规模与可控概率/e1_p_ctrl_boxplot_by_N': 'plots/leaf/e1_p_ctrl_boxplot_by_n.py',
+        '01-e20-迁移N95与效果/e20_n95_inflation_boxplot': 'plots/leaf/e20_n95_inflation.py',
+        '01-e20-迁移N95与效果/e20_r2_vs_N_boxplot': 'plots/leaf/e20_r2_vs_n.py',
+        '02-e21-原始与混合算法效果/e21_raw_vs_mixed_algorithm_boxplot': 'plots/leaf/e21_algorithm_effect.py',
+        '03-e21-两两组合弃电率/e21_pairwise_curtailment_boxplot': 'plots/leaf/e21_pairwise_curtailment.py',
+        '04-e21-两两组合R2规模/e21_pairwise_r2_vs_N_boxplot': 'plots/leaf/e21_pairwise_r2.py',
+        '05-e21-Gamma边界/e21_gamma_r2_boxplot': 'plots/leaf/e21_gamma_r2.py',
+        '06-e22-IEEE69算法与R2/e22_ieee69_algorithm_boxplots': 'plots/leaf/e22_algorithm_boxplots.py',
+        '07-e23-IEEE69压力曲线/e23_request_intensity_boxplot': 'plots/leaf/e23_request_intensity.py',
+        '07-e23-IEEE69压力曲线/e23_line_derating_boxplot': 'plots/leaf/e23_line_derating.py',
+        '07-e23-IEEE69压力曲线/e23_spatial_concentration_boxplot': 'plots/leaf/e23_spatial_concentration.py',
+        '08-e24-IEEE123效果与安全/e24_effect_boxplot': 'plots/leaf/e24_effect.py',
+        '08-e24-IEEE123效果与安全/e24_network_acceptance_boxplot': 'plots/leaf/e24_network_acceptance.py',
+        'figs/subpanel/00_ieee69_network_acceptance': 'plots/leaf/e22_acceptance.py',
+        'figs/subpanel/01_ieee69_constraint_audit': 'plots/leaf/e22_constraint_audit.py',
+        'figs/subpanel/02_algorithm_effect_raw_vs_pairwise_mixed': 'plots/leaf/e22_effect_safety.py',
+        'figs/subpanel/03_ieee69_spatial_retention': 'plots/leaf/e22_spatial_retention.py',
+        'figs/subpanel/04_topology_effect_raw_vs_pairwise_mixed': 'plots/leaf/e22_topology_effect.py',
+        'figs/subpanel/05_ieee69_dataset_algorithm_retention': 'plots/leaf/e22_dataset_retention.py',
+        'figs/subpanel/06_ieee69_all_algorithms_m0_m6': 'plots/leaf/e22_stress_lines.py',
+        'figs/subpanel/07_physical_to_computational_boundary': 'plots/leaf/e22_physical_boundary.py',
+    }
+    stem = rel.rsplit('.', 1)[0]
+    if stem in leaf:
+        generator = leaf[stem]
+        return ('publication_figures', generator, f'python {generator}')
     if rel.startswith('data_available/'): return ('data_availability','generation/preprocess.py or generation/dataset_combinations','python generation/preprocess.py --data-root data; python -m generation.dataset_combinations all --data-root data')
     if rel.startswith('appendix/'): return ('appendix','tools/build_appendix.py','python tools/build_appendix.py')
+    if rel.startswith('results-E20-E24/data_replots/'): return ('source_result_migration','tools/replot_one_csv.py','python tools/replot_one_csv.py --input INPUT.csv --output OUTPUT.png')
     if rel.startswith('results-E20-E24/'): return ('source_result_migration','tools/replot_results_e20_e24.py','python tools/replot_results_e20_e24.py')
     if rel.startswith('figs/subpanel/'): return ('composite_figures','tools/generate_e22_subpanel_figures.py','python tools/generate_e22_subpanel_figures.py')
     if rel.startswith('figs/direct_train/source_data/') or rel.startswith('figs/direct_train/03_') or rel.startswith('figs/direct_train/04_'): return ('composite_figures','tools/plot_subpanel_03_04_direct_supplement.py','python tools/plot_subpanel_03_04_direct_supplement.py')

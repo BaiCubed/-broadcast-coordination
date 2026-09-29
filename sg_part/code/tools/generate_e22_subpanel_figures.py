@@ -16,7 +16,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from ncstyle import (
+try:
+    from tools.ncstyle import (
     BAND,
     C3,
     DASH_SUMM,
@@ -60,8 +61,19 @@ from ncstyle import (
     shade,
     tidy,
     title,
-)
-import nckeys as K
+    )
+    import tools.nckeys as K
+except ModuleNotFoundError:
+    from ncstyle import (
+        BAND, C3, DASH_SUMM, FAINT, FS_ANNOT, FS_ANNOT_HI, FS_LABEL, FS_LEGEND,
+        FS_PANEL, FS_AUDIT_CELL, FS_AUDIT_TICK, FS_DISTRIBUTION_LEGEND,
+        FS_DISTRIBUTION_TICK, FS_LINE_LEGEND, FS_LINE_TICK, FS_SUBPANEL_ANNOT,
+        FS_SUBPANEL_CELL, FS_SUBPANEL_LEGEND, FS_SUBPANEL_TICK, FS_TICK,
+        FS_TITLE, GRID, INK, LW_AXIS, LW_MAIN, LW_OTHER, LW_SUMM, MIX_FILL,
+        MIX_INK, MIX_LINE, MS, MS_BIG, MM, RULE, SEQ, WIDTH_2COL, ax_mm,
+        annot, cloud, configure, shade, tidy, title,
+    )
+    import nckeys as K
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1389,7 +1401,23 @@ def write_readme() -> None:
     (OUT / "README.md").write_text(text, encoding="utf-8")
 
 
+PLOTS = {
+    "00_ieee69_network_acceptance": make_acceptance,
+    "01_ieee69_constraint_audit": make_constraint_audit,
+    "02_algorithm_effect_raw_vs_pairwise_mixed": make_effect_safety,
+    "03_ieee69_spatial_retention": make_spatial_retention,
+    "04_topology_effect_raw_vs_pairwise_mixed": make_topology_boxpoint,
+    "05_ieee69_dataset_algorithm_retention": make_dataset_retention,
+    "06_ieee69_all_algorithms_m0_m6": make_stress_lines,
+    "07_physical_to_computational_boundary": make_physical_boundary,
+}
+
+
 def main() -> None:
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--plot", choices=sorted(PLOTS))
+    args = parser.parse_args()
     if OUT.exists():
         for path in OUT.iterdir():
             if path.is_dir():
@@ -1397,15 +1425,12 @@ def main() -> None:
             else:
                 path.unlink()
     OUT.mkdir(parents=True, exist_ok=True)
-    make_acceptance()
-    make_constraint_audit()
-    make_effect_safety()
-    make_spatial_retention()
-    make_topology_boxpoint()
-    make_dataset_retention()
-    make_stress_lines()
-    make_physical_boundary()
-    write_readme()
+    if args.plot:
+        PLOTS[args.plot]()
+    else:
+        for plot in PLOTS.values():
+            plot()
+        write_readme()
     print(f"已生成：{OUT}")
 
 

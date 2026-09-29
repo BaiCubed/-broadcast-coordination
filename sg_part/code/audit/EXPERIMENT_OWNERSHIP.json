@@ -1,0 +1,28 @@
+{
+  "policy": {
+    "owned_source_files_are_single_experiment": true,
+    "shared_foundations_are_explicit": true,
+    "artifact_inputs_are_read_only": true
+  },
+  "experiments": {
+    "E1": {"entrypoint": "experiments/E1/run.py", "owned": ["experiments/E1/run.py"], "inputs": ["data/generated_data"]},
+    "E2": {"entrypoint": "experiments/E2/run.py", "owned": ["experiments/E2/run.py"], "inputs": ["data/generated_data"]},
+    "E3": {"entrypoint": "experiments/E3/run.py", "owned": ["experiments/E3/run.py"], "inputs": ["data/generated_data"]},
+    "E4": {"entrypoint": "experiments/E4/run.py", "owned": ["experiments/E4/run.py"], "inputs": ["data/generated_data"]},
+    "E20": {"entrypoint": "experiments/E20/run.py", "owned": ["experiments/E20/run.py"], "inputs": ["data/generated_data", "results/E1"]},
+    "E21": {"entrypoint": "experiments/E21/run.py", "owned": ["experiments/E21/run.py"], "inputs": ["data/generated_data", "results/E20"]},
+    "E22": {"entrypoint": "experiments/E22/run.py", "owned": ["experiments/E22/run.py"], "inputs": ["data/generated_data", "results/E20", "results/E21"]},
+    "E23": {"entrypoint": "experiments/E23/run.py", "owned": ["experiments/E23/run.py"], "inputs": ["data/generated_data", "results/E22", "results/E22/trained_eps_ieee69_direct/models"]},
+    "E24": {"entrypoint": "experiments/E24/run.py", "owned": ["experiments/E24/run.py"], "inputs": ["data/generated_data", "results/E22", "results/E23", "results/E23/models"]}
+  },
+  "shared_foundations": [
+    "src/", "generation/", "tools/ncstyle.py", "tools/nckeys.py",
+    "src/extra/ieee33_device_day_simulation/"
+  ],
+  "notes": [
+    "A result/model path is an artifact input, not a source-code dependency.",
+    "E23 is allowed to read frozen E22 models and result tables.",
+    "E24 is allowed to read frozen E22/E23 result tables and models.",
+    "Composite figures consume leaf figures; they do not own leaf plotting code."
+  ]
+}

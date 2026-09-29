@@ -12,9 +12,11 @@ The release does not contain third-party raw archives, trained checkpoints, or t
 
 ## Reproduction scope
 
-The reproducibility target is every artifact in the working `outputs/` tree: the E1/E20/E21/E22/E23/E24 experiment results, publication figures, composite figures, Appendix figures and document, supplementary figures and tables, editable presentations, the mixed-methods report, and the E23/E24 report package. The artifact-level mapping is [`code/audit/OUTPUT_REPRODUCTION_MANIFEST.csv`](code/audit/OUTPUT_REPRODUCTION_MANIFEST.csv); its JSON summary records 1,894 reference artifacts and distinguishes generated artifacts from metadata or manually edited deliverables.
+The reproducibility target is every artifact in the working `outputs/` tree: the E1/E20/E21/E22/E23/E24 experiment results, publication figures, composite figures, Appendix figures and document, supplementary figures and tables, editable presentations, the mixed-methods report, and the E23/E24 report package. The artifact-level mapping is [`code/audit/OUTPUT_REPRODUCTION_MANIFEST.csv`](code/audit/OUTPUT_REPRODUCTION_MANIFEST.csv); its JSON summary records the current reference artifact count and distinguishes generated artifacts from metadata or manually edited deliverables.
 
 Each generated artifact is tied to a script, upstream inputs, and a command in that manifest. A file classified as `metadata_or_manual` is retained as a reference or editorial asset; its upstream source is explicitly recorded instead of claiming that a plotting script can recreate manual prose or an imported reference image.
+
+Experiment ownership and plot ownership are checked by [`code/audit/OWNERSHIP_AUDIT.md`](code/audit/OWNERSHIP_AUDIT.md). Shared numerical foundations are declared explicitly. E23 is allowed to read E22 model/result artifacts, and E24 is allowed to read E22/E23 artifacts; these are read-only data inputs. Each leaf plot has a dedicated entrypoint under `code/plots/leaf/`; Appendix, supplementary tables, composite figures and reports are registered as composition stages.
 
 ## Quick start
 

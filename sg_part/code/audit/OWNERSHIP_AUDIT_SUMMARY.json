@@ -1,0 +1,22 @@
+{
+  "experiment_count": 9,
+  "experiment_entrypoints": 9,
+  "owned_source_file_collisions": 0,
+  "shared_foundation_files": 5,
+  "artifact_input_edges": 18,
+  "artifact_input_policy_pass": true,
+  "leaf_plot_count": 21,
+  "leaf_plot_output_collisions": 0,
+  "composite_count": 7,
+  "experiment_isolation_pass": true,
+  "strict_experiment_isolation_pass": true,
+  "one_plot_per_script_pass": true,
+  "strict_one_plot_per_script_pass": true,
+  "composite_audit_pass": true,
+  "pass": true,
+  "allowed_upstream_result_edges": [
+    "E23<-E22",
+    "E24<-E22",
+    "E24<-E23"
+  ]
+}

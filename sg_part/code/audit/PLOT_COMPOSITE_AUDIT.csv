@@ -1,0 +1,8 @@
+script,role,script_exists,status
+tools/build_appendix.py,appendix_document_and_figure_collection,True,pass
+tools/build_e22_subpanel_presentation.py,composite_figure,True,pass
+tools/build_supplementary_tables_s1_s4_s5.py,supplementary_tables_and_figures,True,pass
+tools/build_mixing_methods_report.py,report_with_embedded_leaf_figures,True,pass
+tools/replot_results_e20_e24.py,source_result_migration,True,pass
+plots/composites/build_publication_figures.py,publication_figure_collection,True,pass
+plots/composites/build_e22_subpanels.py,subpanel_collection,True,pass

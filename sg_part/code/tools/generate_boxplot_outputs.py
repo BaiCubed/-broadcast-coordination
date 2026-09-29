@@ -7,6 +7,7 @@ with an embedded box/median.  The input tables are never modified.
 from __future__ import annotations
 
 import json
+import argparse
 from pathlib import Path
 
 import matplotlib
@@ -16,8 +17,12 @@ from matplotlib.patches import Patch
 import numpy as np
 import pandas as pd
 
-from ncstyle import configure, C1, C2, C3, C4, C5, C6, INK, RULE, GRID, MIX_FILL, MIX_INK, FS_TITLE, FS_LABEL, FS_TICK, LW_AXIS, LW_OTHER
-from nckeys import DATASET_COLOURS, DATASET_LABELS
+try:
+    from tools.ncstyle import configure, C1, C2, C3, C4, C5, C6, INK, RULE, GRID, MIX_FILL, MIX_INK, FS_TITLE, FS_LABEL, FS_TICK, LW_AXIS, LW_OTHER
+    from tools.nckeys import DATASET_COLOURS, DATASET_LABELS
+except ModuleNotFoundError:
+    from ncstyle import configure, C1, C2, C3, C4, C5, C6, INK, RULE, GRID, MIX_FILL, MIX_INK, FS_TITLE, FS_LABEL, FS_TICK, LW_AXIS, LW_OTHER
+    from nckeys import DATASET_COLOURS, DATASET_LABELS
 
 configure()
 # The NC English face remains first; this local fallback prevents Chinese labels
@@ -51,6 +56,7 @@ def read(path: str) -> pd.DataFrame:
 def save(fig: plt.Figure, folder: Path, name: str) -> None:
     folder.mkdir(parents=True, exist_ok=True)
     fig.savefig(folder / f"{name}.png", dpi=240, bbox_inches="tight", facecolor="white")
+    fig.savefig(folder / f"{name}.pdf", bbox_inches="tight", facecolor="white")
     plt.close(fig)
 
 
@@ -129,9 +135,18 @@ def make_e1():
 
 
 def make_e20():
+    make_e20_n95()
+    make_e20_r2()
+
+
+def make_e20_n95():
     folder = OUTPUT / "01-e20-迁移N95与效果"; n = read("results/E20/fig3a_transfer/fig3a_transfer_n95_inflation.csv").melt(id_vars=["dataset"], var_name="method", value_name="inflation"); order=["in_domain","zero_shot","target_calibrated","pooled_ridge"]; labels={"in_domain":"In-domain","zero_shot":"Zero-shot","target_calibrated":"Calibrated","pooled_ridge":"Pooled ridge"}; n["method_label"]=n.method.map(labels)
     fig, ax=plt.subplots(figsize=(8.2,4.8)); distribution_axis(ax,[labels[x] for x in order],n,"method_label","inflation",{labels[x]:C2 for x in order}); ax.axhline(1,color=RULE,ls=(0,(3.5,2)),lw=LW_OTHER); ax.set_ylabel("N95 inflation relative to in-domain"); record("e20_n95_inflation_boxplot.png","results/E20/fig3a_transfer/fig3a_transfer_n95_inflation.csv",n,"method_label","inflation"); save(fig,folder,"e20_n95_inflation_boxplot")
-    c=read("results/E20/fig3a_transfer/fig3a_transfer_summary.csv"); fig,axes=plt.subplots(1,4,figsize=(15,4.2),sharey=True)
+
+
+def make_e20_r2():
+    folder = OUTPUT / "01-e20-迁移N95与效果"; c=read("results/E20/fig3a_transfer/fig3a_transfer_summary.csv"); order=["in_domain","zero_shot","target_calibrated","pooled_ridge"]; labels={"in_domain":"In-domain","zero_shot":"Zero-shot","target_calibrated":"Calibrated","pooled_ridge":"Pooled ridge"}
+    fig,axes=plt.subplots(1,4,figsize=(15,4.2),sharey=True)
     for ax,m in zip(axes,order):
         s=c[c.method==m].copy(); ns=sorted(s.N.unique()); distribution_axis(ax,ns,s,"N","R2",{x:C3 for x in ns}); ax.axhline(.95,color=RULE,ls=(0,(1,1.5)),lw=.8); ax.set_title(labels[m],fontsize=FS_TITLE); ax.tick_params(axis="x",labelrotation=60,labelsize=FS_TICK)
     axes[0].set_ylabel("Independent test $R^2$"); fig.supxlabel("Device count N"); record("e20_r2_vs_N_boxplot.png","results/E20/fig3a_transfer/fig3a_transfer_summary.csv",c,"N","R2"); save(fig,folder,"e20_r2_vs_N_boxplot")
@@ -177,16 +192,59 @@ def make_e23():
 
 
 def make_e24():
+    make_e24_metric("mean_reduction_pct", "Curtailment reduction (%)", "e24_effect_boxplot", "IEEE-123 algorithm effect")
+    make_e24_metric("network_acceptance_ratio", "Network acceptance ratio", "e24_network_acceptance_boxplot", "IEEE-123 network safety execution")
+
+
+def make_e24_metric(value: str, ylabel: str, name: str, title: str):
     folder=OUTPUT/"08-e24-IEEE123效果与安全"; d=read("results/E24/data/e24_ieee123_by_seed.csv"); d["group"]=d.algorithm.map(ALGORITHM_LABELS); alg=[a for a in ["no_coordination","local_rules","mpc_optimal","mean_field_control","virtual_battery","packetized_energy_management","transactive_control","eps_ieee69_fused","centralized_optimal"] if a in set(d.algorithm)]; labels=[ALGORITHM_LABELS[a] for a in alg]; cols={ALGORITHM_LABELS[a]:ALGORITHM_COLOURS.get(a,C2) for a in alg}; scenarios=list(d.scenario.drop_duplicates())
-    for val,y,name,title in [("mean_reduction_pct","Curtailment reduction (%)","e24_effect_boxplot","IEEE-123 algorithm effect"),("network_acceptance_ratio","Network acceptance ratio","e24_network_acceptance_boxplot","IEEE-123 network safety execution")]:
-        fig,axes=plt.subplots(1,len(scenarios),figsize=(17,5.1),sharey=True)
-        for ax,sc in zip(np.atleast_1d(axes),scenarios):
-            s=d[(d.scenario==sc)&d.group.isin(labels)]; distribution_axis(ax,labels,s,"group",val,cols); ax.set_title(str(sc),fontsize=FS_TITLE)
-        axes[0].set_ylabel(y); fig.supxlabel("Algorithm"); record(f"{name}.png","results/E24/data/e24_ieee123_by_seed.csv",d,val and "group",val); save(fig,folder,name)
+    fig,axes=plt.subplots(1,len(scenarios),figsize=(17,5.1),sharey=True)
+    for ax,sc in zip(np.atleast_1d(axes),scenarios):
+        s=d[(d.scenario==sc)&d.group.isin(labels)]; distribution_axis(ax,labels,s,"group",value,cols); ax.set_title(str(sc),fontsize=FS_TITLE)
+    axes[0].set_ylabel(ylabel); fig.supxlabel("Algorithm"); record(f"{name}.png","results/E24/data/e24_ieee123_by_seed.csv",d,"group",value); save(fig,folder,name)
+
+
+PLOTS = {
+    "e1_p_ctrl_boxplot_by_N": make_e1,
+    "e20_n95_inflation_boxplot": make_e20_n95,
+    "e20_r2_vs_N_boxplot": make_e20_r2,
+    "e21_raw_vs_mixed_algorithm_boxplot": make_e21_baseline,
+    "e21_pairwise_curtailment_boxplot": make_e21_pairwise,
+    "e21_pairwise_r2_vs_N_boxplot": make_e21_pairwise_r2,
+    "e21_gamma_r2_boxplot": make_e21_gamma,
+    "e22_ieee69_algorithm_boxplots": make_e22,
+    "e23_request_intensity_boxplot": lambda: make_e23_axis("request_intensity"),
+    "e23_line_derating_boxplot": lambda: make_e23_axis("line_derating"),
+    "e23_spatial_concentration_boxplot": lambda: make_e23_axis("spatial_concentration"),
+    "e24_effect_boxplot": lambda: make_e24_metric("mean_reduction_pct", "Curtailment reduction (%)", "e24_effect_boxplot", "IEEE-123 algorithm effect"),
+    "e24_network_acceptance_boxplot": lambda: make_e24_metric("network_acceptance_ratio", "Network acceptance ratio", "e24_network_acceptance_boxplot", "IEEE-123 network safety execution"),
+}
+
+
+def make_e23_axis(axis_name: str):
+    folder = OUTPUT / "07-e23-IEEE69压力曲线"; d = read("results/E23/data/e23_by_seed.csv"); d["group"] = d.algorithm.map(ALGORITHM_LABELS)
+    alg = [a for a in ["local_rules", "mpc_optimal", "mean_field_control", "virtual_battery", "packetized_energy_management", "transactive_control", "eps_ieee69_fused", "centralized_optimal"] if a in set(d.algorithm)]
+    fig, axes = plt.subplots(2, 4, figsize=(15, 7), sharey=True); sub = d[d.axis == axis_name]
+    for ax, algorithm in zip(axes.ravel(), alg):
+        subset = sub[sub.algorithm == algorithm]; pressure = sorted(subset.pressure_value.unique())
+        distribution_axis(ax, pressure, subset, "pressure_value", "mean_reduction_pct", {x: ALGORITHM_COLOURS.get(algorithm, C2) for x in pressure})
+        ax.set_title(ALGORITHM_LABELS[algorithm], fontsize=FS_TITLE); ax.tick_params(axis="x", labelrotation=60)
+    for ax in axes.ravel()[len(alg):]: ax.axis("off")
+    axes[0, 0].set_ylabel("Curtailment reduction (%)"); axes[1, 0].set_ylabel("Curtailment reduction (%)")
+    fig.supxlabel("Pressure parameter")
+    name = f"e23_{axis_name}_boxplot"; record(f"{name}.png", "results/E23/data/e23_by_seed.csv", sub, "pressure_value", "mean_reduction_pct"); save(fig, folder, name)
 
 
 def main():
-    make_e1(); make_e20(); make_e21_baseline(); make_e21_pairwise(); make_e21_pairwise_r2(); make_e21_gamma(); make_e22(); make_e23(); make_e24(); finish_summary(); print(f"重绘完成：{OUTPUT}")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--plot", choices=sorted(PLOTS), help="Build one logical plot")
+    args = parser.parse_args()
+    if args.plot:
+        PLOTS[args.plot]()
+    else:
+        make_e1(); make_e20(); make_e21_baseline(); make_e21_pairwise(); make_e21_pairwise_r2(); make_e21_gamma(); make_e22(); make_e23(); make_e24()
+        finish_summary()
+    print(f"Rebuilt {args.plot or 'all publication plots'} in {OUTPUT}")
 
 
 if __name__ == "__main__": main()

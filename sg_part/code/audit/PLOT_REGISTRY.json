@@ -1,0 +1,35 @@
+{
+  "leaf": [
+    {"script": "plots/leaf/e1_p_ctrl_boxplot_by_n.py", "logical_output": "00-e1-规模与可控概率/e1_p_ctrl_boxplot_by_N"},
+    {"script": "plots/leaf/e20_n95_inflation.py", "logical_output": "01-e20-迁移N95与效果/e20_n95_inflation_boxplot"},
+    {"script": "plots/leaf/e20_r2_vs_n.py", "logical_output": "01-e20-迁移N95与效果/e20_r2_vs_N_boxplot"},
+    {"script": "plots/leaf/e21_algorithm_effect.py", "logical_output": "02-e21-原始与混合算法效果/e21_raw_vs_mixed_algorithm_boxplot"},
+    {"script": "plots/leaf/e21_pairwise_curtailment.py", "logical_output": "03-e21-两两组合弃电率/e21_pairwise_curtailment_boxplot"},
+    {"script": "plots/leaf/e21_pairwise_r2.py", "logical_output": "04-e21-两两组合R2规模/e21_pairwise_r2_vs_N_boxplot"},
+    {"script": "plots/leaf/e21_gamma_r2.py", "logical_output": "05-e21-Gamma边界/e21_gamma_r2_boxplot"},
+    {"script": "plots/leaf/e22_algorithm_boxplots.py", "logical_output": "06-e22-IEEE69算法与R2/e22_ieee69_algorithm_boxplots"},
+    {"script": "plots/leaf/e23_request_intensity.py", "logical_output": "07-e23-IEEE69压力曲线/e23_request_intensity_boxplot"},
+    {"script": "plots/leaf/e23_line_derating.py", "logical_output": "07-e23-IEEE69压力曲线/e23_line_derating_boxplot"},
+    {"script": "plots/leaf/e23_spatial_concentration.py", "logical_output": "07-e23-IEEE69压力曲线/e23_spatial_concentration_boxplot"},
+    {"script": "plots/leaf/e24_effect.py", "logical_output": "08-e24-IEEE123效果与安全/e24_effect_boxplot"},
+    {"script": "plots/leaf/e24_network_acceptance.py", "logical_output": "08-e24-IEEE123效果与安全/e24_network_acceptance_boxplot"},
+    {"script": "plots/leaf/e22_acceptance.py", "logical_output": "figs/subpanel/00_ieee69_network_acceptance"},
+    {"script": "plots/leaf/e22_constraint_audit.py", "logical_output": "figs/subpanel/01_ieee69_constraint_audit"},
+    {"script": "plots/leaf/e22_effect_safety.py", "logical_output": "figs/subpanel/02_algorithm_effect_raw_vs_pairwise_mixed"},
+    {"script": "plots/leaf/e22_spatial_retention.py", "logical_output": "figs/subpanel/03_ieee69_spatial_retention"},
+    {"script": "plots/leaf/e22_topology_effect.py", "logical_output": "figs/subpanel/04_topology_effect_raw_vs_pairwise_mixed"},
+    {"script": "plots/leaf/e22_dataset_retention.py", "logical_output": "figs/subpanel/05_ieee69_dataset_algorithm_retention"},
+    {"script": "plots/leaf/e22_stress_lines.py", "logical_output": "figs/subpanel/06_ieee69_all_algorithms_m0_m6"},
+    {"script": "plots/leaf/e22_physical_boundary.py", "logical_output": "figs/subpanel/07_physical_to_computational_boundary"}
+  ],
+  "composites": [
+    {"script": "tools/build_appendix.py", "role": "appendix_document_and_figure_collection"},
+    {"script": "tools/build_e22_subpanel_presentation.py", "role": "composite_figure"},
+    {"script": "tools/build_supplementary_tables_s1_s4_s5.py", "role": "supplementary_tables_and_figures"},
+    {"script": "tools/build_mixing_methods_report.py", "role": "report_with_embedded_leaf_figures"},
+    {"script": "tools/replot_results_e20_e24.py", "role": "source_result_migration"},
+    {"script": "plots/composites/build_publication_figures.py", "role": "publication_figure_collection"},
+    {"script": "plots/composites/build_e22_subpanels.py", "role": "subpanel_collection"}
+  ],
+  "policy": "A leaf script owns one logical figure. PNG/PDF variants are one logical output. Composite scripts may consume leaf outputs and produce a collection or report. Source-result migration is traceability packaging, not a plot generator."
+}

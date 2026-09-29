@@ -7,7 +7,7 @@ Generated on 2026-09-29 from the local working tree. This report records the req
 ```text
 python scripts/check_release.py                         PASS
 python scripts/check_english_docs.py                    PASS
-python scripts/build_output_manifest.py                 PASS (1,894 reference artifacts)
+python scripts/build_output_manifest.py                 PASS (1,897 reference artifacts)
 python -m compileall -q src experiments tools generation   PASS
 python scripts/reproduce_tables.py                      PASS
 python scripts/reproduce_figures.py                     PASS
@@ -15,7 +15,7 @@ python scripts/verify_release.py                       PASS
 python tools/verify_outputs.py --output-root /does/not/exist  PASS (reference_not_bundled mode)
 ```
 
-The summary scripts regenerated two CSV summaries and four PNG/PDF release-level summary figures from the 14 mixed-scenario and 105 pairwise derived CSV files. Repeating the commands produced identical summary-table SHA-256 values. The independent composition self-test also passed against the local canonical caches for `S1-A` and `P001` in both unique and non-unique modes. The artifact manifest now maps 1,884 generated/reference-derived files to generators and identifies 10 editorial or imported assets separately.
+The summary scripts regenerated two CSV summaries and four PNG/PDF release-level summary figures from the 14 mixed-scenario and 105 pairwise derived CSV files. Repeating the commands produced identical summary-table SHA-256 values. The independent composition self-test also passed against the local canonical caches for `S1-A` and `P001` in both unique and non-unique modes. The artifact manifest now maps 1,884 generated/reference-derived files to generators and identifies 13 editorial or imported assets separately; the full current reference tree contains 1,897 files.
 
 ## Not executed in this draft
 

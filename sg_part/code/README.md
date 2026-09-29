@@ -24,6 +24,11 @@ The optional IEEE-123 OpenDSS validation requires `requirements-e24-multiphase.t
 - `scripts/run_reproduction.sh --artifacts`: regenerate plots, composite panels, Appendix, supplementary tables, presentations and reports from completed results.
 - `python tools/verify_outputs.py`: check generated files against `audit/OUTPUT_REPRODUCTION_MANIFEST.csv`.
 - `python scripts/verify_release.py`: verify the release-level summaries and figures without running long experiments.
+- `python scripts/audit_ownership.py`: audit strict one-experiment and one-plot ownership.
+- `python -m plots.leaf.e22_acceptance`: rebuild one leaf figure; the other
+  leaf scripts follow the same one-file/one-logical-output convention.
+- `python -m plots.composites.build_e22_subpanels`: combine the E22 leaf
+  figures into the subpanel collection.
 
 The runner creates a `code/data` link to the sibling release `data/` directory because the original experiment modules use the conventional `data/` path. Generated `results/`, `outputs/`, logs and checkpoints remain local and are ignored by the release `.gitignore`.
 
@@ -44,3 +49,11 @@ The estimator protocol is recorded in `config/reproducibility.json`: response-si
 ## Artifact mapping
 
 `audit/OUTPUT_REPRODUCTION_MANIFEST.csv` is generated from the reference `outputs/` tree and has one row per file. The `stage`, `generator`, and `command` columns provide the complete chain for Appendix assets, supplementary tables, composite figures, reports, publication figures, data-availability files, and the mirrored E20-E24 source figures. The manifest is the acceptance checklist; a missing generated artifact is a failed verification rather than an omitted result.
+
+Experiment ownership is explicit in `audit/EXPERIMENT_OWNERSHIP.json`. E23
+reads frozen E22 model/result artifacts and E24 reads frozen E22/E23
+artifacts; these declared data edges are allowed and do not share source code.
+Leaf plotting entrypoints under `plots/leaf/` each own one logical figure.
+Appendix, supplementary tables, presentations and reports are registered as
+composites that consume leaf figures. Run `python scripts/audit_ownership.py`
+to verify these rules.

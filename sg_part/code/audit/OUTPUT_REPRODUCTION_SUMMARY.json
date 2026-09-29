@@ -1,15 +1,16 @@
 {
-  "reference_root": "/home/heol/AI/own_implement/broadcast-coordination/outputs",
-  "artifact_count": 1894,
+  "reference_root": "outputs",
+  "artifact_count": 1897,
   "by_stage": {
-    "publication_figures": 35,
-    "metadata_or_manual": 10,
+    "publication_figures": 52,
+    "metadata_or_manual": 13,
     "supplementary_tables": 3,
     "appendix": 60,
     "data_availability": 150,
     "report": 6,
-    "composite_figures": 55,
+    "composite_figures": 38,
     "supplementary_figures": 3,
     "source_result_migration": 1572
-  }
+  },
+  "note": "The count reflects the current local reference outputs tree. Reproduced tables and figures remain ignored and are generated locally."
 }

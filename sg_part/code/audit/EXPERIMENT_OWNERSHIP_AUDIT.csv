@@ -1,0 +1,10 @@
+experiment,entrypoint,entrypoint_exists,owned_file_count,declared_inputs,status,duplicate_ownership
+E1,experiments/E1/run.py,True,1,data/generated_data,pass,
+E2,experiments/E2/run.py,True,1,data/generated_data,pass,
+E3,experiments/E3/run.py,True,1,data/generated_data,pass,
+E4,experiments/E4/run.py,True,1,data/generated_data,pass,
+E20,experiments/E20/run.py,True,1,data/generated_data;results/E1,pass,
+E21,experiments/E21/run.py,True,1,data/generated_data;results/E20,pass,
+E22,experiments/E22/run.py,True,1,data/generated_data;results/E20;results/E21,pass,
+E23,experiments/E23/run.py,True,1,data/generated_data;results/E22;results/E22/trained_eps_ieee69_direct/models,pass,
+E24,experiments/E24/run.py,True,1,data/generated_data;results/E22;results/E23;results/E23/models,pass,

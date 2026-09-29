@@ -47,7 +47,8 @@ def stage_data():
 
 def stage_e1_e4():
     run([sys.executable,'-m','tools.prepare_dataset_configs','--all'],name='prepare_dataset_configs')
-    run([sys.executable,'-m','src.extra.nc_excel_experiments.run','--protocol','src/extra/nc_excel_experiments/configs/protocol.yaml','--experiments','E1','E2','E3','E4'],name='e1_e4')
+    for experiment in ('E1', 'E2', 'E3', 'E4'):
+        run([sys.executable, '-m', f'experiments.{experiment}.run'], name=experiment.lower())
 
 def stage_e20_e24():
     # The runners reuse completed checkpoints when present and write manifests.
@@ -65,7 +66,8 @@ def stage_e20_e24():
 
 def stage_artifacts():
     commands=[
-      ('boxplots',['tools/generate_boxplot_outputs.py']),
+      ('publication_figures',['plots/composites/build_publication_figures.py']),
+      ('boxplots_compatibility',['tools/generate_boxplot_outputs.py']),
       ('replot_results',['tools/replot_results_e20_e24.py']),
       ('subpanel_figures',['tools/generate_e22_subpanel_figures.py']),
       ('subpanel_presentation',['tools/build_e22_subpanel_presentation.py']),
