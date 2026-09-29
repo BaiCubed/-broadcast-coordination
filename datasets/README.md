@@ -5,7 +5,7 @@
 <p><b>The public datasets behind the paper and the 119 mixed populations constructed from them</b></p>
 
 <p>
-<a href="#public-datasets"><img alt="Public datasets" src="https://img.shields.io/badge/Public%20datasets-15%20populations%20%2B%202%20reference-3A7BD5?style=for-the-badge"></a>
+<a href="#public-datasets"><img alt="Public datasets" src="https://img.shields.io/badge/Public%20datasets-15-3A7BD5?style=for-the-badge"></a>
 <a href="#mixed-populations"><img alt="Mixed populations" src="https://img.shields.io/badge/Mixed%20populations-119-7B4FC4?style=for-the-badge"></a>
 <a href="#integrity-checks"><img alt="Integrity checks" src="https://img.shields.io/badge/Integrity-SHA--256-2E9E6A?style=for-the-badge"></a>
 </p>
