@@ -2,7 +2,7 @@
 
 <h1>Datasets</h1>
 
-<p><b>The public datasets behind the paper and the 119 mixed populations constructed from them</b></p>
+**The $\color{#1F6FEB}{\textbf{public datasets}}$ behind the paper and the $\color{#8250DF}{\textbf{119 mixed populations}}$ constructed from them**
 
 <p>
 <a href="#public-datasets"><img alt="Public datasets" src="https://img.shields.io/badge/Public%20datasets-15-3A7BD5?style=for-the-badge"></a>
