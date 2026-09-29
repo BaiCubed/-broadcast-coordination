@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "derived_data/generated_data"
-CHECKSUMS = ROOT / "verification/release_summary_checksums.json"
+DATA = ROOT / "datasets/mixed_populations"
+CHECKSUMS = ROOT / "datasets/mixed_populations/summary_checksums.json"
 
 
 def _run(script: str, *args: str) -> None:
@@ -21,10 +21,10 @@ def _sha256(path: Path) -> str:
 
 
 def main() -> None:
-    _run("check_derived_data.py")
+    _run("check_mixed_populations.py")
     _run("check_english_docs.py", "--root", str(ROOT))
-    _run("summarize_derived_data.py")
-    _run("plot_derived_data.py")
+    _run("summarize_mixed_populations.py")
+    _run("plot_mixed_populations.py")
 
     scenarios = sorted((DATA / "mixed_scenarios").glob("*.csv"))
     pairwise = sorted((DATA / "pairwise").glob("*.csv"))
@@ -39,7 +39,7 @@ def main() -> None:
             raise SystemExit(f"Missing or empty reproduced artifact: {relative}")
         actual[relative] = _sha256(path)
     if actual != expected["sha256"]:
-        raise SystemExit("Summary table checksum mismatch; inspect verification/release_summary_checksums.json")
+        raise SystemExit("Summary table checksum mismatch; inspect datasets/mixed_populations/summary_checksums.json")
 
     for relative in expected["figure_files"]:
         path = ROOT / relative
@@ -48,7 +48,7 @@ def main() -> None:
 
     print(json.dumps({
         "status": "pass",
-        "scope": "release-level derived-data summaries and figures",
+        "scope": "summaries and figures of the 119 mixed populations",
         "scenario_csv_count": len(scenarios),
         "pairwise_csv_count": len(pairwise),
         "long_experiments_run": False,

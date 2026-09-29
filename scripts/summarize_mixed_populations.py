@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "derived_data/generated_data"
+DATA = ROOT / "datasets/mixed_populations"
 OUTPUT = ROOT / "reproduced_tables"
 
 
@@ -60,7 +60,7 @@ def main() -> None:
     _write(OUTPUT / "pairwise_summary.csv", pair_rows)
 
     manifest = {
-        "source": "derived_data/generated_data",
+        "source": "datasets/mixed_populations",
         "scenario_files": len(scenarios),
         "pairwise_files": len(pairwise),
         "outputs": ["scenario_algorithm_summary.csv", "pairwise_summary.csv"],

@@ -12,7 +12,7 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "derived_data/generated_data"
+DATA = ROOT / "datasets/mixed_populations"
 OUTPUT = ROOT / "reproduced_figures"
 
 
@@ -74,7 +74,7 @@ def main() -> None:
     axis.bar(np.arange(len(pair_ids)), pair_values, color="#1f6f8b")
     axis.set_xticks(np.arange(len(pair_ids)), pair_ids, rotation=90)
     axis.set_ylabel("Mean reduction (%)")
-    axis.set_title("Pairwise derived-data summary")
+    axis.set_title("Pairwise mixed-population summary")
     axis.grid(axis="y", alpha=0.25)
     _save(fig, "pairwise_reduction_summary")
     print(OUTPUT)

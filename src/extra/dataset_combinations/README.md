@@ -4,19 +4,19 @@ This standalone module builds the **119 constructed mixed populations** of the p
 
 The generator reads only the canonical device-day records of the 15 public datasets under `data/` (produced by `tools/data/preprocess.py`). It imports no experiment module, reads no experiment result and needs no trained model.
 
-## Relation to `derived_data/`
+## Relation to `datasets/mixed_populations/`
 
-The repository ships the constructed mixed-population datasets under [`derived_data/`](../../../derived_data):
+The repository ships the constructed mixed-population datasets under [`datasets/mixed_populations/`](../../../datasets/mixed_populations) (see [`datasets/README.md`](../../../datasets/README.md)):
 
 | Path | Content |
 |---|---|
-| `derived_data/generated_data/mixed_scenarios/<scenario>.csv` | one file per multi-source scenario (S1-A ... S6-C) |
-| `derived_data/generated_data/pairwise/P001.csv` ... `P105.csv` | one file per pairwise mixture |
-| `derived_data/index/scenario_seed_index.csv` | train, validation and 30 test seeds of every scenario and sampling mode |
-| `derived_data/index/pairwise_index.csv` | source pair, weights and seed formula of every pairwise mixture |
-| `derived_data/configuration/*.json` | generation, scenario, pairwise-seed, preprocessing and source configuration |
+| `datasets/mixed_populations/mixed_scenarios/<scenario>.csv` | one file per multi-source scenario (S1-A ... S6-C) |
+| `datasets/mixed_populations/pairwise/P001.csv` ... `P105.csv` | one file per pairwise mixture |
+| `datasets/mixed_populations/index/scenario_seed_index.csv` | train, validation and 30 test seeds of every scenario and sampling mode |
+| `datasets/mixed_populations/index/pairwise_index.csv` | source pair, weights and seed formula of every pairwise mixture |
+| `datasets/mixed_populations/configuration/*.json` | generation, scenario and pairwise-seed configuration |
 
-These files record the composition, seeds and simulated dispatch outcome of every population. This module regenerates the underlying device-level fleets from the public data with exactly the same seeds, source order and weights, which are fixed in [`constants.py`](constants.py) and mirrored in `derived_data/configuration/`.
+These files record the composition, seeds and simulated dispatch outcome of every population. This module regenerates the underlying device-level fleets from the public data with exactly the same seeds, source order and weights, which are fixed in [`constants.py`](constants.py) and mirrored in `datasets/mixed_populations/configuration/`.
 
 ## Sampling modes
 
@@ -69,7 +69,7 @@ python tools/data/build_combo_pools.py --seeds 0-29 --workers 16
 ## Fixed seeds
 
 - profile train / validation / test partition seed: `20260714`;
-- scenario seeds: one train seed, one validation seed and 30 test seeds per scenario, listed in `derived_data/index/scenario_seed_index.csv`;
+- scenario seeds: one train seed, one validation seed and 30 test seeds per scenario, listed in `datasets/mixed_populations/index/scenario_seed_index.csv`;
 - pairwise seed: `20260808 + pair_index * 100000 + seed_index`;
 - the dataset order, the numbering of the 105 pairs and the IEEE-33 zone map are fixed in `constants.py`.
 

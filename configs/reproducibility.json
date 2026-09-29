@@ -6,7 +6,7 @@
     "global_simulation_seed": 20260714,
     "fit_split_seed": 42,
     "test_seed_count": 30,
-    "paired_seeds": "derived_data/index/scenario_seed_index.csv",
+    "paired_seeds": "datasets/mixed_populations/index/scenario_seed_index.csv",
     "pair_seed_base": 20260808,
     "pair_seed_stride": 100000
   },

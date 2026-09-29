@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'data'
-DERIVED = ROOT / 'derived_data'
+PUBLIC = ROOT / 'datasets' / 'public_datasets'
 RESULTS = ROOT / 'results'
 OUTPUTS = ROOT / 'outputs'
 LOGS = ROOT / 'logs' / 'reproduction'
@@ -36,12 +36,12 @@ def ensure_layout():
     RESULTS.mkdir(exist_ok=True); OUTPUTS.mkdir(exist_ok=True)
 
 def stage_check():
-    run([sys.executable, 'scripts/check_derived_data.py'], name='check_derived_data')
+    run([sys.executable, 'scripts/check_mixed_populations.py'], name='check_mixed_populations')
     run([sys.executable, 'scripts/check_english_docs.py', '--root', str(ROOT)], name='check_english_docs')
     run([sys.executable, '-m', 'compileall', '-q', 'src', 'experiments', 'tools', 'scripts', 'figures'], name='compileall')
 
 def stage_data():
-    run([sys.executable, 'tools/data/preprocess.py', '--data-root', str(DATA), '--config', str(DERIVED / 'configuration/preprocessing_config.json')], name='preprocess')
+    run([sys.executable, 'tools/data/preprocess.py', '--data-root', str(DATA), '--config', str(PUBLIC / 'preprocessing_config.json')], name='preprocess')
     run(module('src.extra.dataset_combinations', 'all', '--data-root', str(DATA), '--output-root', str(DATA / 'dataset_combinations')), name='dataset_combinations')
     run([sys.executable, 'tools/data/prepare_dataset_configs.py', '--all'], name='prepare_dataset_configs')
 

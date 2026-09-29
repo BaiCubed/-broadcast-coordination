@@ -25,7 +25,7 @@ def _under_data_root(value: str, data_root: Path) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build the canonical 288-point device-day caches from the official source data.")
     parser.add_argument("--data-root", type=Path, default=ROOT / "data")
-    parser.add_argument("--config", type=Path, default=ROOT / "derived_data/configuration/preprocessing_config.json")
+    parser.add_argument("--config", type=Path, default=ROOT / "datasets/public_datasets/preprocessing_config.json")
     parser.add_argument("--dataset", action="append")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()

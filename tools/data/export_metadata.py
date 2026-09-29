@@ -9,7 +9,8 @@ import sys
 REPO = Path(__file__).resolve().parents[2]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
-ROOT = REPO / "derived_data"
+ROOT = REPO / "datasets" / "mixed_populations"
+PUBLIC = REPO / "datasets" / "public_datasets"
 
 from src.extra.dataset_combinations.constants import (
     ALL_DATASETS,
@@ -144,7 +145,7 @@ def main() -> None:
         "weights": [0.5, 0.5],
     })
 
-    dump(ROOT / "configuration/source_metadata.json", {
+    dump(PUBLIC / "source_metadata.json", {
         "schema": "broadcast-coordination-source-metadata-v1",
         "distribution": "Source data are not included in this release.",
         "sources": {
@@ -155,7 +156,7 @@ def main() -> None:
             for dataset in ALL_DATASETS
         },
     })
-    dump(ROOT / "configuration/preprocessing_config.json", {
+    dump(PUBLIC / "preprocessing_config.json", {
         "schema": "broadcast-coordination-canonical-preprocessing-v1",
         "description": "Raw public data to canonical device-day cache parameters used by the final composition pipeline.",
         "canonical_cache_format": "NPZ with source_id, day_id, device_id, zone_id, bus_id and 288-point fields",

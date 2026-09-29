@@ -63,7 +63,6 @@ Reliable dispatch without continuous real-time device-level telemetry therefore 
 .
 ├── README.md                      this page
 ├── LICENSE                        MIT licence
-├── download_data.sh               one-command download of the 15 public datasets (+ 2 auxiliary sources) with checksum verification
 ├── environment.yml                conda environment (Python 3.10)
 ├── requirements.txt               pip dependencies
 ├── requirements-lock.txt          exact versions of the reported runs
@@ -71,8 +70,9 @@ Reliable dispatch without continuous real-time device-level telemetry therefore 
 ├── pyproject.toml                 package metadata
 ├── configs/
 │   └── reproducibility.json       seeds, data splits, estimator and device parameters, network scenarios
-├── derived_data/                  the 119 constructed mixed-population datasets, their indices and generation configuration
-├── verification/                  checksums of the derived-data summaries
+├── datasets/
+│   ├── public_datasets/           the 15 public datasets (+ 2 auxiliary sources): download with checksum verification, sources, preprocessing
+│   └── mixed_populations/         the 119 constructed mixed populations, their indices, configuration and checksums
 ├── src/
 │   ├── signal/                    broadcast encoding, decoding, optimization and validation
 │   ├── edge/                      battery model, device constraints and local state machine
@@ -90,7 +90,7 @@ Reliable dispatch without continuous real-time device-level telemetry therefore 
 │   ├── data/                      preprocessing, per-dataset configurations and mixed-population device pools
 │   ├── protocols/                 protocol generation for mixed populations, feeder topologies and availability families
 │   └── analysis/                  frozen-test R^2 and N95 readout
-├── scripts/                       reproduction drivers, smoke test and derived-data checks
+├── scripts/                       reproduction drivers, smoke test and mixed-population checks
 ├── figures/                       figure scripts for Figs. 2-5 and S1-S41, style modules and table generator
 ├── experiments/                   synthetic-population command-line runner
 └── tests/                         unit tests
@@ -137,18 +137,25 @@ pip install -r requirements-opendss.txt
 
 ## <img src="assets/icons/data.svg" width="28" align="top" alt=""> Data
 
-### The 15 published populations
+All data of the study are in [`datasets/`](datasets), organised in two folders. The complete guide, with every source, the acquisition steps, the scenario compositions and the file formats, is [`datasets/README.md`](datasets/README.md).
+
+| Folder | Content | In this repository |
+|---|---|---|
+| [`datasets/public_datasets/`](datasets/public_datasets) | the **15 original public datasets** (plus 2 auxiliary sources): official sources, a one-command download with checksum verification, and the preprocessing configuration | acquisition tools and metadata |
+| [`datasets/mixed_populations/`](datasets/mixed_populations) | the **119 constructed mixed populations**: 14 multi-source scenarios and 105 pairwise mixtures, with indices, generation configuration and checksums | included in full (about 29 MB) |
+
+### The 15 public datasets
 
 > [!NOTE]
-> The original public datasets are **not redistributed** here: each is governed by its provider's licence, and together they exceed what a code repository should hold. Instead, the repository gives the official source of every dataset, a one-command download with checksum verification, and the complete preprocessing that turns the raw files into the canonical device-day records used by all experiments.
+> The original public datasets are obtained from their providers rather than copied into this repository: each is governed by its provider's licence. The download script fetches every file from the official source and verifies it against a recorded SHA-256 or MD5 checksum, and the preprocessing turns the raw files into the canonical device-day records used by all experiments.
 
 ```bash
-bash download_data.sh                                        # downloads into data/ and verifies SHA-256 / MD5 checksums
-python tools/data/preprocess.py                              # raw files -> canonical device-day records
-python tools/data/prepare_dataset_configs.py --all           # per-dataset simulation configurations
+bash datasets/public_datasets/download.sh               # download into data/ and verify SHA-256 / MD5 checksums
+python tools/data/preprocess.py                         # raw files -> canonical device-day records
+python tools/data/prepare_dataset_configs.py --all      # per-dataset simulation configurations
 ```
 
-| Population (Supplementary Table S1) | Resource / signal | Resolution | Sources | Directory under `data/` | Official source |
+| Dataset (Supplementary Table S1) | Resource / signal | Resolution | Sources used | Directory under `data/` | Official source |
 |---|---|---|---:|---|---|
 | BDG1 | building electricity | 1 h | 507 | `bdg1_building_data_genome` | [Building Data Genome 1](https://github.com/buds-lab/the-building-data-genome-project) |
 | Low Carbon London | household electricity | 30 min | 5,000 | `low_carbon_london` | [London Datastore](https://data.london.gov.uk/download/vqm0d/3527bf39-d93e-4071-8451-df2ade1ea4f2/LCL-FullData.zip) |
@@ -166,28 +173,33 @@ python tools/data/prepare_dataset_configs.py --all           # per-dataset simul
 | OPSD | household multi-channel | 15 min | 11 | `opsd_household_data` | [Open Power System Data](https://data.open-power-system-data.org/household_data/opsd-household_data-2020-04-15.zip) |
 | COMPLETE-EC | community load/PV/BESS/EV | 15 min | 250 | `complete_energy_community` | [doi:10.5281/zenodo.7602546](https://doi.org/10.5281/zenodo.7602546) |
 
-Two further sources of Supplementary Table S1 are downloaded by the same script: **NextGen**, the device-day battery calibration population of the feeder simulation ([doi:10.5281/zenodo.14885589](https://doi.org/10.5281/zenodo.14885589), `data/nextgen`), and **data2**, measured EV charging sessions ([doi:10.17632/c7gg94tmvz.3](https://doi.org/10.17632/c7gg94tmvz.3), `data/data2`). Together with the 15 populations they form the 17 dataset configurations of the IEEE-69 audit (Supplementary Fig. S41).
+Two auxiliary sources of Supplementary Table S1 are downloaded by the same script: **NextGen**, the device-day battery calibration population of the feeder simulation ([doi:10.5281/zenodo.14885589](https://doi.org/10.5281/zenodo.14885589), `data/nextgen`), and **data2**, measured EV charging sessions ([doi:10.17632/c7gg94tmvz.3](https://doi.org/10.17632/c7gg94tmvz.3), `data/data2`). Together with the 15 datasets they form the 17 dataset configurations of the IEEE-69 audit (Supplementary Fig. S41).
 
 Notes on acquisition:
 
-- The source list, local paths and adapter parameters are in [`derived_data/configuration/source_metadata.json`](derived_data/configuration/source_metadata.json) and [`derived_data/configuration/preprocessing_config.json`](derived_data/configuration/preprocessing_config.json).
+- The official source, local path and reader of every dataset are in [`source_metadata.json`](datasets/public_datasets/source_metadata.json); unit conversions, resampling and battery-parameter fallbacks are in [`preprocessing_config.json`](datasets/public_datasets/preprocessing_config.json).
 - Archives in RAR format (European LV rural and urban-35k) need `bsdtar`, `7z` or `unar`. If the Irish CER file cannot be fetched automatically, the script prints the page and file name for a manual download.
-- `download_data.sh` skips files that are already present and re-verifies their checksums, so it can be re-run safely. `tools/data/par_download.py` and `tools/data/segmented_fetch.py` are optional parallel and segmented downloaders for slow links.
+- The download script skips files that are already present and re-verifies their checksums, so it can be re-run safely. `tools/data/par_download.py` and `tools/data/segmented_fetch.py` are optional parallel and segmented downloaders for slow links.
 - Please cite the original data providers; the references are listed with Supplementary Table S1.
 
 ### The 119 constructed mixed populations (included)
 
-The mixed populations are controlled recombinations of the 15 published sources and are **included in this repository** under [`derived_data/`](derived_data):
+The mixed populations are controlled recombinations of the 15 public datasets and are **included in this repository** under [`datasets/mixed_populations/`](datasets/mixed_populations): **14 multi-source scenarios** `S1-A` to `S6-C` (Supplementary Table S2), each drawing devices from 3 to 15 datasets with fixed nominal weights, and **105 pairwise mixtures** `P001` to `P105`, one for every pair of the 15 datasets with equal 50/50 weights.
 
 | Path | Content |
 |---|---|
-| [`derived_data/generated_data/mixed_scenarios/`](derived_data/generated_data/mixed_scenarios) | 14 multi-source populations, scenario S1-A to scenario S6-C (Supplementary Table S2), one CSV each |
-| [`derived_data/generated_data/pairwise/`](derived_data/generated_data/pairwise) | 105 pairwise 50/50 populations, `P001.csv` to `P105.csv` |
-| [`derived_data/index/`](derived_data/index) | pair index and seed index of every population, partition and test seed |
-| [`derived_data/configuration/`](derived_data/configuration) | generation, scenario, pairwise-seed, preprocessing and source configuration |
-| [`derived_data/SHA256SUMS`](derived_data/SHA256SUMS) | checksums of every file above |
+| [`mixed_scenarios/`](datasets/mixed_populations/mixed_scenarios) | the 14 multi-source scenarios, one CSV each (600 rows: 30 test seeds x 10 methods x 2 network modes) |
+| [`pairwise/`](datasets/mixed_populations/pairwise) | the 105 pairwise mixtures, `P001.csv` to `P105.csv` (30 rows: 30 test seeds) |
+| [`index/`](datasets/mixed_populations/index) | pair index and seed index of every population, partition and test seed |
+| [`configuration/`](datasets/mixed_populations/configuration) | generation, scenario and pairwise-seed configuration |
+| [`SHA256SUMS`](datasets/mixed_populations/SHA256SUMS) | checksums of every file above |
 
-Each CSV records, for every one of the 30 paired test seeds, the composition of that population and its simulated dispatch outcome: the scenario files give the nominal and actual source weights, device counts per source, fleet and algorithm seeds for ten methods under aggregate and IEEE-33 network modes; the pairwise files give the two sources, their weights and device counts and the pairwise seed under the aggregate mode. The scenario labels S1-A to S6-C are the scenario names of Supplementary Table S2 and are unrelated to the numbering of the Supplementary Figures. The device-level fleets themselves are regenerated deterministically from the public data with `python -m src.extra.dataset_combinations all` (see [`src/extra/dataset_combinations/README.md`](src/extra/dataset_combinations/README.md)).
+Each row records, for one paired test seed, the composition of the population (nominal and actual source weights, device counts per source, fleet size), its seeds and its simulated dispatch outcome (curtailment before and after dispatch, absorbed energy, reduction, availability, network scale and violations). The scenario compositions are listed in [`datasets/README.md`](datasets/README.md#mixed-populations). The scenario codes `S1-A` to `S6-C` are the scenario names of Supplementary Table S2 and are unrelated to the numbering of the Supplementary Figures. The device-level fleets are regenerated deterministically from the public data with `python -m src.extra.dataset_combinations all` (see [`src/extra/dataset_combinations/README.md`](src/extra/dataset_combinations/README.md)), and the included files are checked with
+
+```bash
+(cd datasets/mixed_populations && sha256sum -c SHA256SUMS)
+python scripts/check_mixed_populations.py
+```
 
 ### Source Data
 
@@ -205,12 +217,12 @@ Each CSV records, for every one of the 30 paired test seeds, the composition of 
 export PYTHONPATH="$PWD"
 
 python -m pytest tests -q -o addopts=""        # unit tests
-python scripts/check_derived_data.py           # 14 + 105 mixed-population files present and well formed
-python scripts/verify_derived_data.py          # rebuild summary tables and figures from derived_data/ and compare checksums
-(cd derived_data && sha256sum -c SHA256SUMS)   # file-level integrity of the included data
+python scripts/check_mixed_populations.py           # 14 + 105 mixed-population files present and well formed
+python scripts/verify_mixed_populations.py          # rebuild summary tables and figures from the mixed populations and compare checksums
+(cd datasets/mixed_populations && sha256sum -c SHA256SUMS)   # file-level integrity of the included data
 ```
 
-`verify_derived_data.py` writes `reproduced_tables/` and `reproduced_figures/` and compares the summary tables with [`verification/release_summary_checksums.json`](verification/release_summary_checksums.json).
+`verify_mixed_populations.py` writes `reproduced_tables/` and `reproduced_figures/` and compares the summary tables with [`datasets/mixed_populations/summary_checksums.json`](datasets/mixed_populations/summary_checksums.json).
 
 With the public data downloaded and preprocessed, the minimal validation cases of the population-scale experiments (all except E4) run in minutes:
 
@@ -224,7 +236,7 @@ bash scripts/run_smoke.sh
 
 ### How the pieces fit together
 
-1. **Data.** `download_data.sh`, `tools/data/preprocess.py` and `tools/data/prepare_dataset_configs.py --all` (see [Data](#data)). The mixed populations additionally need their device-level fleets and pools:
+1. **Data.** `datasets/public_datasets/download.sh`, `tools/data/preprocess.py` and `tools/data/prepare_dataset_configs.py --all` (see [Data](#data)). The mixed populations additionally need their device-level fleets and pools:
 
    ```bash
    python -m src.extra.dataset_combinations all
@@ -462,8 +474,8 @@ python -m figures.make_supplementary_network_figures      # writes figures/out/F
 
 | Table | Title | Source |
 |---|---|---|
-| S1 | Empirical population characteristics, standardized variables and data features | compiled from the dataset documentation; the adapter parameters behind it are in [`preprocessing_config.json`](derived_data/configuration/preprocessing_config.json) |
-| S2 | Mixed-Fleet Data Construction | compiled; the compositions are fixed in [`scenario_config.json`](derived_data/configuration/scenario_config.json), [`pairwise_seed_config.json`](derived_data/configuration/pairwise_seed_config.json) and [`constants.py`](src/extra/dataset_combinations/constants.py) |
+| S1 | Empirical population characteristics, standardized variables and data features | compiled from the dataset documentation; the adapter parameters behind it are in [`preprocessing_config.json`](datasets/public_datasets/preprocessing_config.json) |
+| S2 | Mixed-Fleet Data Construction | compiled; the compositions are fixed in [`scenario_config.json`](datasets/mixed_populations/configuration/scenario_config.json), [`pairwise_seed_config.json`](datasets/mixed_populations/configuration/pairwise_seed_config.json) and [`constants.py`](src/extra/dataset_combinations/constants.py) |
 | S3 | Experimental design space and simulation coverage | **generated**: `python figures/tables/make_supplementary_tables.py` → `figures/tables/Supplementary_Tables_S3_S4.docx` |
 | S4 | Population evolution and perturbation protocols | **generated** by the same script |
 | S5 | Control strategies, required inputs, complexity and limitations | compiled from the controller implementations in [`reference_controllers.py`](src/extra/ieee33_device_day_simulation/network_experiments/reference_controllers.py) and [`network_dispatch_protocol.py`](src/extra/ieee33_device_day_simulation/network_experiments/network_dispatch_protocol.py) |
@@ -476,7 +488,7 @@ python -m figures.make_supplementary_network_figures      # writes figures/out/F
 
 | Stage | What it runs |
 |---|---|
-| `--check` | derived-data check, English-documentation check, byte-compilation of all code |
+| `--check` | mixed-population check, English-documentation check, byte-compilation of all code |
 | `--data` | preprocessing of the downloaded datasets, generation of the 119 mixed-population fleets, per-dataset configurations |
 | `--population` | every population experiment of Figs. 2-4 and S1-S22 on the 15 published populations, each with its own configuration from the [experiment index](#experiment-index) (the mixed-population batches and the feeder-topology arms are launched separately, see below) |
 | `--network-inputs` | E1 on the extended scale grid, per-dataset feeder experiments and network baselines, the shared dispatch protocol |
@@ -485,11 +497,11 @@ python -m figures.make_supplementary_network_figures      # writes figures/out/F
 | `--all` | every stage above, in order |
 
 ```bash
-bash download_data.sh
+bash datasets/public_datasets/download.sh
 bash scripts/run_reproduction.sh --all
 ```
 
-The population-scale figures (Figs. 2-4, S1-S23) use the per-experiment configurations of the [experiment index](#experiment-index); [`scripts/run_main_experiments.sh`](scripts/run_main_experiments.sh) launches E1, E2, phase coherence and E4 in the background, [`scripts/run_supp.sh`](scripts/run_supp.sh) launches the long-horizon, response-mechanism and capacity-concentration experiments, [`scripts/mix_campaign.sh`](scripts/mix_campaign.sh) runs the mixed-population variants of the second availability family and E4, and [`scripts/run_all.sh`](scripts/run_all.sh) runs `download_data.sh`, prepares the dataset configurations and then runs, in the foreground, the same eight population experiments as the `--population` stage.
+The population-scale figures (Figs. 2-4, S1-S23) use the per-experiment configurations of the [experiment index](#experiment-index); [`scripts/run_main_experiments.sh`](scripts/run_main_experiments.sh) launches E1, E2, phase coherence and E4 in the background, [`scripts/run_supp.sh`](scripts/run_supp.sh) launches the long-horizon, response-mechanism and capacity-concentration experiments, [`scripts/mix_campaign.sh`](scripts/mix_campaign.sh) runs the mixed-population variants of the second availability family and E4, and [`scripts/run_all.sh`](scripts/run_all.sh) runs `datasets/public_datasets/download.sh`, prepares the dataset configurations and then runs, in the foreground, the same eight population experiments as the `--population` stage.
 
 ### Runtime and hardware
 
@@ -497,7 +509,7 @@ The reported runs used Python 3.10 on Ubuntu 22.04 with a 144-core CPU and 976 G
 
 | Task | Typical wall time on the reported machine |
 |---|---|
-| Unit tests, derived-data verification | about a minute |
+| Unit tests, mixed-population verification | about a minute |
 | Smoke suite (`scripts/run_smoke.sh`) | minutes |
 | Download and preprocessing of the 15 datasets | hours, dominated by download speed |
 | One population-scale experiment on the 15 published populations | hours |
@@ -522,9 +534,9 @@ Everything that determines a result is stored in version-controlled files: popul
 | E2 repetitions | 10 calibration and 24 test repetitions per condition; four waveforms, three delay distributions, homogeneity 0 to 1 | `e2` block of [`E2_controller_synchronization.yaml`](src/extra/population_experiments/configs/E2_controller_synchronization.yaml) |
 | E4 drift protocol | affected fractions 0.2, 0.5, 0.8; abrupt and gradual drift; 50 conditions per aggregate-sampling window | `e4` block of [`E4_controller_drift.yaml`](src/extra/population_experiments/configs/E4_controller_drift.yaml) |
 | Criteria | $R^2 \ge 0.95$ for prediction; NRMSE $\le 0.10$, sign consistency $\ge 0.95$ and $p_{\mathrm{ctrl}} \ge 0.90$ for control | control criteria: `common` block of each configuration; prediction criterion: `--threshold` (default 0.95) of `tools/analysis/predictability_readout.py` |
-| Profile partition seed of the mixed populations | 20260714 (train / validation / test partition of device profiles) | [`generation_config.json`](derived_data/configuration/generation_config.json) |
-| Test seeds of the mixed populations | 30 per population and sampling mode; scenario seeds listed in [`scenario_seed_index.csv`](derived_data/index/scenario_seed_index.csv) | [`scenario_config.json`](derived_data/configuration/scenario_config.json) |
-| Pairwise seed | `20260808 + pair_index * 100000 + seed_index` | [`pairwise_index.csv`](derived_data/index/pairwise_index.csv) |
+| Profile partition seed of the mixed populations | 20260714 (train / validation / test partition of device profiles) | [`generation_config.json`](datasets/mixed_populations/configuration/generation_config.json) |
+| Test seeds of the mixed populations | 30 per population and sampling mode; scenario seeds listed in [`scenario_seed_index.csv`](datasets/mixed_populations/index/scenario_seed_index.csv) | [`scenario_config.json`](datasets/mixed_populations/configuration/scenario_config.json) |
+| Pairwise seed | `20260808 + pair_index * 100000 + seed_index` | [`pairwise_index.csv`](datasets/mixed_populations/index/pairwise_index.csv) |
 | Network simulation seed and paired seeds | global seed 20260714; 30 paired seeds shared by all methods within a condition | [`configs/reproducibility.json`](configs/reproducibility.json) |
 | Aggregate-response estimator | 70% fit / 30% conformal calibration, response-sign stratified, NN validation 10% with seed 42; calibration data never used for weight fitting | same file, `data_split.estimator` |
 | Network scenarios | M0-M6 (IEEE-69), request, line-pressure and spatial-concentration sweeps, four IEEE-123 placements | same file, `scenarios` |

@@ -3,8 +3,8 @@ set -o pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/_common.sh"
 
 echo "=== [$(stamp)] stage 1: verify checksums and extract archives ==="
-bash download_data.sh > "$LOGS/verify_extract.log" 2>&1
-echo "download_data.sh exit=$? at $(stamp)"
+bash datasets/public_datasets/download.sh > "$LOGS/verify_extract.log" 2>&1
+echo "download exit=$? at $(stamp)"
 tail -25 "$LOGS/verify_extract.log"
 
 echo "=== [$(stamp)] stage 2: per-dataset configurations ==="

@@ -87,7 +87,7 @@ The population-figure scripts (`make_fig2.py`, `make_fig2a.py`, `make_fig3.py`, 
 | `E1_feeder_topology/{ieee33,ieee69,ieee123}` | E1 mixed under the IEEE feeders | `results/E1_feeder_topology/<feeder>/E1_population_scale` |
 | `E1_feeder_topology/published` | E1 mixed on the reference feeder | `results/E1_population_scale_mixed_s00/E1_population_scale` |
 | `dataset_metadata.csv` | population inventory, one row per published population: `dataset, short, resource_type, unique_sources, unique_sources_note` | shipped in this repository (the population inventory of Supplementary Table S1) |
-| `E1_population_scale_mixed/mixture_composition.csv` | nominal source weights of each mixed population: `combo, source, weight` (335 rows for the 119 populations) | shipped in this repository (derived from `derived_data/configuration/scenario_config.json` and `derived_data/index/pairwise_index.csv`) |
+| `E1_population_scale_mixed/mixture_composition.csv` | nominal source weights of each mixed population: `combo, source, weight` (335 rows for the 119 populations) | shipped in this repository (derived from `datasets/mixed_populations/configuration/scenario_config.json` and `datasets/mixed_populations/index/pairwise_index.csv`) |
 
 ```bash
 mkdir -p figures/data/E1_feeder_topology

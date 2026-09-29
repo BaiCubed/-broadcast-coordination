@@ -6,7 +6,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "derived_data"
+DATA = ROOT / "datasets/mixed_populations"
+PUBLIC = ROOT / "datasets/public_datasets"
 
 
 def main() -> None:
@@ -20,6 +21,9 @@ def main() -> None:
         DATA / "configuration/scenario_config.json",
         DATA / "index/scenario_seed_index.csv",
         DATA / "index/pairwise_index.csv",
+        PUBLIC / "source_metadata.json",
+        PUBLIC / "preprocessing_config.json",
+        PUBLIC / "download.sh",
     ]
     missing = [str(path.relative_to(ROOT)) for path in required if not path.is_file()]
     if missing:
@@ -32,8 +36,8 @@ def main() -> None:
     if protocol["neural_network"]["hidden_layers"] != [128, 64, 32]:
         raise SystemExit("Unexpected neural-network architecture")
 
-    scenario_files = sorted((DATA / "generated_data/mixed_scenarios").glob("*.csv"))
-    pair_files = sorted((DATA / "generated_data/pairwise").glob("*.csv"))
+    scenario_files = sorted((DATA / "mixed_scenarios").glob("*.csv"))
+    pair_files = sorted((DATA / "pairwise").glob("*.csv"))
     if len(scenario_files) != 14 or len(pair_files) != 105:
         raise SystemExit(f"Expected 14 scenario and 105 pairwise CSVs, got {len(scenario_files)} and {len(pair_files)}")
 
@@ -48,7 +52,7 @@ def main() -> None:
             if next(reader, None) is None:
                 raise SystemExit(f"CSV has no data rows: {path}")
 
-    print(f"derived-data check passed: {len(scenario_files)} scenarios, {len(pair_files)} pairwise files")
+    print(f"mixed-population check passed: {len(scenario_files)} scenarios, {len(pair_files)} pairwise files")
 
 
 if __name__ == "__main__":
