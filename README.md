@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="Population scale enables reliable dispatch of distributed energy storage without real-time device-level sensing" width="100%">
+<h1>Population scale enables reliable dispatch of distributed energy storage without real-time device-level sensing</h1>
 
 <p><b>One broadcast signal, no routine device telemetry: when does a storage population become predictable, controllable and physically deliverable?</b></p>
 
