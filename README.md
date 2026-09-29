@@ -1,28 +1,35 @@
 <div align="center">
 
-<h1>Population scale enables reliable dispatch of distributed energy storage without real-time device-level sensing</h1>
+<img src="assets/banner.svg" alt="Population scale enables reliable dispatch of distributed energy storage without real-time device-level sensing" width="100%">
 
 <p><b>One broadcast signal, no routine device telemetry: when does a storage population become predictable, controllable and physically deliverable?</b></p>
 
 <p>
-<a href="https://www.python.org/"><img alt="Python 3.10" src="https://img.shields.io/badge/python-3.10-3776AB?logo=python&logoColor=white"></a>
-<a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-2EA043"></a>
+<img alt="Python 3.10" src="https://img.shields.io/badge/python-3.10-3776AB?style=flat-square&logo=python&logoColor=white">
+<img alt="NumPy" src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white">
+<img alt="SciPy" src="https://img.shields.io/badge/SciPy-8CAAE6?style=flat-square&logo=scipy&logoColor=white">
+<img alt="pandas" src="https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white">
+<img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white">
+<img alt="Matplotlib" src="https://img.shields.io/badge/Matplotlib-11557C?style=flat-square">
+<a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-2EA043?style=flat-square"></a>
 </p>
 
 <p>
-<a href="#overview">Overview</a> ·
-<a href="#installation">Installation</a> ·
-<a href="#data">Data</a> ·
-<a href="#quick-start">Quick start</a> ·
-<a href="#reproducing-the-paper">Reproducing the paper</a> ·
-<a href="#configurations-seeds-and-data-splits">Seeds and splits</a>
+<a href="#overview"><img alt="Overview" src="https://img.shields.io/badge/Overview-0E7C86?style=for-the-badge"></a>
+<a href="#installation"><img alt="Installation" src="https://img.shields.io/badge/Installation-2E9E6A?style=for-the-badge"></a>
+<a href="#data"><img alt="Data" src="https://img.shields.io/badge/Data-3A7BD5?style=for-the-badge"></a>
+<a href="#quick-start"><img alt="Quick start" src="https://img.shields.io/badge/Quick%20start-D6456B?style=for-the-badge"></a>
+<a href="#reproducing-the-paper"><img alt="Reproduce" src="https://img.shields.io/badge/Reproduce-7B4FC4?style=for-the-badge"></a>
+<a href="#configurations-seeds-and-data-splits"><img alt="Seeds and splits" src="https://img.shields.io/badge/Seeds%20and%20splits-C2571A?style=for-the-badge"></a>
 </p>
 
 </div>
 
 ---
 
-## Overview
+<a name="overview"></a>
+
+## <img src="assets/icons/overview.svg" width="28" align="top" alt=""> Overview
 
 Large populations of distributed energy storage can be coordinated through common signals, but it is not obvious when routine dispatch stays reliable without continuous real-time device-level telemetry. In the architecture studied here, the operator sends **one broadcast signal**, every device converts it locally into a power response from its own state, and **no device state returns to the operator during routine dispatch**. Registration, commissioning, offline calibration and aggregate-level monitoring remain available.
 
@@ -36,17 +43,21 @@ This repository contains the complete code for the data-informed simulations of 
 
 Reliable dispatch without continuous real-time device-level telemetry therefore requires four conditions together: sufficient effective scale, compatible local responses, a valid aggregate model and a feasible network state.
 
-## Highlights
+<a name="highlights"></a>
+
+## <img src="assets/icons/highlights.svg" width="28" align="top" alt=""> Highlights
 
 | Result | What the code reproduces | Figures |
 |---|---|---|
-| Predictability precedes control | The unexplained response fraction falls approximately as $a/(N+a)$ ($a$ = 4.84 for the 15 published populations, 4.63 for the 119 mixed populations); the median prediction threshold is $N_{95}$ = 89 devices; 14 of 15 published and 104 of 119 mixed populations reach it, while reliable control is reached later and less often | Fig. 2, S1-S8 |
-| Effective scale organizes control | Normalizing by the effective margin $\Gamma$ compresses the spread of the 50% control crossing from 2.3-fold to 1.4-fold (published) and from 2.5-fold to 1.7-fold (mixed) | Fig. 2g, S6-S9 |
-| Systematic structure limits averaging | Price-response and random-delay mechanisms do not reach the reliability criterion within the tested range; control generally degrades before excess synchronization becomes detectable | Fig. 3, S10-S15 |
-| Population evolution | Correlated and behavioural availability shrink $N_{\mathrm{eff}}$ far more than independent absence; after controller drift, the cumulative excess loss of a frozen model is 31x to 67x that of aggregate-only recalibration | Fig. 4, S16-S22 |
-| Network deliverability | Under 80% distal placement only 3.1-25.8% of the requested response remains feasible; EPS keeps 90.7%, 84.5% and 89.1% of the centralized greedy reference under 50% feeder concentration on IEEE-33, IEEE-69 and IEEE-123 | Fig. 5, S33-S41 |
+| <img src="assets/icons/n1.svg" width="22" height="22" align="top" alt="1">&nbsp;**Predictability precedes control** | The unexplained response fraction falls approximately as $a/(N+a)$ ($a$ = 4.84 for the 15 published populations, 4.63 for the 119 mixed populations); the median prediction threshold is $N_{95}$ = 89 devices; 14 of 15 published and 104 of 119 mixed populations reach it, while reliable control is reached later and less often | Fig. 2, S1-S8 |
+| <img src="assets/icons/n2.svg" width="22" height="22" align="top" alt="2">&nbsp;**Effective scale organizes control** | Normalizing by the effective margin $\Gamma$ compresses the spread of the 50% control crossing from 2.3-fold to 1.4-fold (published) and from 2.5-fold to 1.7-fold (mixed) | Fig. 2g, S6-S9 |
+| <img src="assets/icons/n3.svg" width="22" height="22" align="top" alt="3">&nbsp;**Systematic structure limits averaging** | Price-response and random-delay mechanisms do not reach the reliability criterion within the tested range; control generally degrades before excess synchronization becomes detectable | Fig. 3, S10-S15 |
+| <img src="assets/icons/n4.svg" width="22" height="22" align="top" alt="4">&nbsp;**Population evolution** | Correlated and behavioural availability shrink $N_{\mathrm{eff}}$ far more than independent absence; after controller drift, the cumulative excess loss of a frozen model is 31x to 67x that of aggregate-only recalibration | Fig. 4, S16-S22 |
+| <img src="assets/icons/n5.svg" width="22" height="22" align="top" alt="5">&nbsp;**Network deliverability** | Under 80% distal placement only 3.1-25.8% of the requested response remains feasible; EPS keeps 90.7%, 84.5% and 89.1% of the centralized greedy reference under 50% feeder concentration on IEEE-33, IEEE-69 and IEEE-123 | Fig. 5, S33-S41 |
 
-## Repository structure
+<a name="repository-structure"></a>
+
+## <img src="assets/icons/structure.svg" width="28" align="top" alt=""> Repository structure
 
 ```text
 .
@@ -85,7 +96,9 @@ Reliable dispatch without continuous real-time device-level telemetry therefore 
 └── tests/                         unit tests
 ```
 
-## Installation
+<a name="installation"></a>
+
+## <img src="assets/icons/installation.svg" width="28" align="top" alt=""> Installation
 
 The reported runs used Python 3.10 on Ubuntu 22.04, CPU only.
 
@@ -120,11 +133,14 @@ pip install -r requirements-opendss.txt
 
 **Fonts.** Figures were rendered with Arial. Without it, matplotlib falls back to Liberation Sans (metric compatible), Helvetica and DejaVu Sans; any `*.ttf` placed in `figures/fonts/` is registered automatically.
 
-## Data
+<a name="data"></a>
+
+## <img src="assets/icons/data.svg" width="28" align="top" alt=""> Data
 
 ### The 15 published populations
 
-The original public datasets are **not redistributed** here: each is governed by its provider's licence, and together they exceed what a code repository should hold. Instead, the repository gives the official source of every dataset, a one-command download with checksum verification, and the complete preprocessing that turns the raw files into the canonical device-day records used by all experiments.
+> [!NOTE]
+> The original public datasets are **not redistributed** here: each is governed by its provider's licence, and together they exceed what a code repository should hold. Instead, the repository gives the official source of every dataset, a one-command download with checksum verification, and the complete preprocessing that turns the raw files into the canonical device-day records used by all experiments.
 
 ```bash
 bash download_data.sh                                        # downloads into data/ and verifies SHA-256 / MD5 checksums
@@ -175,11 +191,15 @@ Each CSV records, for every one of the 30 paired test seeds, the composition of 
 
 ### Source Data
 
-Source Data for the figures are provided with the paper. [`figures/make_source_data.py`](figures/make_source_data.py) and [`figures/make_fig5.py`](figures/make_fig5.py) regenerate the underlying tables from the experiment outputs.
+> [!IMPORTANT]
+> Source Data for the figures are provided with the paper. [`figures/make_source_data.py`](figures/make_source_data.py) and [`figures/make_fig5.py`](figures/make_fig5.py) regenerate the underlying tables from the experiment outputs.
 
-## Quick start
+<a name="quick-start"></a>
 
-These checks run offline in about a minute and need no downloaded data.
+## <img src="assets/icons/quickstart.svg" width="28" align="top" alt=""> Quick start
+
+> [!TIP]
+> These checks run offline in about a minute and need no downloaded data.
 
 ```bash
 export PYTHONPATH="$PWD"
@@ -198,7 +218,9 @@ With the public data downloaded and preprocessed, the minimal validation cases o
 bash scripts/run_smoke.sh
 ```
 
-## Reproducing the paper
+<a name="reproducing-the-paper"></a>
+
+## <img src="assets/icons/reproduce.svg" width="28" align="top" alt=""> Reproducing the paper
 
 ### How the pieces fit together
 
@@ -246,7 +268,9 @@ NX=src.extra.ieee33_device_day_simulation.network_experiments
 
 Network modules are documented in [`src/extra/ieee33_device_day_simulation/network_experiments/README.md`](src/extra/ieee33_device_day_simulation/network_experiments/README.md). They need the per-dataset network baselines and the extended E1 grid first (stage `--network-inputs` below).
 
-### Figure 2 · Population-scale transitions in aggregate predictability and reliable control
+<a name="figure-2--population-scale-transitions-in-aggregate-predictability-and-reliable-control"></a>
+
+### <img src="assets/icons/fig2.svg" height="22" align="top" alt=""> Figure 2 · Population-scale transitions in aggregate predictability and reliable control
 
 ```bash
 $RUN --protocol $CFG/E1_population_scale.yaml --experiments E1
@@ -268,7 +292,9 @@ python figures/make_fig2a.py                               # panel a as a standa
 | 2g | $p_{\mathrm{ctrl}}$ versus effective margin $\Gamma$ | E1 | block above | `make_fig2.py` → `Fig2.pdf` |
 | 2h | Prediction and control threshold distributions, with censoring | E1 + readout | block above | `make_fig2.py` → `Fig2.pdf` |
 
-### Figure 3 · Systematic response structure limits reliable control despite population averaging
+<a name="figure-3--systematic-response-structure-limits-reliable-control-despite-population-averaging"></a>
+
+### <img src="assets/icons/fig3.svg" height="22" align="top" alt=""> Figure 3 · Systematic response structure limits reliable control despite population averaging
 
 ```bash
 $RUN --protocol $CFG/response_mechanisms_and_capacity_concentration.yaml --experiments response_mechanisms capacity_concentration
@@ -288,7 +314,9 @@ python figures/make_fig3.py
 | 3g | Phase coherence $H_{\mathrm{phase}}$ under two surrogates | phase coherence | `$RUN --protocol $CFG/phase_coherence.yaml --experiments phase_coherence` | `make_fig3.py` → `Fig3.pdf` |
 | 3h | Response fraction and $p_{\mathrm{ctrl}}$ at the largest $N$ | response mechanisms | as 3a | `make_fig3.py` → `Fig3.pdf` |
 
-### Figure 4 · Population evolution shifts effective scale and aggregate-model validity
+<a name="figure-4--population-evolution-shifts-effective-scale-and-aggregate-model-validity"></a>
+
+### <img src="assets/icons/fig4.svg" height="22" align="top" alt=""> Figure 4 · Population evolution shifts effective scale and aggregate-model validity
 
 ```bash
 $RUN --protocol $CFG/structured_availability.yaml --experiments structured_availability
@@ -307,7 +335,9 @@ python figures/make_fig4.py                                # also reads the E1 b
 | 4g | Recovered share $G$ versus cumulative aggregate-only uplink | E4 | as 4d | `make_fig4.py` → `Fig4.pdf` |
 | 4h | Cumulative excess loss | E4 | as 4d | `make_fig4.py` → `Fig4.pdf` |
 
-### Figure 5 · Network constraints limit the physical deliverability of aggregate flexibility
+<a name="figure-5--network-constraints-limit-the-physical-deliverability-of-aggregate-flexibility"></a>
+
+### <img src="assets/icons/fig5.svg" height="22" align="top" alt=""> Figure 5 · Network constraints limit the physical deliverability of aggregate flexibility
 
 Run the data, network-input and network stages of the full chain (they include every module below, in dependency order), then draw the figure:
 
@@ -330,7 +360,9 @@ Methods A-I of panel a: **A** no coordination, **B** local SOC rules, **C** MPC,
 | 5f | Curtailment reduction under regional mixing, type zoning, spatial concentration, type-density imbalance and network coupling | spatial heterogeneity | `python -m $NX.spatial_heterogeneity`<br>`python -m $NX.spatial_heterogeneity_trained_model` | `make_fig5.py` → `Fig5f_spatial_heterogeneity.pdf` |
 | 5g | Curtailment reduction under uniform, distal-feeder, distal-node and feeder concentration with reduced line capacity (IEEE-123) | IEEE-123 safety audit | `python -m $NX.ieee123_trained_model`<br>`python -m $NX.ieee123_safety_audit --model-source results/ieee123_safety_audit/trained_eps_ieee123_direct/models --workers 2 --seed-count 30 --bootstrap-draws 4000` | `make_fig5.py` → `Fig5g_ieee123_deployment.pdf`, composite `Fig5.pdf` |
 
-### Supplementary Figures S1-S23 (population experiments)
+<a name="supplementary-figures-s1-s23-population-experiments"></a>
+
+### <img src="assets/icons/figS1.svg" height="22" align="top" alt=""> Supplementary Figures S1-S23 (population experiments)
 
 All are drawn by one call, after the experiments listed in the table have been run and copied to `figures/data/` ([how](figures/README.md#figure-inputs)):
 
@@ -380,7 +412,9 @@ python figures/make_supplementary_figures.py               # writes figures/out/
 
 </details>
 
-### Supplementary Figures S24-S41 (network experiments)
+<a name="supplementary-figures-s24-s41-network-experiments"></a>
+
+### <img src="assets/icons/figS24.svg" height="22" align="top" alt=""> Supplementary Figures S24-S41 (network experiments)
 
 All are drawn by one call after the `--network` stage:
 
@@ -422,7 +456,9 @@ python -m figures.make_supplementary_network_figures      # writes figures/out/F
 
 `scripts/run_network_experiments.sh` re-runs the three audit experiments alone (`--ieee69-implementation`, `--stress-boundary`, `--ieee123-audit` or `--all`).
 
-### Supplementary Tables
+<a name="supplementary-tables"></a>
+
+### <img src="assets/icons/tables.svg" height="22" align="top" alt=""> Supplementary Tables
 
 | Table | Title | Source |
 |---|---|---|
@@ -469,9 +505,12 @@ The reported runs used Python 3.10 on Ubuntu 22.04 with a 144-core CPU and 976 G
 | Network stages (`--network-inputs`, `--network`) | days |
 | Any figure script, given its inputs | seconds to minutes |
 
-Set `dataset_workers` and `--workers` to the available cores; memory scales with the number of workers.
+> [!WARNING]
+> The complete chain takes days on the reported 144-core machine. Set `dataset_workers` and `--workers` to the available cores; memory scales with the number of workers.
 
-## Configurations, seeds and data splits
+<a name="configurations-seeds-and-data-splits"></a>
+
+## <img src="assets/icons/seeds.svg" width="28" align="top" alt=""> Configurations, seeds and data splits
 
 Everything that determines a result is stored in version-controlled files: population-experiment protocols in [`src/extra/population_experiments/configs/`](src/extra/population_experiments/configs), feeder, device and control settings in [`src/extra/ieee33_device_day_simulation/configs/`](src/extra/ieee33_device_day_simulation/configs), and the network-half protocol in [`configs/reproducibility.json`](configs/reproducibility.json). Each run also copies its resolved protocol to `results/<configuration>/config/`.
 
@@ -493,7 +532,9 @@ Everything that determines a result is stored in version-controlled files: popul
 
 Minimal validation cases for the population experiments (all except E4) are in [`src/extra/population_experiments/configs/smoke/`](src/extra/population_experiments/configs/smoke) and are run by [`scripts/run_smoke.sh`](scripts/run_smoke.sh).
 
-## Tests
+<a name="tests"></a>
+
+## <img src="assets/icons/tests.svg" width="28" align="top" alt=""> Tests
 
 ```bash
 python -m pytest tests -q -o addopts=""
@@ -505,6 +546,8 @@ The suite (356 tests) covers the broadcast encoder, decoder and validator, the b
 python -m src.extra.dataset_combinations.self_test --data-root data
 ```
 
-## License
+<a name="license"></a>
+
+## <img src="assets/icons/license.svg" width="28" align="top" alt=""> License
 
 The code and the constructed mixed-population data in this repository are released under the [MIT License](LICENSE). The public source datasets remain under the licences of their providers.
