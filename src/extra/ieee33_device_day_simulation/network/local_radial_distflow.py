@@ -48,12 +48,32 @@ class LocalRadialDistFlow:
         capacity_multiplier: float = 1.0,
         transformer_multiplier: float = 1.0,
         branch_deratings: dict[str, float] | None = None,
+        enforce_line_limit: bool = True,
+        enforce_transformer_limit: bool = True,
+        enforce_minimum_voltage: bool = True,
+        enforce_maximum_voltage: bool = True,
+        minimum_voltage_pu: float | None = None,
+        maximum_voltage_pu: float | None = None,
+        absolute_transformer_loading_limit: float | None = None,
     ) -> None:
         self.config = config
         self.name = str(config["name"])
         self.slack = int(config["slack_bus"])
         self.base_kv = float(config["base_kv"])
-        self.vmin, self.vmax = map(float, config["voltage_limits_pu"])
+        configured_vmin, configured_vmax = map(float, config["voltage_limits_pu"])
+        self.vmin = float(minimum_voltage_pu) if minimum_voltage_pu is not None else configured_vmin
+        self.vmax = float(maximum_voltage_pu) if maximum_voltage_pu is not None else configured_vmax
+        if self.vmin >= self.vmax:
+            raise ValueError("the minimum voltage must be lower than the maximum voltage")
+        self.enforce_line_limit = bool(enforce_line_limit)
+        self.enforce_transformer_limit = bool(enforce_transformer_limit)
+        self.enforce_minimum_voltage = bool(enforce_minimum_voltage)
+        self.enforce_maximum_voltage = bool(enforce_maximum_voltage)
+        self.absolute_transformer_loading_limit = (
+            None
+            if absolute_transformer_loading_limit is None
+            else float(absolute_transformer_loading_limit)
+        )
         self.dispatch_limit = float(config.get("dispatch_limit_fraction", 0.995))
         self.voltage_margin = float(config.get("dispatch_voltage_margin_pu", 0.0002))
         self.default_power_factor = float(config.get("power_factor", 0.95))
@@ -205,18 +225,25 @@ class LocalRadialDistFlow:
         )
 
     def _safe(self, current: RadialEvaluation, baseline: RadialEvaluation) -> bool:
-        for key, loading in current.branch_loading.items():
-            allowed = max(self.dispatch_limit, baseline.branch_loading[key])
-            if loading > allowed + 1e-8:
+        if self.enforce_line_limit:
+            for key, loading in current.branch_loading.items():
+                allowed = max(self.dispatch_limit, baseline.branch_loading[key])
+                if loading > allowed + 1e-8:
+                    return False
+        if self.enforce_transformer_limit:
+            allowed = (
+                self.absolute_transformer_loading_limit
+                if self.absolute_transformer_loading_limit is not None
+                else max(self.dispatch_limit, baseline.transformer_loading)
+            )
+            if current.transformer_loading > allowed + 1e-8:
                 return False
-        if current.transformer_loading > max(
-            self.dispatch_limit, baseline.transformer_loading
-        ) + 1e-8:
-            return False
         for bus, value in current.voltage_pu.items():
             lower = min(self.vmin + self.voltage_margin, baseline.voltage_pu[bus])
             upper = max(self.vmax - self.voltage_margin, baseline.voltage_pu[bus])
-            if value < lower - 1e-8 or value > upper + 1e-8:
+            if self.enforce_minimum_voltage and value < lower - 1e-8:
+                return False
+            if self.enforce_maximum_voltage and value > upper + 1e-8:
                 return False
         return True
 
@@ -327,24 +354,43 @@ class LocalRadialDistFlow:
             )
             if self._safe(evaluation, baseline):
                 break
-            overloaded = [
-                key
-                for key, value in evaluation.branch_loading.items()
-                if value > max(1.0, baseline.branch_loading[key]) + 1e-8
-            ]
+            overloaded = (
+                [
+                    key
+                    for key, value in evaluation.branch_loading.items()
+                    if value > max(1.0, baseline.branch_loading[key]) + 1e-8
+                ]
+                if self.enforce_line_limit
+                else []
+            )
             if overloaded:
                 worst = max(overloaded, key=lambda key: evaluation.branch_loading[key])
                 child = int(worst.split("-")[1])
                 region = self.descendants[child]
                 mask = np.isin(buses, tuple(region))
-            elif evaluation.transformer_loading > max(1.0, baseline.transformer_loading) + 1e-8:
+            elif (
+                self.enforce_transformer_limit
+                and evaluation.transformer_loading
+                > (
+                    self.absolute_transformer_loading_limit
+                    if self.absolute_transformer_loading_limit is not None
+                    else max(1.0, baseline.transformer_loading)
+                )
+                + 1e-8
+            ):
                 mask = np.ones(len(accepted), dtype=bool)
             else:
                 violating_buses = [
                     bus
                     for bus, value in evaluation.voltage_pu.items()
-                    if value < min(self.vmin, baseline.voltage_pu[bus]) - 1e-8
-                    or value > max(self.vmax, baseline.voltage_pu[bus]) + 1e-8
+                    if (
+                        self.enforce_minimum_voltage
+                        and value < min(self.vmin, baseline.voltage_pu[bus]) - 1e-8
+                    )
+                    or (
+                        self.enforce_maximum_voltage
+                        and value > max(self.vmax, baseline.voltage_pu[bus]) + 1e-8
+                    )
                 ]
                 if not violating_buses:
                     break

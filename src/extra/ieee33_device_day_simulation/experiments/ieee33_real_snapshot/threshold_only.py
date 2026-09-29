@@ -145,7 +145,7 @@ def main() -> None:
     config = load_config()
     root = Path(args.results_root)
     _threshold(config, args.mode, root)
-    from ...figures.plot_figures import plot_all
+    from ...dataset_figures.plot_figures import plot_all
     for figure in plot_all(root):
         print(figure)
 

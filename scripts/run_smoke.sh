@@ -9,15 +9,15 @@ echo "[$(stamp)] standalone mixture generator self-test"
 "$PYTHON_BIN" -m src.extra.dataset_combinations.self_test --data-root data
 
 echo "[$(stamp)] E1 smoke"
-"$PYTHON_BIN" -m src.extra.nc_excel_experiments.run --protocol "$CONFIGS/e1_smoke.yaml" --experiments E1
+"$PYTHON_BIN" -m src.extra.population_experiments.run --protocol "$CONFIGS/smoke/E1_population_scale.yaml" --experiments E1
 
-echo "[$(stamp)] E2 and E3 smoke"
-"$PYTHON_BIN" -m src.extra.nc_excel_experiments.run --protocol "$CONFIGS/e2e3_smoke.yaml" --experiments E2 E3
+echo "[$(stamp)] E2 and phase coherence smoke"
+"$PYTHON_BIN" -m src.extra.population_experiments.run --protocol "$CONFIGS/smoke/E2_controller_synchronization_and_phase_coherence.yaml" --experiments E2 phase_coherence
 
-echo "[$(stamp)] E6, E9, E15 and E13/E14 smoke"
-"$PYTHON_BIN" -m src.extra.nc_excel_experiments.run --protocol "$CONFIGS/protocol_e6_smoke.yaml" --experiments E6
-"$PYTHON_BIN" -m src.extra.nc_excel_experiments.run --protocol "$CONFIGS/protocol_e9_smoke.yaml" --experiments E9
-"$PYTHON_BIN" -m src.extra.nc_excel_experiments.run --protocol "$CONFIGS/protocol_e15_smoke.yaml" --experiments E15
-"$PYTHON_BIN" -m src.extra.nc_excel_experiments.run --protocol "$CONFIGS/protocol_supp_smoke.yaml" --experiments E13 E14
+echo "[$(stamp)] availability, long-horizon, response-mechanism and capacity-concentration smoke"
+"$PYTHON_BIN" -m src.extra.population_experiments.run --protocol "$CONFIGS/smoke/structured_availability.yaml" --experiments structured_availability
+"$PYTHON_BIN" -m src.extra.population_experiments.run --protocol "$CONFIGS/smoke/long_horizon_state.yaml" --experiments long_horizon_state
+"$PYTHON_BIN" -m src.extra.population_experiments.run --protocol "$CONFIGS/smoke/availability_second_family.yaml" --experiments availability_second_family
+"$PYTHON_BIN" -m src.extra.population_experiments.run --protocol "$CONFIGS/smoke/response_mechanisms_and_capacity_concentration.yaml" --experiments response_mechanisms capacity_concentration
 
 echo "[$(stamp)] smoke suite finished"

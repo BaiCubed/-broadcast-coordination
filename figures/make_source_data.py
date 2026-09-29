@@ -2,43 +2,45 @@
 from __future__ import annotations
 
 import os
+import sys
 
-import numpy as np
 import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import nckeys as K
+
 DATA = os.path.join(HERE, "data")
 OUT = os.path.join(HERE, "out", "source_data")
 os.makedirs(OUT, exist_ok=True)
 
 LARGE_MIN = 246
-MODE_ORDER = ["step", "ramp", "periodic", "rapid_changing"]
-DELAY_ORDER = ["fixed", "uniform", "lognormal"]
+WRITTEN = []
 
 
-def w(name, frame):
-    path = os.path.join(OUT, name)
-    frame.to_csv(path, index=False)
-    print(f"{name:34s} {len(frame):6d} rows")
+def write(name, frame):
+    frame.to_csv(os.path.join(OUT, name), index=False)
+    WRITTEN.append((name, len(frame)))
+
+
+def klass(frame, col="dataset"):
+    frame = frame.copy()
+    frame.insert(1, "resource_class", [K.CLASS[K.canon(x)] for x in frame[col]])
+    return frame
 
 
 def main():
-    meta = pd.read_csv(os.path.join(DATA, "dataset_metadata.csv"))
-    e1 = pd.read_csv(os.path.join(DATA, "e1", "summary.csv"))
-    dsum = pd.read_csv(os.path.join(DATA, "e1", "dataset_summary.csv"))
-    bound = pd.read_csv(os.path.join(DATA, "e1", "neff_boundaries.csv"))
-    r2 = pd.read_csv(os.path.join(DATA, "r2", "summary_r2_paper.csv"))
-    n95 = pd.read_csv(os.path.join(DATA, "r2", "n95_table_paper.csv"))
-    e13 = pd.read_csv(os.path.join(DATA, "e13", "source_data_E13.csv"))
-    e2 = pd.read_csv(os.path.join(DATA, "e2", "synchronization_summary.csv"))
-    e3 = pd.read_csv(os.path.join(DATA, "e3", "phase_summary.csv"))
-    win = pd.read_csv(os.path.join(DATA, "e3", "raw", "window_metrics.csv"))
-    mix = pd.read_csv(os.path.join(DATA, "e1_mix", "summary.csv"))
-    mixd = pd.read_csv(os.path.join(DATA, "e1_mix", "dataset_summary.csv"))
-    mixb = pd.read_csv(os.path.join(DATA, "e1_mix", "neff_boundaries.csv"))
-    mixc = pd.read_csv(os.path.join(DATA, "e1_mix", "mixture_composition.csv"))
+    e1 = pd.read_csv(os.path.join(DATA, "E1_population_scale", "summary.csv"))
+    dsum = pd.read_csv(os.path.join(DATA, "E1_population_scale", "dataset_summary.csv"))
+    bound = pd.read_csv(os.path.join(DATA, "E1_population_scale", "neff_boundaries.csv"))
+    r2 = pd.read_csv(os.path.join(DATA, "predictability_readout", "summary_r2_paper.csv"))
+    n95 = pd.read_csv(os.path.join(DATA, "predictability_readout", "n95_table_paper.csv"))
+    mix = pd.read_csv(os.path.join(DATA, "E1_population_scale_mixed", "summary.csv"))
+    mixd = pd.read_csv(os.path.join(DATA, "E1_population_scale_mixed", "dataset_summary.csv"))
+    mixb = pd.read_csv(os.path.join(DATA, "E1_population_scale_mixed", "neff_boundaries.csv"))
+    mixc = pd.read_csv(os.path.join(DATA, "E1_population_scale_mixed", "mixture_composition.csv"))
 
-    w("Fig1a_transition_map.csv",
+    write("Fig2a_transition_map.csv",
       r2[r2.arm == "data_coupled"].dropna(subset=["R2", "p_controllable"])
         [["dataset", "N", "R2", "R2_ci_lower", "R2_ci_upper", "p_controllable",
           "N_eff", "mean_nrmse"]].sort_values(["dataset", "N"]))
@@ -47,164 +49,164 @@ def main():
     counts = dc.groupby("N").R2.size()
     shared = counts[counts >= 8].index
     g = dc[dc.N.isin(shared)].groupby("N").R2
-    w("Fig1b_R2_vs_N.csv", pd.DataFrame({
+    write("Fig2b_d_R2_vs_N.csv", pd.DataFrame({
         "N": g.median().index, "R2_median": g.median().to_numpy(),
         "R2_q25": g.quantile(0.25).to_numpy(), "R2_q75": g.quantile(0.75).to_numpy(),
         "n_datasets": g.size().to_numpy()}))
-    w("Fig1b_R2_vs_N_per_dataset.csv",
+    write("Fig2b_d_R2_vs_N_per_dataset.csv",
       dc[["dataset", "N", "R2", "R2_ci_lower", "R2_ci_upper"]].sort_values(["dataset", "N"]))
 
-    w("Fig1c_N95_ecdf.csv",
+    write("Fig2e_N95_ecdf.csv",
       n95[["dataset", "N95", "N95_grid", "R2_at_crossing", "N_min", "N_max", "status"]]
       .sort_values("N95"))
 
-    w("Fig1d_CV_vs_Neff.csv",
+    write("Fig2c_CV_vs_Neff.csv",
       e1[["dataset", "arm", "N", "N_eff", "condition_cv"]].sort_values(["arm", "N_eff"]))
 
-    w("Fig1e_beta_both_arms.csv",
+    write("FigS4_beta_both_arms.csv",
       dsum[["dataset", "beta_decoupled", "beta_data_coupled",
             "beta_decoupled_ci_lower", "beta_decoupled_ci_upper",
             "beta_data_coupled_ci_lower", "beta_data_coupled_ci_upper", "N_values"]]
       .sort_values("beta_data_coupled"))
 
-    w("Fig1fg_pctrl_vs_N_and_margin.csv",
+    write("Fig2fg_pctrl_vs_N_and_margin.csv",
       e1[e1.arm == "data_coupled"][
           ["dataset", "N", "N_eff", "N_star_eff", "margin", "p_controllable",
            "p_controllable_ci_lower", "p_controllable_ci_upper"]]
       .sort_values(["dataset", "N"]))
 
-    w("Fig1d_CV_vs_Neff_119_mixtures.csv",
+    write("Fig2c_CV_vs_Neff_119_mixtures.csv",
       mix[mix.arm == "data_coupled"][["dataset", "N", "N_eff", "condition_cv"]]
       .sort_values(["dataset", "N"]))
-    w("Fig1e_beta_119_mixtures.csv",
+    write("FigS4_beta_119_mixtures.csv",
       mixd[["dataset", "beta_decoupled", "beta_data_coupled", "N_values"]]
       .sort_values("beta_data_coupled"))
-    w("Fig1fg_pctrl_119_mixtures.csv",
+    write("Fig2fg_pctrl_119_mixtures.csv",
       mix[mix.arm == "data_coupled"][
           ["dataset", "N", "N_eff", "N_star_eff", "margin", "p_controllable",
            "p_controllable_ci_lower", "p_controllable_ci_upper"]]
       .sort_values(["dataset", "N"]))
     mixc2 = mixc.copy()
     mixc2["mixture"] = "mix_" + mixc2.combo + "_s00"
-    w("Fig1eh_mixture_composition.csv",
+    write("Fig2eh_mixture_composition.csv",
       mixc2[["mixture", "combo", "source", "weight"]].sort_values(["mixture", "source"]))
 
-    mixn95 = pd.read_csv(os.path.join(DATA, "r2_mix", "n95_table_paper.csv"))
+    mixn95 = pd.read_csv(os.path.join(DATA, "predictability_readout_mixed", "n95_table_paper.csv"))
     hm = (mixn95[["dataset", "N95_grid", "N95", "R2_at_crossing", "status"]]
           .rename(columns={"status": "N95_status"})
           .merge(mixb[["dataset", "N_star_eff", "N_eff_min", "N_eff_max", "status"]]
                  .rename(columns={"status": "N_star_eff_status"}),
                  on="dataset", how="outer"))
     hm["Nstar_eff_over_N95"] = hm.N_star_eff / hm.N95
-    w("Fig1h_thresholds_119_mixtures.csv",
+    write("Fig2h_thresholds_119_mixtures.csv",
       hm.sort_values("N_star_eff", na_position="last"))
 
     h = n95[["dataset", "N95"]].merge(
         bound[["dataset", "N_star_eff", "status"]], on="dataset", how="left")
     h["Nstar_eff_over_N95"] = h.N_star_eff / h.N95
-    w("Fig1h_thresholds.csv", h.sort_values("N_star_eff", na_position="last"))
+    write("Fig2h_thresholds.csv", h.sort_values("N_star_eff", na_position="last"))
 
-    w("Fig2a_Nstar_eff_by_control_rule.csv",
-      e13[e13.panel == "a"][["logic", "value", "n_datasets",
-                             "datasets_reaching_boundary"]]
-      .rename(columns={"value": "median_N_star_eff"}))
-    w("Fig2a2_work_done_by_control_rule.csv",
-      e13[e13.panel == "d"][["logic", "value", "p_controllable_at_maxN",
-                             "mean_nrmse_at_maxN"]]
-      .rename(columns={"value": "response_fraction"}))
-    w("Fig2b1_beta_by_control_rule.csv",
-      e13[e13.panel == "b"][["logic", "value", "min", "max", "q1", "q3", "n_datasets"]]
-      .rename(columns={"value": "median_beta"}))
-    w("Fig2b2_CV_collapse_curves.csv",
-      e13[e13.panel == "c"][["logic", "N", "value", "n_datasets"]]
-      .rename(columns={"value": "CV_over_CV_at_N50"}))
+    mech_bnd = pd.read_csv(os.path.join(DATA, "response_mechanisms", "neff_boundaries.csv"))
+    write("Fig3a_Nstar_eff_by_control_logic.csv",
+          klass(mech_bnd[["dataset", "logic", "N_star_eff", "N_eff_min", "N_eff_max",
+                     "status"]]))
 
-    frame = e2[e2.N >= LARGE_MIN]
-    piv = (frame.pivot_table(index="broadcast_mode", columns="delay_distribution",
-                             values="R2", aggfunc="median")
-           .reindex(index=MODE_ORDER, columns=DELAY_ORDER))
-    n = (frame.pivot_table(index="broadcast_mode", columns="delay_distribution",
-                           values="R2", aggfunc="size")
-         .reindex(index=MODE_ORDER, columns=DELAY_ORDER))
-    rows = [{"broadcast_mode": m, "delay_distribution": dd,
-             "median_R2": piv.loc[m, dd], "n_cells": int(n.loc[m, dd])}
-            for m in MODE_ORDER for dd in DELAY_ORDER]
-    w("Fig2c1_waveform_x_delay_R2.csv", pd.DataFrame(rows))
-    w("Fig2c2_R2_vs_N_by_waveform.csv",
-      frame.groupby(["broadcast_mode", "N"]).R2.agg(["median", "size"]).reset_index()
-      .rename(columns={"size": "n_cells"}))
+    mech_ds = pd.read_csv(os.path.join(DATA, "response_mechanisms", "dataset_summary.csv"))
+    write("Fig3b_beta_by_control_logic.csv",
+          klass(mech_ds[["dataset", "logic", "beta_data_coupled", "beta_decoupled",
+                     "N_eff_over_N_median", "maximum_unique_fleet"]]))
 
-    w("Fig2d_pctrl_and_nrmse_vs_homogeneity.csv",
-      frame.groupby(["broadcast_mode", "homogeneity"])
-      .agg(p_ctrl_mean=("p_controllable", "mean"),
-           p_ctrl_median=("p_controllable", "median"),
-           nrmse_mean=("mean_nrmse", "mean"),
-           n_cells=("p_controllable", "size")).reset_index())
+    e2 = pd.read_csv(os.path.join(DATA, "E2_controller_synchronization", "synchronization_summary.csv"))
+    big = e2[e2.N >= LARGE_MIN]
+    write("Fig3c_waveform_delay_R2.csv",
+          big.groupby(["broadcast_mode", "delay_distribution"])
+             .agg(median_R2=("R2", "median"), q1_R2=("R2", lambda s: s.quantile(0.25)),
+                  q3_R2=("R2", lambda s: s.quantile(0.75)), cells=("R2", "size"))
+             .reset_index())
 
-    w("Fig2e_Xsync_vs_homogeneity_by_arm.csv",
-      e2.groupby(["coupling_arm", "homogeneity"])
-      .X_sync.agg(["median", "mean", "size"]).reset_index()
-      .rename(columns={"size": "n_cells"}))
-    w("Fig2e_Xsync_vs_homogeneity_by_waveform.csv",
-      e2.groupby(["broadcast_mode", "homogeneity"])
-      .X_sync.agg(["median", "mean", "size"]).reset_index()
-      .rename(columns={"size": "n_cells"}))
+    write("Fig3d_pctrl_vs_homogeneity.csv",
+          klass(big.groupby(["dataset", "broadcast_mode", "homogeneity"])
+                   .p_controllable.mean().reset_index()))
 
-    factors = [("controller homogeneity c", "homogeneity"), ("fleet size N", "N"),
-               ("broadcast waveform", "broadcast_mode"),
-               ("delay distribution", "delay_distribution"),
-               ("dataset identity", "dataset"), ("coupling arm", "coupling_arm")]
+    write("Fig3e_nrmse_vs_Xsync_failure_map.csv",
+          klass(e2[["dataset", "broadcast_mode", "delay_distribution", "homogeneity",
+                    "coupling_arm", "N", "N_eff", "X_sync", "surrogate_q99_mean",
+                    "mean_nrmse", "p_controllable"]]))
+
+    fac = [("controller homogeneity c", "homogeneity"), ("fleet size N", "N"),
+           ("broadcast waveform", "broadcast_mode"),
+           ("delay distribution", "delay_distribution"),
+           ("dataset identity", "dataset"), ("coupling arm", "coupling_arm")]
     rows = []
-    for label, col in factors:
-        m = e2.groupby(col).X_sync.median()
-        rows.append({"factor": label, "column": col, "n_levels": int(m.size),
-                     "min_median_X_sync": float(m.min()),
-                     "max_median_X_sync": float(m.max()),
-                     "ratio_max_over_min": float(m.max() / m.min())})
-    w("Fig2f1_effect_budget_Xsync.csv", pd.DataFrame(rows))
+    for lab, colname in fac:
+        m = e2.groupby(colname).X_sync.median()
+        rows.append({"factor": lab, "levels": len(m), "min_median_X_sync": m.min(),
+                     "max_median_X_sync": m.max(), "ratio": m.max() / m.min()})
+    write("Fig3f_Xsync_effect_budget.csv", pd.DataFrame(rows))
 
-    coupled3 = e3[e3.coupling_arm == "data_coupled"]
-    rows = []
-    for label, colname in [("period", "period_minutes"), ("duty", "duty"),
-                           ("homogeneity", "homogeneity"),
-                           ("delay", "delay_distribution"), ("dataset", "dataset"),
-                           ("fleet size", "N"), ("coupling arm", "coupling_arm")]:
-        src = e3 if colname == "coupling_arm" else coupled3
-        r = src.groupby(colname).R_K_mean.median()
-        hh = src.groupby(colname).H_phase_mean.median()
-        rows.append({"factor": label, "column": colname, "n_levels": int(r.size),
-                     "ratio_R_K": float(r.max() / r.min()),
-                     "ratio_H_phase": float(hh.max() / hh.min())})
-    w("Fig2f2_effect_budget_phase.csv", pd.DataFrame(rows))
+    phase_sum = pd.read_csv(os.path.join(DATA, "phase_coherence", "phase_summary.csv"))
+    write("Fig3g_two_nulls_by_broadcast_period.csv",
+          klass(phase_sum.groupby(["period_minutes", "dataset"])
+                  .agg(H_phase_conditioned_null=("H_phase_mean", "mean"),
+                       H_phase_timeshuffle_null=("H_phase_timeshuffle_mean", "mean"),
+                       cells=("H_phase_mean", "size")).reset_index(), "dataset"))
 
-    grid = e3[(e3.coupling_arm == "data_coupled")
-              & (e3.design_role == "period_delay_grid")]
-    w("Fig2g1_RK_vs_period.csv",
-      grid.groupby(["homogeneity", "period_minutes"])
-      .R_K_mean.agg(["mean", "std", "size"]).reset_index()
-      .rename(columns={"size": "n_conditions"}))
+    mech_sum = pd.read_csv(os.path.join(DATA, "response_mechanisms", "summary.csv"))
+    mx = mech_sum.loc[mech_sum.groupby(["dataset", "logic"]).N.idxmax()]
+    write("Fig3h_response_fraction_vs_pctrl.csv",
+          klass(mx[["dataset", "logic", "N", "response_fraction", "p_controllable",
+                    "mean_nrmse"]]))
 
-    coupled = e3[e3.coupling_arm == "data_coupled"]
-    gg = coupled.groupby("period_minutes").agg(
-        H_phase_timeshuffle_mean=("H_phase_timeshuffle_mean", "mean"),
-        H_phase_conditioned_mean=("H_phase_mean", "mean"),
-        n_conditions=("H_phase_mean", "size")).reset_index()
-    gg["nominal_exceedance_level"] = float(e3.nominal_exceedance_level.iloc[0])
-    w("Fig2g2_two_nulls.csv", gg)
+    avail = pd.read_csv(os.path.join(DATA, "structured_availability", "summary.csv"))
+    bnd = pd.read_csv(os.path.join(DATA, "E1_population_scale", "neff_boundaries.csv"))
+    avail["N_star_eff"] = avail.dataset.map(bnd.set_index("dataset").N_star_eff)
+    avail["effective_margin"] = avail.N_eff_behavior / avail.N_star_eff
+    write("Fig4a_Neff_vs_participation.csv",
+          klass(avail[["dataset", "structure", "participation", "N", "active_count_mean",
+                    "N_eff_behavior", "N_eff_replication", "rho_behavior"]]))
+    write("Fig4b_shortfall_fluctuation_decomposition.csv",
+          klass(avail[["dataset", "structure", "participation", "mean_nrmse",
+                    "bias_nrmse", "variance_nrmse"]]))
+    write("Fig4c_margin_vs_nrmse.csv",
+          klass(avail.dropna(subset=["effective_margin"])[
+              ["dataset", "structure", "participation", "N_eff_behavior",
+               "N_star_eff", "effective_margin", "mean_nrmse",
+               "failure_probability"]]))
 
-    w("Fig2h_H_phase_per_window.csv", pd.DataFrame({
-        "H_phase": win.H_phase, "coupling_arm": win.coupling_arm,
-        "period_minutes": win.period_minutes, "homogeneity": win.homogeneity}))
+    st = pd.read_csv(os.path.join(DATA, "E4_controller_drift", "raw", "policy_drift_stream.csv"))
+    blk = st[(st["mode"] == "abrupt") & (st.unknown_fraction == 0.8)].copy()
+    blk["window_relative_to_injection"] = blk.window_index - blk.injection_window
+    write("Fig4d_window_nrmse_after_drift.csv",
+          klass(blk.groupby(["dataset", "window_relative_to_injection"])
+                   .agg(loss_frozen=("loss_frozen", "median"),
+                        loss_recalibrated=("loss_recalibrated", "median"),
+                        loss_oracle=("loss_oracle", "median"),
+                        threshold=("threshold", "median")).reset_index()))
 
-    steps = (win.L_phase_minutes / 5).round().astype(int)
-    c = steps.value_counts().sort_index()
-    full = pd.Series(0, index=range(0, int(steps.max()) + 1), dtype=int)
-    full.update(c)
-    w("Fig2h_excursion_run_length.csv", pd.DataFrame({
-        "longest_run_steps": full.index, "run_minutes": full.index * 5,
-        "n_windows": full.to_numpy()}))
+    ev = pd.read_csv(os.path.join(DATA, "E4_controller_drift", "drift_events.csv"))
+    write("Fig4e_detection_survival.csv",
+          klass(ev[["dataset", "mode", "unknown_fraction", "seed_index", "detected",
+                    "detection_censored", "T_detect_windows", "T_detect_samples"]]))
+    write("Fig4f_T_recover_by_dataset_and_severity.csv",
+          klass(ev.groupby(["dataset", "mode", "unknown_fraction"])
+                  .agg(median_T_recover_windows=("T_recover_windows", "median"),
+                       runs=("T_recover_windows", "size"),
+                       censored=("recovery_censored", "sum")).reset_index()))
 
-    print(f"\nwrote {len(os.listdir(OUT))} files to {OUT}")
+    rc = pd.read_csv(os.path.join(DATA, "E4_controller_drift", "recovery_curves.csv"))
+    write("Fig4g_recovery_vs_uplink_bytes.csv",
+          klass(rc.groupby(["dataset", "mode", "unknown_fraction", "window_index"])
+                  .agg(cumulative_bytes=("cumulative_bytes", "median"),
+                       recovered_share=("recovered_share", "median"),
+                       holdout_nrmse=("holdout_nrmse", "median")).reset_index()))
+    write("Fig4h_regret_by_arm.csv",
+          klass(ev[["dataset", "mode", "unknown_fraction", "seed_index",
+                    "regret_frozen", "regret_recalibrated", "regret_oracle",
+                    "update_bytes", "final_recovered_share"]]))
+
+    for name, n in WRITTEN:
+        print(f"{name:52s} {n:6d} rows")
+    print(f"\nwrote {len(WRITTEN)} files to {OUT}")
 
 
 if __name__ == "__main__":

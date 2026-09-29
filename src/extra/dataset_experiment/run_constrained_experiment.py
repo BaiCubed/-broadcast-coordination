@@ -35,12 +35,12 @@ from ..ieee33_device_day_simulation.experiments.protocol import (
     build_stratified_signal_schedule,
     simulate_day,
 )
-from ..ieee33_device_day_simulation.figures.plot_figures import plot_all, plot_figure4
+from ..ieee33_device_day_simulation.dataset_figures.plot_figures import plot_all, plot_figure4
 from ..ieee33_device_day_simulation.population.device_day_loader import load_device_day_pool
 
 
-EXPERIMENT_DIR = "network_constrained_new"
-STATUS_PATH = Path("results") / "network_constrained_new_status.json"
+EXPERIMENT_DIR = "network_constrained"
+STATUS_PATH = Path("results") / "network_constrained_status.json"
 BASELINE_QUANTILE = 0.95
 BASELINE_TARGET_LOADING = 0.95
 EXPANDED_BASELINE_TARGET_LOADING = 1.0
@@ -246,11 +246,11 @@ def _calibrate_paired_validation(
 
 
 def _prepare_paired_config(dataset_root: Path, output_root: Path) -> tuple[Path, dict[str, Any]]:
-    baseline_config_dir = dataset_root / "coverage_fix" / "config"
+    baseline_config_dir = dataset_root / "network_baseline" / "config"
     baseline_default = baseline_config_dir / "default_network_stress.yaml"
-    baseline_trace_path = dataset_root / "coverage_fix" / "network_stress" / "data" / "network_timeseries.json"
+    baseline_trace_path = dataset_root / "network_baseline" / "network_stress" / "data" / "network_timeseries.json"
     if not baseline_default.is_file() or not baseline_trace_path.is_file():
-        raise FileNotFoundError(f"missing coverage_fix baseline under {dataset_root}")
+        raise FileNotFoundError(f"missing network baseline under {dataset_root}")
 
     output_config_dir = output_root / "config"
     if output_config_dir.exists():
@@ -277,7 +277,7 @@ def _prepare_paired_config(dataset_root: Path, output_root: Path) -> tuple[Path,
     constrained_control["network_capacity_multiplier"] = initial_calibration["selected_multiplier"]
     constrained_control["network_equivalent_scale"] = initial_calibration["selected_multiplier"]
     constrained_control["network_feedback"] = True
-    control_name = "control_network_constrained_new.yaml"
+    control_name = "control_network_constrained.yaml"
     _write_yaml(output_config_dir / control_name, constrained_control)
 
     experiment_name = str(default_payload["experiment"])
@@ -285,12 +285,12 @@ def _prepare_paired_config(dataset_root: Path, output_root: Path) -> tuple[Path,
         (output_config_dir / experiment_name).read_text(encoding="utf-8")
     )
     experiment["force_network_feedback"] = True
-    experiment["experiment_variant"] = "paired_network_constrained_new"
+    experiment["experiment_variant"] = "paired_network_constrained"
     experiment["constraint_calibration"] = initial_calibration
     _write_yaml(output_config_dir / experiment_name, experiment)
 
     default_payload["control"] = control_name
-    constrained_default = output_config_dir / "default_network_constrained_new.yaml"
+    constrained_default = output_config_dir / "default_network_constrained.yaml"
     _write_yaml(constrained_default, default_payload)
     pilot_config = load_config(constrained_default)
     calibration = _calibrate_paired_validation(pilot_config, initial_calibration)
@@ -421,7 +421,7 @@ def _plot_constraint_effects(
 def _run_one(dataset: str) -> tuple[str, bool, dict[str, Any]]:
     started = time.time()
     dataset_root = dataset_results_root(dataset)
-    output_root = dataset_root / "coverage_fix" / EXPERIMENT_DIR
+    output_root = dataset_root / "network_baseline" / EXPERIMENT_DIR
     item_status = output_root / "run_status.json"
     try:
         if output_root.exists():
@@ -457,7 +457,7 @@ def _run_one(dataset: str) -> tuple[str, bool, dict[str, Any]]:
 
         config = load_config(config_path)
         trace = _read_json(output_root / "data" / "network_timeseries.json")
-        baseline_trace = _read_json(dataset_root / "coverage_fix" / "network_stress" / "data" / "network_timeseries.json")
+        baseline_trace = _read_json(dataset_root / "network_baseline" / "network_stress" / "data" / "network_timeseries.json")
         summary = _constraint_summary(
             trace,
             voltage_limits=tuple(float(value) for value in config["network"]["voltage_limits_pu"]),
@@ -472,7 +472,7 @@ def _run_one(dataset: str) -> tuple[str, bool, dict[str, Any]]:
 
         metadata_path = output_root / "data" / "protocol_metadata.json"
         metadata = _read_json(metadata_path)
-        metadata["experiment_variant"] = "paired_network_constrained_new"
+        metadata["experiment_variant"] = "paired_network_constrained"
         metadata["constraint_calibration"] = calibration
         metadata["constraint_summary"] = summary
         _write_json(metadata_path, metadata)
@@ -503,10 +503,10 @@ def _run_one(dataset: str) -> tuple[str, bool, dict[str, Any]]:
 
 def _refresh_fig4e_one(dataset: str) -> tuple[str, bool, dict[str, Any]]:
     started = time.time()
-    output_root = dataset_results_root(dataset) / "coverage_fix" / EXPERIMENT_DIR
+    output_root = dataset_results_root(dataset) / "network_baseline" / EXPERIMENT_DIR
     item_status = output_root / "run_status.json"
     try:
-        config_path = output_root / "config" / "default_network_constrained_new.yaml"
+        config_path = output_root / "config" / "default_network_constrained.yaml"
         if not config_path.is_file():
             raise FileNotFoundError(f"missing constrained config: {config_path}")
         _write_json(item_status, {"dataset": dataset, "phase": "figure4e_transfer_refresh"})
@@ -566,7 +566,7 @@ def write_all_dataset_summary() -> Path:
         "fig5_correlation_effects.png",
     }
     for dataset in DATASETS:
-        root = dataset_results_root(dataset) / "coverage_fix" / EXPERIMENT_DIR
+        root = dataset_results_root(dataset) / "network_baseline" / EXPERIMENT_DIR
         summary = _read_json(root / "data" / "constraint_summary.json")
         estimator = _read_json(root / "estimation" / "estimation_validation_results.json")
         metadata = _read_json(root / "data" / "protocol_metadata.json")
@@ -617,9 +617,9 @@ def write_all_dataset_summary() -> Path:
         )
         rows.append(row)
 
-    output = Path("results") / "network_constrained_new_all_datasets_summary.json"
+    output = Path("results") / "network_constrained_all_datasets_summary.json"
     _write_json(output, {
-        "protocol": "paired_network_constrained_new",
+        "protocol": "paired_network_constrained",
         "datasets": rows,
         "dataset_count": len(rows),
         "audit_pass_count": sum(bool(row["audit_pass"]) for row in rows),
@@ -657,7 +657,7 @@ def main() -> None:
         "protocol": (
             "experiments_source_train_4000_target_eval_500_online_1000"
             if args.fig4e_only
-            else "paired_network_constrained_new"
+            else "paired_network_constrained"
         ),
         "output_subdirectory": EXPERIMENT_DIR,
         "pending": datasets.copy(),

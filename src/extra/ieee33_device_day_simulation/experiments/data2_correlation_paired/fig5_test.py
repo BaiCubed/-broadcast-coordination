@@ -9,8 +9,8 @@ import numpy as np
 
 from ...config_loader import load_config
 from ...experiments.run_experiment import run_resource_response_diagnostics
-from ...figures.data2_figure_labels import rewrite_data2_figure4
-from ...figures.plot_figures import plot_all
+from ...dataset_figures.data2_figure_labels import rewrite_data2_figure4
+from ...dataset_figures.plot_figures import plot_all
 from ..ieee33_real_snapshot.compare_pure_simulation import generate_comparisons
 
 

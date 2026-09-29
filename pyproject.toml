@@ -5,10 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "broadcast-coordination"
 version = "0.1.0"
-description = "Unidirectional broadcast coordination of massive distributed energy storage"
+description = "Code for \"Population scale enables reliable dispatch of distributed energy storage without real-time device-level sensing\" (Nature Communications)"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
     {name = "Hengyi Xu"},
     {name = "Hongbin Xie"},
@@ -37,6 +37,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+opendss = [
+    "opendssdirect.py>=0.9",
+]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=3.0.0",
@@ -47,7 +50,9 @@ dev = [
 ]
 
 [project.urls]
-Repository = "https://github.com/xu3213/broadcast-coordination"
+Homepage = "https://github.com/BaiCubed/-broadcast-coordination"
+Repository = "https://github.com/BaiCubed/-broadcast-coordination"
+Issues = "https://github.com/BaiCubed/-broadcast-coordination/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]

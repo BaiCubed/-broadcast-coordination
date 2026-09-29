@@ -13,7 +13,7 @@ from ...experiments.run_experiment import (
     run_default,
     run_resource_response_diagnostics,
 )
-from ...figures.plot_figures import plot_all
+from ...dataset_figures.plot_figures import plot_all
 from ..ieee33_real_snapshot.compare_pure_simulation import generate_comparisons
 
 

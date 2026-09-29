@@ -54,7 +54,7 @@ def prepare(dataset: str) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Prepare per-dataset IEEE33 configs for the E1-E4 supplementary experiments.")
+    parser = argparse.ArgumentParser(description="Prepare per-dataset IEEE-33 configs for the population-scale experiments.")
     parser.add_argument("--dataset", action="append", dest="datasets")
     parser.add_argument("--all", action="store_true")
     args = parser.parse_args()

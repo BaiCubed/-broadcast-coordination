@@ -5297,7 +5297,7 @@ def _run_supplementary(config: 'ExperimentConfig'):
     )
     logger.info(f"Supplementary experiment directory: {experiment_dir}")
 
-    logger.info("Running closed-loop PICP verification (Discussion M5)...")
+    logger.info("Running closed-loop PICP verification...")
     run_closed_loop_picp(config, experiment_dir)
 
     _finalize_experiment(experiment_dir)
@@ -5621,23 +5621,23 @@ def _run_result4(config: 'ExperimentConfig'):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Experiment Runner — run the experiments described in the paper"
+        description="Synthetic-population experiment runner of the broadcast-coordination simulator"
     )
     parser.add_argument(
         "--result1", action="store_true",
-        help="Result 1: 1/sqrt(N) scaling law (Fig. 2)"
+        help="Result 1 run: 1/sqrt(N) scaling law"
     )
     parser.add_argument(
         "--result2", action="store_true",
-        help="Result 2: Broadcast dispatch performance ceiling (Fig. 3)"
+        help="Result 2 run: broadcast dispatch performance ceiling"
     )
     parser.add_argument(
         "--result3", action="store_true",
-        help="Result 3: Robustness to mismatch and correlation (Fig. 4)"
+        help="Result 3 run: robustness to mismatch and correlation"
     )
     parser.add_argument(
         "--result4", action="store_true",
-        help="Result 4: Cross-region transfer and real-parameter validation (Fig. 5)"
+        help="Result 4 run: cross-region transfer and real-parameter validation"
     )
     parser.add_argument(
         "--all", action="store_true",
@@ -5653,7 +5653,7 @@ def main():
     )
     parser.add_argument(
         "--supplementary", action="store_true",
-        help="Supplementary: closed-loop PICP verification (Discussion M5)"
+        help="Closed-loop PICP verification"
     )
 
     args = parser.parse_args()

@@ -22,10 +22,17 @@ Thumbs.db
 htmlcov/
 .pytest_cache/
 
-data/
+/data/
 results/
 logs/
 figures/out/
-figures/data/
+figures/data/*
+!figures/data/dataset_metadata.csv
+!figures/data/E1_population_scale_mixed/
+figures/data/E1_population_scale_mixed/*
+!figures/data/E1_population_scale_mixed/mixture_composition.csv
 figures/fonts/
 *.log
+/outputs/
+/reproduced_tables/
+/reproduced_figures/

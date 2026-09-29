@@ -5,8 +5,8 @@ from pathlib import Path
 from src.extra.dataset_experiment.run import _capacity_multiplier
 from src.extra.ieee33_device_day_simulation.config_loader import load_config
 from src.extra.ieee33_device_day_simulation.population.device_day_loader import load_device_day_pool
-from src.extra.nc_excel_experiments.run import _dataset_config
-from src.extra.nc_excel_experiments import topology as T
+from src.extra.population_experiments.run import _dataset_config
+from src.extra.population_experiments import topology as T
 
 CACHE = Path("results") / "_topology_calibration.json"
 

@@ -1,0 +1,199 @@
+{
+  "schema": "broadcast-coordination-canonical-preprocessing-v1",
+  "description": "Raw public data to canonical device-day cache parameters used by the final composition pipeline.",
+  "canonical_cache_format": "NPZ with source_id, day_id, device_id, zone_id, bus_id and 288-point fields",
+  "zone_buses": {
+    "zone_1": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "zone_2": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "zone_3": [
+      10,
+      11,
+      12,
+      13
+    ],
+    "zone_4": [
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "zone_5": [
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "zone_6": [
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ]
+  },
+  "fallback_device_parameters": {
+    "capacity_kwh": 10.0,
+    "peak_power_kw": 1.0,
+    "soc_fraction": 0.5
+  },
+  "datasets": {
+    "bdg1_building_data_genome": {
+      "adapter": "bdg1_building_data_genome",
+      "input": "data/bdg1_building_data_genome/raw/temp_open_utc_complete.csv",
+      "load_scale": 0.001,
+      "max_sources": 507,
+      "max_days_per_source": 20,
+      "input_mapping": "load_shape_counterfactual"
+    },
+    "low_carbon_london": {
+      "adapter": "low_carbon_london",
+      "input": "data/low_carbon_london/raw/LCL-FullData.zip",
+      "cache": "data/low_carbon_london/processed/canonical_device_days_bidirectional_v2.npz",
+      "load_scale": 1.0,
+      "max_sources": 5000,
+      "max_days_per_source": 2,
+      "input_mapping": "load_shape_counterfactual"
+    },
+    "bdg2_building_data_genome": {
+      "adapter": "bdg2_building_data_genome",
+      "input": "data/bdg2_building_data_genome/raw/electricity_cleaned.csv",
+      "solar_input": "data/bdg2_building_data_genome/raw/solar_cleaned.csv",
+      "cache": "data/bdg2_building_data_genome/processed/canonical_device_days.npz",
+      "load_scale": 0.001,
+      "max_sources": 1578,
+      "max_days_per_source": 8,
+      "input_mapping": "measured_or_load_shape_counterfactual"
+    },
+    "danish_smart_heat_meters": {
+      "adapter": "danish_smart_heat_meters",
+      "input": "data/danish_smart_heat_meters/raw/3_years_3021_smart_heat_meters_residential_denmark.zip",
+      "cache": "data/danish_smart_heat_meters/processed/canonical_device_days.npz",
+      "load_scale": 1.0,
+      "max_sources": 2400,
+      "max_days_per_source": 4,
+      "input_mapping": "load_shape_counterfactual",
+      "source_energy_type": "heat_proxy"
+    },
+    "smart_grid_smart_city": {
+      "adapter": "smart_grid_smart_city",
+      "input": "data/smart_grid_smart_city/raw/cdintervalreadingallnoquotes.csv.7z",
+      "cache": "data/smart_grid_smart_city/processed/canonical_device_days_bidirectional_v2.npz",
+      "load_scale": 1.0,
+      "max_sources": 5000,
+      "max_days_per_source": 2,
+      "input_mapping": "measured_or_load_shape_counterfactual"
+    },
+    "heapo_heat_pumps": {
+      "adapter": "heapo_heat_pumps",
+      "input": "data/heapo_heat_pumps/raw/heapo_data.zip",
+      "cache": "data/heapo_heat_pumps/processed/canonical_device_days.npz",
+      "load_scale": 1.0,
+      "max_sources": 1408,
+      "max_days_per_source": 8,
+      "input_mapping": "load_shape_counterfactual"
+    },
+    "goiener_smart_meters": {
+      "adapter": "goiener_smart_meters",
+      "input": "data/goiener_smart_meters/raw/imp-post.tzst",
+      "cache": "data/goiener_smart_meters/processed/canonical_device_days_bidirectional_v2.npz",
+      "load_scale": 1.0,
+      "max_sources": 5000,
+      "max_days_per_source": 2,
+      "input_mapping": "load_shape_counterfactual"
+    },
+    "european_lv_urban_8087": {
+      "adapter": "european_lv_urban_8087",
+      "input": "data/european_lv_urban_8087/raw/Sim_files_190128_OK_V0.zip",
+      "cache": "data/european_lv_urban_8087/processed/canonical_device_days.npz",
+      "load_scale": 1.0,
+      "max_sources": 5000,
+      "max_days_per_source": 2,
+      "input_mapping": "load_shape_counterfactual"
+    },
+    "european_lv_rural_2731": {
+      "adapter": "european_lv_rural_2731",
+      "input_dir": "data/european_lv_rural_2731/processed/PQ_csv",
+      "cache": "data/european_lv_rural_2731/processed/canonical_device_days.npz",
+      "load_scale": 1.0,
+      "max_sources": 2731,
+      "max_days_per_source": 4,
+      "input_mapping": "load_shape_counterfactual"
+    },
+    "european_lv_urban_35297": {
+      "adapter": "european_lv_urban_35297",
+      "input_dir": "data/european_lv_urban_35297/processed/PQ_csv",
+      "cache": "data/european_lv_urban_35297/processed/canonical_device_days.npz",
+      "load_scale": 1.0,
+      "max_sources": 12000,
+      "max_days_per_source": 1,
+      "input_mapping": "load_shape_counterfactual"
+    },
+    "norway_ami_energy_distribution": {
+      "adapter": "norway_ami_energy_distribution",
+      "input_dir": "data/norway_ami_energy_distribution/raw/Energy distribution models with AMI smart meter sensor dataset/data/ami",
+      "cache": "data/norway_ami_energy_distribution/processed/canonical_device_days_measured_only.npz",
+      "load_scale": 1.0,
+      "max_sources": 3000,
+      "max_days_per_source": 2,
+      "input_mapping": "measured_only",
+      "forbid_counterfactual_input": true
+    },
+    "camsl_japan_smart_meters": {
+      "adapter": "camsl_japan_smart_meters",
+      "input_dir": "data/camsl_japan_smart_meters/extracted/public/consumption_data/consumption_data",
+      "cache": "data/camsl_japan_smart_meters/processed/canonical_device_days_measured_only.npz",
+      "load_scale": 0.002,
+      "max_sources": 1423,
+      "max_days_per_source": 2,
+      "input_mapping": "measured_only",
+      "forbid_counterfactual_input": true
+    },
+    "irish_domestic_smart_meters": {
+      "adapter": "irish_domestic_smart_meters",
+      "input_dir": "data/irish_domestic_smart_meters/raw/SM Data 2.0",
+      "cache": "data/irish_domestic_smart_meters/processed/canonical_device_days_measured_only_kw_label.npz",
+      "load_scale": 1.0,
+      "max_sources": 2989,
+      "max_days_per_source": 2,
+      "input_mapping": "measured_only",
+      "forbid_counterfactual_input": true
+    },
+    "opsd_household_data": {
+      "adapter": "opsd_household_data",
+      "input": "data/opsd_household_data/raw/opsd-household_data-2020-04-15/household_data_15min_singleindex.csv",
+      "cache": "data/opsd_household_data/processed/canonical_device_days_measured_only.npz",
+      "load_scale": 4.0,
+      "max_sources": 11,
+      "max_days_per_source": 30,
+      "input_mapping": "measured_only",
+      "forbid_counterfactual_input": true
+    },
+    "complete_energy_community": {
+      "adapter": "complete_energy_community",
+      "input": "data/complete_energy_community/EC_EV_dataset.xlsx",
+      "cache": "data/complete_energy_community/processed/canonical_device_days_measured_only.npz",
+      "load_scale": 1.0,
+      "max_sources": 250,
+      "max_days_per_source": 1,
+      "input_mapping": "measured_only",
+      "forbid_counterfactual_input": true
+    }
+  }
+}

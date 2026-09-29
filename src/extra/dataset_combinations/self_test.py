@@ -17,7 +17,7 @@ CORE_FIELDS = (
 
 def _assert_no_experiment_imports() -> None:
     root = Path(__file__).resolve().parent
-    forbidden = ("ieee33_device_day_simulation.figures", "results/")
+    forbidden = ("ieee33_device_day_simulation.network_experiments", "results/")
     for path in root.glob("*.py"):
         if path.name == "self_test.py":
             continue

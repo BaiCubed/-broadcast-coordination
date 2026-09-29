@@ -7,8 +7,8 @@ from typing import Any
 
 from ...config_loader import load_config
 from ...experiments.run_experiment import _correlation_conditions, run_default, run_resource_response_diagnostics
-from ...figures.plot_figures import plot_all
-from ...figures.data2_figure_labels import rewrite_data2_figure4
+from ...dataset_figures.plot_figures import plot_all
+from ...dataset_figures.data2_figure_labels import rewrite_data2_figure4
 from ..correlation_paired.run_experiment import (
     RESULTS_ROOT as _OLD_ROOT,
     STRICT_RHO,

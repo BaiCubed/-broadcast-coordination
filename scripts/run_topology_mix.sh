@@ -2,13 +2,13 @@
 set -uo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/_common.sh"
 
-"$PYTHON_BIN" tools/protocols/make_mix_protocols.py
-mkdir -p "$LOGS/e1mix"
+"$PYTHON_BIN" tools/protocols/make_feeder_topology_protocols.py
+mkdir -p "$LOGS/E1_feeder_topology"
 for topo in ieee33 ieee69 ieee123; do
   ( export NC_TOPOLOGY=$topo NC_NETWORK_FEEDBACK=1
-    nohup "$PYTHON_BIN" -u -m src.extra.nc_excel_experiments.run \
-      --protocol "$CONFIGS/e1_mix_s00_${topo}_fb.yaml" \
-      --experiments E1 > "$LOGS/e1mix/${topo}.log" 2>&1 ) &
+    nohup "$PYTHON_BIN" -u -m src.extra.population_experiments.run \
+      --protocol "$CONFIGS/E1_feeder_topology_${topo}.yaml" \
+      --experiments E1 > "$LOGS/E1_feeder_topology/${topo}.log" 2>&1 ) &
 done
 wait
-echo "topology mixture arms finished at $(stamp)"
+echo "feeder topology runs finished at $(stamp)"

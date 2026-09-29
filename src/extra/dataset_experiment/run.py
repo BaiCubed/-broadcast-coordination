@@ -14,7 +14,7 @@ from src.extra.ieee33_device_day_simulation.experiments.run_experiment import (
     run_default,
     run_resource_response_diagnostics,
 )
-from src.extra.ieee33_device_day_simulation.figures.plot_figures import plot_all
+from src.extra.ieee33_device_day_simulation.dataset_figures.plot_figures import plot_all
 from src.extra.ieee33_device_day_simulation.network.ieee33_distflow import IEEE33DistFlow
 from src.extra.ieee33_device_day_simulation.population.device_day_loader import load_device_day_pool
 

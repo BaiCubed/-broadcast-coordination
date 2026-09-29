@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 
 from ..run_experiment import run_default
-from ...figures.plot_figures import plot_all
+from ...dataset_figures.plot_figures import plot_all
 
 
 def main() -> None:

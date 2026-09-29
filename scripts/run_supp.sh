@@ -2,12 +2,12 @@
 set -u
 source "$(dirname "${BASH_SOURCE[0]}")/_common.sh"
 
-nohup "$PYTHON_BIN" -m src.extra.nc_excel_experiments.run \
-  --protocol "$CONFIGS/protocol_e9_phase1.yaml" \
-  --experiments E9 > "$LOGS/e9_phase1.log" 2>&1 &
-echo "E9 phase 1 pid=$!"
+nohup "$PYTHON_BIN" -m src.extra.population_experiments.run \
+  --protocol "$CONFIGS/long_horizon_state.yaml" \
+  --experiments long_horizon_state > "$LOGS/long_horizon_state.log" 2>&1 &
+echo "long-horizon state pid=$!"
 
-nohup "$PYTHON_BIN" -m src.extra.nc_excel_experiments.run \
-  --protocol "$CONFIGS/protocol_supp_full.yaml" \
-  --experiments E13 E14 > "$LOGS/supp_full.log" 2>&1 &
-echo "E13+E14 pid=$!"
+nohup "$PYTHON_BIN" -m src.extra.population_experiments.run \
+  --protocol "$CONFIGS/response_mechanisms_and_capacity_concentration.yaml" \
+  --experiments response_mechanisms capacity_concentration > "$LOGS/response_mechanisms_and_capacity_concentration.log" 2>&1 &
+echo "response mechanisms and capacity concentration pid=$!"

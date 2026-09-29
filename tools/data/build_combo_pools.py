@@ -215,7 +215,7 @@ def worker(item: tuple[str, str, int]) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Turn mixture fleet manifests into canonical device-day pools for E1 and E2.")
+    parser = argparse.ArgumentParser(description="Turn mixed-population manifests into canonical device-day pools for the population-scale experiments.")
     parser.add_argument("--seeds", default="0", help="comma separated list or an a-b range, e.g. 0 or 0-29")
     parser.add_argument("--workers", type=int, default=16)
     parser.add_argument("--manifest", default="data/dataset_combination_pools/pools_manifest.json")

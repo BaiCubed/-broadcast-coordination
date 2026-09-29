@@ -22,7 +22,7 @@ from src.extra.ieee33_device_day_simulation.experiments.protocol import (
     build_stratified_signal_schedule,
     trace_features,
 )
-from src.extra.ieee33_device_day_simulation.figures.legacy_compat import (
+from src.extra.ieee33_device_day_simulation.dataset_figures.legacy_compat import (
     _curtailment_sensitivity,
 )
 

@@ -25,10 +25,19 @@ for row in blocked:
     print("  NOT READY", row["dataset"], row["status"], str(row.get("error", ""))[:200])
 PY
 
-echo "=== [$(stamp)] stage 3: E1-E4 on the 15 published fleets ==="
-"$PYTHON_BIN" -m src.extra.nc_excel_experiments.run \
-  --protocol "$CONFIGS/protocol.yaml" \
-  --experiments E1 E2 E3 E4 > "$LOGS/experiments.json" 2> "$LOGS/experiments.err"
+echo "=== [$(stamp)] stage 3: the population experiments on the 15 published populations ==="
+run_one() {
+  "$PYTHON_BIN" -m src.extra.population_experiments.run --protocol "$CONFIGS/$1" --experiments "${@:2}" \
+    >> "$LOGS/experiments.json" 2>> "$LOGS/experiments.err"
+}
+run_one E1_population_scale.yaml E1
+run_one E2_controller_synchronization.yaml E2
+run_one phase_coherence.yaml phase_coherence
+run_one E4_controller_drift.yaml E4
+run_one response_mechanisms_and_capacity_concentration.yaml response_mechanisms capacity_concentration
+run_one structured_availability.yaml structured_availability
+run_one availability_second_family.yaml availability_second_family
+run_one long_horizon_state.yaml long_horizon_state
 echo "experiments exit=$? at $(stamp)"
 tail -40 "$LOGS/experiments.err"
 cat "$LOGS/experiments.json"

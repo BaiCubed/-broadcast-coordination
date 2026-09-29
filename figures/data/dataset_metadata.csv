@@ -1,0 +1,16 @@
+dataset,short,resource_type,unique_sources,unique_sources_note
+european_lv_urban_35297,LV urban 35297,Distribution feeder,12000,balanced unique sources
+european_lv_urban_8087,LV urban 8087,Distribution feeder,4998,balanced unique sources
+european_lv_rural_2731,LV rural 2731,Distribution feeder,2730,balanced unique sources
+goiener_smart_meters,Goiener,Residential meter,4998,balanced unique sources
+low_carbon_london,Low Carbon London,Residential meter,4998,balanced unique sources
+smart_grid_smart_city,Smart Grid Smart City,Residential meter,4998,balanced unique sources
+norway_ami_energy_distribution,Norway AMI,Residential meter,2982,balanced unique sources
+irish_domestic_smart_meters,Irish CER,Residential meter,2898,balanced unique sources
+camsl_japan_smart_meters,CAMSL Japan,Residential meter,1422,balanced unique sources
+danish_smart_heat_meters,Danish heat meters,Thermal load,2400,balanced unique sources
+heapo_heat_pumps,HEAPO heat pumps,Thermal load,1338,balanced unique sources
+bdg2_building_data_genome,Building Data Genome 2,Commercial building,1566,balanced unique sources
+bdg1_building_data_genome,Building Data Genome 1,Commercial building,504,balanced unique sources
+complete_energy_community,Energy community,Prosumer community,246,balanced unique sources
+opsd_household_data,OPSD households,Household,6,6 balanced sources from 11 raw sites
