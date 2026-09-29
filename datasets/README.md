@@ -2,7 +2,7 @@
 
 <h1>Datasets</h1>
 
-**The $\color{#1F6FEB}{\textbf{public datasets}}$ behind the paper and the $\color{#8250DF}{\textbf{119 mixed populations}}$ constructed from them**
+The $\color{#1F6FEB}{\pmb{\text{public}}\ \pmb{\text{datasets}}}$ behind the paper and the $\color{#8250DF}{\pmb{\text{119}}\ \pmb{\text{mixed}}\ \pmb{\text{populations}}}$ constructed from them
 
 <p>
 <a href="#public-datasets"><img alt="Public datasets" src="https://img.shields.io/badge/Public%20datasets-15-3A7BD5?style=for-the-badge"></a>
@@ -18,8 +18,8 @@ This directory holds all data of the study, organised in two parts:
 
 | Folder | What it contains | In this repository |
 |---|---|---|
-| [`public_datasets/`](public_datasets) | the $\color{#1F6FEB}{\textbf{15 public datasets}}$ used as empirical populations, plus 2 reference datasets (NextGen and data2): official sources, a one-command download with checksum verification, and the preprocessing configuration | acquisition tools and metadata; the raw files are downloaded from the providers |
-| [`mixed_populations/`](mixed_populations) | the $\color{#8250DF}{\textbf{119 mixed populations}}$: 14 multi-source scenarios and 105 pairwise mixtures, with their indices, generation configuration and checksums | **included in full** (about 29 MB) |
+| [`public_datasets/`](public_datasets) | the $\color{#1F6FEB}{\pmb{\text{15}}\ \pmb{\text{public}}\ \pmb{\text{datasets}}}$ used as empirical populations, plus 2 reference datasets (NextGen and data2): official sources, a one-command download with checksum verification, and the preprocessing configuration | acquisition tools and metadata; the raw files are downloaded from the providers |
+| [`mixed_populations/`](mixed_populations) | the $\color{#8250DF}{\pmb{\text{119}}\ \pmb{\text{mixed}}\ \pmb{\text{populations}}}$: 14 multi-source scenarios and 105 pairwise mixtures, with their indices, generation configuration and checksums | **included in full** (about 29 MB) |
 
 ```text
 datasets/
@@ -41,7 +41,7 @@ All commands below are run from the repository root.
 
 <a name="public-datasets"></a>
 
-## <img src="../assets/icons/data.svg" width="28" align="top" alt=""> $\color{#1F6FEB}{\textbf{Public datasets}}$
+## <img src="../assets/icons/data.svg" width="28" align="top" alt=""> $\color{#1F6FEB}{\pmb{\text{Public}}\ \pmb{\text{datasets}}}$
 
 > [!NOTE]
 > The original datasets are published by their providers under their own licences and are therefore obtained from the official sources listed below rather than copied into this repository; the download script fetches every file from its provider and verifies it against a recorded SHA-256 or MD5 checksum, so the data used here can be reproduced byte for byte.
@@ -106,9 +106,9 @@ Each dataset remains under the licence of its provider; please respect those ter
 
 <a name="mixed-populations"></a>
 
-## <img src="../assets/icons/structure.svg" width="28" align="top" alt=""> $\color{#8250DF}{\textbf{Mixed populations}}$
+## <img src="../assets/icons/structure.svg" width="28" align="top" alt=""> $\color{#8250DF}{\pmb{\text{Mixed}}\ \pmb{\text{populations}}}$
 
-The $\color{#8250DF}{\textbf{119 mixed populations}}$ are controlled recombinations of the 15 public datasets that mix resource types, regions and data-collection designs. They consist of
+The $\color{#8250DF}{\pmb{\text{119}}\ \pmb{\text{mixed}}\ \pmb{\text{populations}}}$ are controlled recombinations of the 15 public datasets that mix resource types, regions and data-collection designs. They consist of
 
 - **14 multi-source scenarios**, `S1-A` to `S6-C` (Supplementary Table S2), each drawing devices from 3 to 15 datasets with fixed nominal weights, and
 - **105 pairwise mixtures**, `P001` to `P105`, one for every pair of the 15 datasets, with equal 50/50 weights.
