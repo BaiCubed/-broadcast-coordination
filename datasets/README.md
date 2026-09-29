@@ -5,7 +5,7 @@
 <p><b>The public datasets behind the paper and the 119 mixed populations constructed from them</b></p>
 
 <p>
-<a href="#public-datasets"><img alt="Public datasets" src="https://img.shields.io/badge/Public%20datasets-15%20%2B%202-3A7BD5?style=for-the-badge"></a>
+<a href="#public-datasets"><img alt="Public datasets" src="https://img.shields.io/badge/Public%20datasets-15%20populations%20%2B%202%20reference-3A7BD5?style=for-the-badge"></a>
 <a href="#mixed-populations"><img alt="Mixed populations" src="https://img.shields.io/badge/Mixed%20populations-119-7B4FC4?style=for-the-badge"></a>
 <a href="#integrity-checks"><img alt="Integrity checks" src="https://img.shields.io/badge/Integrity-SHA--256-2E9E6A?style=for-the-badge"></a>
 </p>
@@ -18,8 +18,8 @@ This directory holds all data of the study, organised in two parts:
 
 | Folder | What it contains | In this repository |
 |---|---|---|
-| [`public_datasets/`](public_datasets) | the 15 original publicly available datasets (plus 2 auxiliary sources): official sources, a one-command download with checksum verification, and the preprocessing configuration | acquisition tools and metadata; the raw files are downloaded from the providers |
-| [`mixed_populations/`](mixed_populations) | the **119 constructed mixed populations**: 14 multi-source scenarios and 105 pairwise mixtures, with their indices, generation configuration and checksums | **included in full** (about 29 MB) |
+| [`public_datasets/`](public_datasets) | the $\color{#1F6FEB}{\textbf{15 public datasets}}$ used as empirical populations, plus 2 reference datasets (NextGen and data2): official sources, a one-command download with checksum verification, and the preprocessing configuration | acquisition tools and metadata; the raw files are downloaded from the providers |
+| [`mixed_populations/`](mixed_populations) | the $\color{#8250DF}{\textbf{119 mixed populations}}$: 14 multi-source scenarios and 105 pairwise mixtures, with their indices, generation configuration and checksums | **included in full** (about 29 MB) |
 
 ```text
 datasets/
@@ -41,7 +41,7 @@ All commands below are run from the repository root.
 
 <a name="public-datasets"></a>
 
-## <img src="../assets/icons/data.svg" width="28" align="top" alt=""> Public datasets
+## <img src="../assets/icons/data.svg" width="28" align="top" alt=""> $\color{#1F6FEB}{\textbf{Public datasets}}$
 
 > [!NOTE]
 > The original datasets are published by their providers under their own licences and are therefore obtained from the official sources listed below rather than copied into this repository; the download script fetches every file from its provider and verifies it against a recorded SHA-256 or MD5 checksum, so the data used here can be reproduced byte for byte.
@@ -81,7 +81,16 @@ python tools/data/prepare_dataset_configs.py --all     # 3. per-dataset simulati
 | OPSD | household multi-channel | 15 min | 11 | `opsd_household_data` | [Open Power System Data](https://data.open-power-system-data.org/household_data/opsd-household_data-2020-04-15.zip) |
 | COMPLETE-EC | community load/PV/BESS/EV | 15 min | 250 | `complete_energy_community` | [doi:10.5281/zenodo.7602546](https://doi.org/10.5281/zenodo.7602546) |
 
-Two auxiliary sources of Supplementary Table S1 are downloaded by the same script: **NextGen**, the device-day battery calibration population of the feeder simulation ([doi:10.5281/zenodo.14885589](https://doi.org/10.5281/zenodo.14885589), `data/nextgen`), and **data2**, measured EV charging sessions ([doi:10.17632/c7gg94tmvz.3](https://doi.org/10.17632/c7gg94tmvz.3), `data/data2`).
+### The 2 reference datasets
+
+Supplementary Table S1 lists two further datasets that are not used as populations in the scale experiments but serve as reference data. They are downloaded by the same script:
+
+| Dataset | Role in the study | Directory under `data/` | Official source |
+|---|---|---|---|
+| NextGen | device-day battery calibration population: battery response trajectories, state variables and power limits for the feeder simulation (100 household batteries, 3,000 device-days, 5 min) | `nextgen` | [doi:10.5281/zenodo.14885589](https://doi.org/10.5281/zenodo.14885589) |
+| data2 | measured electric-vehicle charging sessions at 5 min resolution | `data2` | [doi:10.17632/c7gg94tmvz.3](https://doi.org/10.17632/c7gg94tmvz.3) |
+
+Together with the 15 datasets they form the 17 dataset configurations of the IEEE-69 network-safety audit (Supplementary Fig. S41).
 
 ### Files in `public_datasets/`
 
@@ -97,9 +106,9 @@ Each dataset remains under the licence of its provider; please respect those ter
 
 <a name="mixed-populations"></a>
 
-## <img src="../assets/icons/structure.svg" width="28" align="top" alt=""> Mixed populations
+## <img src="../assets/icons/structure.svg" width="28" align="top" alt=""> $\color{#8250DF}{\textbf{Mixed populations}}$
 
-The 119 mixed populations are controlled recombinations of the 15 public datasets that mix resource types, regions and data-collection designs. They consist of
+The $\color{#8250DF}{\textbf{119 mixed populations}}$ are controlled recombinations of the 15 public datasets that mix resource types, regions and data-collection designs. They consist of
 
 - **14 multi-source scenarios**, `S1-A` to `S6-C` (Supplementary Table S2), each drawing devices from 3 to 15 datasets with fixed nominal weights, and
 - **105 pairwise mixtures**, `P001` to `P105`, one for every pair of the 15 datasets, with equal 50/50 weights.

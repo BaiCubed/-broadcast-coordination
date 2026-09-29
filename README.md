@@ -71,7 +71,7 @@ Reliable dispatch without continuous real-time device-level telemetry therefore 
 ├── configs/
 │   └── reproducibility.json       seeds, data splits, estimator and device parameters, network scenarios
 ├── datasets/
-│   ├── public_datasets/           the 15 public datasets (+ 2 auxiliary sources): download with checksum verification, sources, preprocessing
+│   ├── public_datasets/           the 15 public datasets + 2 reference datasets: download with checksum verification, sources, preprocessing
 │   └── mixed_populations/         the 119 constructed mixed populations, their indices, configuration and checksums
 ├── src/
 │   ├── signal/                    broadcast encoding, decoding, optimization and validation
@@ -141,7 +141,7 @@ All data of the study are in [`datasets/`](datasets), organised in two folders. 
 
 | Folder | Content | In this repository |
 |---|---|---|
-| [`datasets/public_datasets/`](datasets/public_datasets) | the **15 original public datasets** (plus 2 auxiliary sources): official sources, a one-command download with checksum verification, and the preprocessing configuration | acquisition tools and metadata |
+| [`datasets/public_datasets/`](datasets/public_datasets) | the **15 original public datasets** plus 2 reference datasets (NextGen and data2): official sources, a one-command download with checksum verification, and the preprocessing configuration | acquisition tools and metadata |
 | [`datasets/mixed_populations/`](datasets/mixed_populations) | the **119 constructed mixed populations**: 14 multi-source scenarios and 105 pairwise mixtures, with indices, generation configuration and checksums | included in full (about 29 MB) |
 
 ### The 15 public datasets
@@ -173,7 +173,7 @@ python tools/data/prepare_dataset_configs.py --all      # per-dataset simulation
 | OPSD | household multi-channel | 15 min | 11 | `opsd_household_data` | [Open Power System Data](https://data.open-power-system-data.org/household_data/opsd-household_data-2020-04-15.zip) |
 | COMPLETE-EC | community load/PV/BESS/EV | 15 min | 250 | `complete_energy_community` | [doi:10.5281/zenodo.7602546](https://doi.org/10.5281/zenodo.7602546) |
 
-Two auxiliary sources of Supplementary Table S1 are downloaded by the same script: **NextGen**, the device-day battery calibration population of the feeder simulation ([doi:10.5281/zenodo.14885589](https://doi.org/10.5281/zenodo.14885589), `data/nextgen`), and **data2**, measured EV charging sessions ([doi:10.17632/c7gg94tmvz.3](https://doi.org/10.17632/c7gg94tmvz.3), `data/data2`). Together with the 15 datasets they form the 17 dataset configurations of the IEEE-69 audit (Supplementary Fig. S41).
+Supplementary Table S1 also lists two reference datasets, which are not used as populations in the scale experiments and are downloaded by the same script: **NextGen**, the device-day battery calibration population of the feeder simulation ([doi:10.5281/zenodo.14885589](https://doi.org/10.5281/zenodo.14885589), `data/nextgen`), and **data2**, measured EV charging sessions ([doi:10.17632/c7gg94tmvz.3](https://doi.org/10.17632/c7gg94tmvz.3), `data/data2`). Together with the 15 datasets they form the 17 dataset configurations of the IEEE-69 audit (Supplementary Fig. S41).
 
 Notes on acquisition:
 
