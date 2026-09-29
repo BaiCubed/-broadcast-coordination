@@ -7,9 +7,6 @@
 <p>
 <a href="https://www.python.org/"><img alt="Python 3.10" src="https://img.shields.io/badge/python-3.10-3776AB?logo=python&logoColor=white"></a>
 <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-2EA043"></a>
-<a href="#citation"><img alt="Paper: Nature Communications" src="https://img.shields.io/badge/paper-Nature%20Communications-B31B1B"></a>
-<a href="#data"><img alt="Populations: 15 published + 119 mixed" src="https://img.shields.io/badge/populations-15%20published%20%2B%20119%20mixed-6F42C1"></a>
-<a href="#reproducing-the-paper"><img alt="Figures: 2-5, S1-S41" src="https://img.shields.io/badge/figures-2--5%20%7C%20S1--S41-0A7EA4"></a>
 </p>
 
 <p>
@@ -39,21 +36,6 @@ This repository contains the complete code for the data-informed simulations of 
 - **Networks decide what can be delivered.** On the IEEE-33, IEEE-69 and IEEE-123 feeders, statistically controllable responses can become physically infeasible under network stress and spatial concentration.
 
 Reliable dispatch without continuous real-time device-level telemetry therefore requires four conditions together: sufficient effective scale, compatible local responses, a valid aggregate model and a feasible network state.
-
-### Pipeline
-
-```mermaid
-flowchart LR
-    A["15 public datasets<br/>download_data.sh"] --> B["Canonical device-day records<br/>tools/data/preprocess.py"]
-    B --> C["119 constructed mixed populations<br/>src/extra/dataset_combinations"]
-    B --> D["Broadcast dispatch simulation<br/>local device responses on a radial feeder"]
-    C --> D
-    D --> E["Aggregate-response calibration<br/>frozen prediction on held-out repetitions"]
-    E --> F["N_eff and controllability analysis<br/>E1, E2, E4, availability, mechanisms"]
-    F --> G["Network deliverability<br/>IEEE-33 / IEEE-69 / IEEE-123"]
-    F --> H["Figs. 2-4<br/>Supplementary Figs. S1-S23"]
-    G --> I["Fig. 5<br/>Supplementary Figs. S24-S41"]
-```
 
 ## Highlights
 
