@@ -15,8 +15,7 @@
 <a href="#data">Data</a> ·
 <a href="#quick-start">Quick start</a> ·
 <a href="#reproducing-the-paper">Reproducing the paper</a> ·
-<a href="#configurations-seeds-and-data-splits">Seeds and splits</a> ·
-<a href="#citation">Citation</a>
+<a href="#configurations-seeds-and-data-splits">Seeds and splits</a>
 </p>
 
 </div>
@@ -506,25 +505,6 @@ The suite (356 tests) covers the broadcast encoder, decoder and validator, the b
 python -m src.extra.dataset_combinations.self_test --data-root data
 ```
 
-## Citation
-
-If you use this code or the constructed mixed populations, please cite the paper:
-
-```bibtex
-@article{population_scale_dispatch_2026,
-  title   = {Population scale enables reliable dispatch of distributed energy storage without real-time device-level sensing},
-  journal = {Nature Communications},
-  year    = {2026},
-  note    = {Manuscript}
-}
-```
-
-The author list, volume and DOI will be added here on publication. Please also cite the providers of the public datasets listed in [Data](#data).
-
 ## License
 
 The code and the constructed mixed-population data in this repository are released under the [MIT License](LICENSE). The public source datasets remain under the licences of their providers.
-
-## Contact
-
-Questions, bug reports and reproduction problems are welcome as [GitHub issues](https://github.com/BaiCubed/-broadcast-coordination/issues). Please include the command, the configuration file and the tail of the corresponding log in `logs/`.
